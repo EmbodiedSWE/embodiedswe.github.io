@@ -117,6 +117,40 @@ update, so the transfer and tool charts remain current. There is also a new
 combined `gen_tools_main.pdf` the paper now references in place of the two
 separate figures.
 
+## Scroll motion
+
+`assets/js/site.js` adds a small scroll-motion layer on top of the chart
+animations:
+
+- a 2 px **progress line** along the bottom of the sticky nav, driven by
+  `scaleX` off scroll position;
+- **reveal on scroll** — content fades up 18 px as it enters view, once each,
+  via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
+  so it triggers just before an element is fully in frame;
+- a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
+  `.stats`, `.ladder`, `.gallery` and `.fm-row` — 70 ms apart;
+- a **hero entrance** on load (eyebrow → title → tagline → authors → badges,
+  90 ms apart) with the opening figure settling in from 30 px and 0.985 scale;
+- `hr.rule` section dividers that **draw out from the left**;
+- a capped 18 px **parallax** on the opening figure, ≥900 px viewports only.
+
+Everything uses `cubic-bezier(.22, .61, .36, 1)` — ease-out, no overshoot.
+
+Two implementation notes worth keeping:
+
+**The stagger schedules when `.rv-in` is added, not an inline
+`transition-delay`.** A lingering `transition-delay` applies to *every* later
+transition on that element, which would have delayed the gallery cards' hover
+by up to a second.
+
+**The hidden state is gated on `html.reveal`, which only JS adds** — and it is
+added in the same synchronous pass that tags the elements, so the two never
+disagree. With JavaScript off, `html.reveal` is never set, nothing is hidden,
+and the page degrades to plain static HTML rather than a blank screen.
+
+`prefers-reduced-motion: reduce` drops all of it: final state, no transitions,
+no parallax, no stagger.
+
 ## Search indexing is off
 
 `index.html` carries `<meta name="robots" content="noindex, nofollow">` and

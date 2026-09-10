@@ -365,3 +365,45 @@ svg.chart .zero{stroke:var(--mut);stroke-width:1;opacity:.55}
 svg.chart .series.s-rl-trend .series-line{stroke-width:1.4}
 svg.chart .series.s-rl-pen .series-line,
 svg.chart .series.s-rl-partial .series-line{stroke-width:1.7}
+
+/* ================= scroll motion =================
+   The hidden state is gated on html.reveal, which only JS adds — so with
+   JavaScript off nothing is hidden and the page reads as plain static HTML. */
+
+/* thin scroll-progress line along the bottom of the sticky nav */
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:transparent;
+  pointer-events:none}
+.progress span{display:block;height:100%;background:var(--acc);transform:scaleX(0);
+  transform-origin:left center;will-change:transform}
+
+/* reveal-on-scroll */
+html.reveal [data-rv]{opacity:0;transform:translateY(18px);
+  transition:opacity .72s cubic-bezier(.22,.61,.36,1),
+             transform .72s cubic-bezier(.22,.61,.36,1)}
+html.reveal [data-rv].rv-in{opacity:1;transform:none}
+
+/* hero entrance: same curve, a touch further travel */
+html.reveal [data-rv-hero]{opacity:0;transform:translateY(26px);
+  transition:opacity .82s cubic-bezier(.22,.61,.36,1),
+             transform .82s cubic-bezier(.22,.61,.36,1)}
+html.reveal [data-rv-hero].rv-in{opacity:1;transform:none}
+
+/* the opening figure also settles in scale, which reads as depth rather than motion */
+html.reveal .hero-fig{opacity:0;transform:translateY(30px) scale(.985);
+  transition:opacity 1s cubic-bezier(.22,.61,.36,1),
+             transform 1s cubic-bezier(.22,.61,.36,1)}
+html.reveal .hero-fig.rv-in{opacity:1;transform:none}
+.hero-fig{will-change:transform}
+
+/* section rules draw themselves out from the left */
+html.reveal hr.rule{transform:scaleX(0);transform-origin:left center;
+  transition:transform 1s cubic-bezier(.22,.61,.36,1)}
+html.reveal hr.rule.rv-in{transform:scaleX(1)}
+
+@media (prefers-reduced-motion: reduce){
+  html.reveal [data-rv],
+  html.reveal [data-rv-hero],
+  html.reveal .hero-fig{opacity:1;transform:none;transition:none}
+  html.reveal hr.rule{transform:none;transition:none}
+  .progress span{transition:none}
+}

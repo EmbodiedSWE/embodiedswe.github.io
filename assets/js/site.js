@@ -190,6 +190,115 @@
     });
   }
 
+  /* ---------- scroll motion ----------
+     Elements are tagged and html.reveal is set in the same synchronous pass, so
+     the hidden state and the markup it targets always land together. JS off =>
+     html.reveal is never set => nothing is hidden and the page stays readable. */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var root = document.documentElement;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 1 - progress line along the bottom of the sticky nav */
+    var nav = document.querySelector('nav.top'), fill = null;
+    if (nav) {
+      var wrap = document.createElement('div');
+      wrap.className = 'progress';
+      fill = document.createElement('span');
+      wrap.appendChild(fill);
+      nav.appendChild(wrap);
+    }
+
+    /* 2 - tag what reveals. Group children stagger against each other; solo
+           elements just fade up on their own. */
+    var GROUPS = ['.lanes', '.grid2', '.grid3', '.stats', '.ladder', '.gallery', '.fm-row'];
+    var SOLO = ['.sec-head', 'h3.sub', 'hr.rule', '.note', '.cap', '.bib', '.tbl-scroll',
+                'details.catalog', '.filters', '.wrap > p', '.wrap > figure.fig',
+                '[data-chart]'];   /* [data-chart] also catches chart cards that
+                                      sit outside a grid, e.g. the results line */
+    var STEP = 70;   /* ms between siblings */
+
+    /* The stagger is applied by scheduling when .rv-in lands, NOT by an inline
+       transition-delay: that would stay on the element afterwards and delay
+       every later transition on it too (the gallery cards' hover, for one). */
+    GROUPS.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (g) {
+        Array.prototype.forEach.call(g.children, function (child, i) {
+          child.setAttribute('data-rv', '');
+          child.dataset.rvi = i;
+        });
+      });
+    });
+    SOLO.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (n) {
+        /* .hero-fig has its own entrance; closest() covers self and ancestors */
+        if (n.classList.contains('hero-fig')) return;
+        if (!n.hasAttribute('data-rv') && !n.closest('[data-rv]')) n.setAttribute('data-rv', '');
+      });
+    });
+
+    /* the hero animates on load rather than on scroll */
+    var hero = document.querySelectorAll(
+      'header.hero .eyebrow, header.hero h1, header.hero .tagline,' +
+      'header.hero .authors, header.hero .badges');
+    hero.forEach(function (n, i) {
+      n.setAttribute('data-rv-hero', '');
+      n.dataset.rvi = i;
+    });
+
+    root.classList.add('reveal');          /* activates the hidden state */
+
+    /* 3 - reveal on intersect, once each */
+    function show(el, step) {
+      var i = parseInt(el.dataset.rvi || 0, 10);
+      if (reduce || !i) { el.classList.add('rv-in'); return; }
+      setTimeout(function () { el.classList.add('rv-in'); }, i * step);
+    }
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        obs.unobserve(e.target);
+        show(e.target, STEP);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('[data-rv], .hero-fig').forEach(function (n) { obs.observe(n); });
+    requestAnimationFrame(function () {
+      hero.forEach(function (n) { show(n, 90); });
+    });
+
+    /* 4 - progress line + a small parallax on the opening figure.
+           The figure carries the reveal transform, so parallax rides the img
+           inside it and the two never fight over one property. */
+    var img = document.querySelector('.hero-fig img');
+    var wide = window.matchMedia('(min-width: 900px)').matches;
+    var queued = false;
+
+    function frame() {
+      queued = false;
+      var y = window.pageYOffset || root.scrollTop;
+      if (fill) {
+        var span = (root.scrollHeight - root.clientHeight) || 1;
+        fill.style.transform = 'scaleX(' + Math.min(y / span, 1).toFixed(4) + ')';
+      }
+      if (img && !reduce && wide) {
+        img.style.transform = 'translateY(' + Math.min(y * 0.05, 18).toFixed(1) + 'px)';
+      }
+    }
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(frame);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () {
+      wide = window.matchMedia('(min-width: 900px)').matches;
+      onScroll();
+    }, { passive: true });
+    frame();
+  })();
+
   /* ---------- copy bibtex ---------- */
   var copy = document.getElementById('copybib');
   if (copy) {
