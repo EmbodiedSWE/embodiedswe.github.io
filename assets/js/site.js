@@ -237,12 +237,11 @@
       });
     });
 
-    /* the hero animates on load rather than on scroll */
-    var hero = document.querySelectorAll(
-      'header.hero .eyebrow, header.hero h1, header.hero .tagline,' +
-      'header.hero .authors, header.hero .badges');
-    hero.forEach(function (n, i) {
-      n.setAttribute('data-rv-hero', '');
+    /* Project details enter when scrolled into view below the full-screen hero. */
+    document.querySelectorAll(
+      '.project-intro .eyebrow, .project-intro h2, .project-intro .tagline,' +
+      ' .project-intro .authors, .project-intro .badges').forEach(function (n, i) {
+      n.setAttribute('data-rv', '');
       n.dataset.rvi = i;
     });
 
@@ -264,9 +263,6 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
     document.querySelectorAll('[data-rv], .hero-fig').forEach(function (n) { obs.observe(n); });
-    requestAnimationFrame(function () {
-      hero.forEach(function (n) { show(n, 90); });
-    });
 
     /* 4 - progress line + a small parallax on the opening figure.
            The figure carries the reveal transform, so parallax rides the img

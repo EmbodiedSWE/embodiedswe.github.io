@@ -18,6 +18,31 @@
 </head>
 <body>
 
+<header class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-atmosphere" aria-hidden="true"></div>
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-topline">
+    <a class="hero-brand" href="#top"><span aria-hidden="true">{ }</span> EmbodiedSWE</a>
+    <a class="hero-index" href="#project">Explore the research <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero-copy">
+    <p class="hero-kicker">From code to the physical world</p>
+    <h1 id="hero-title">Embodied<span>SWE</span></h1>
+    <p class="hero-subtitle">Coding agents for long-horizon<br>dexterous robotics.</p>
+  </div>
+  <div class="hero-bottomline">
+    <div class="hero-cycle" aria-label="Solvers, teachers, and students">
+      <span>01 <b>Solve</b></span><i aria-hidden="true"></i>
+      <span>02 <b>Teach</b></span><i aria-hidden="true"></i>
+      <span>03 <b>Learn</b></span>
+    </div>
+    <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
+    <button class="hero-pause" type="button" aria-label="Pause animation" aria-pressed="false" hidden>
+      <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
+    </button>
+  </div>
+</header>
+
 <nav class="top">
   <div class="wrap row">
     <a class="brand" href="#top">EmbodiedSWE</a>
@@ -37,11 +62,10 @@
   </div>
 </nav>
 
-<a id="top"></a>
-<header class="hero">
+<section class="project-intro" id="project" aria-labelledby="project-title">
   <div class="wrap">
     <p class="eyebrow">Agent-native robotics benchmark &amp; data engine</p>
-    <h1><span class="tm">EmbodiedSWE</span></h1>
+    <h2 id="project-title">EmbodiedSWE</h2>
     <p class="tagline">Coding Agents for Long-Horizon Dexterous Robotics</p>
 
     <div class="authors">
@@ -56,7 +80,7 @@
       <a class="badge" href="#tasks"><span class="ic">▶</span> Task gallery</a>
     </div>
   </div>
-</header>
+</section>
 
 <div class="wrap" style="margin-top:44px">
   <figure class="fig hero-fig">
@@ -475,6 +499,7 @@
   </div>
 </footer>
 
+<script src="assets/js/hero.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/charts.js"></script>
 </body>

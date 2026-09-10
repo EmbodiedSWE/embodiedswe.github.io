@@ -20,6 +20,7 @@ scroll-spy nav both need real HTTP.
 index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
 assets/js/site.js       task gallery, catalog table, filters, nav, theme
+assets/js/hero.js       full-screen particle animation and pause control
 assets/js/charts.js     the three animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification, 4 failure modes)
@@ -129,8 +130,8 @@ animations:
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
   `.stats`, `.ladder`, `.gallery` and `.fm-row` — 70 ms apart;
-- a **hero entrance** on load (eyebrow → title → tagline → authors → badges,
-  90 ms apart) with the opening figure settling in from 30 px and 0.985 scale;
+- the **project introduction** reveals on scroll below the full-screen opening,
+  with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;
 - a capped 18 px **parallax** on the opening figure, ≥900 px viewports only.
 
@@ -150,6 +151,24 @@ and the page degrades to plain static HTML rather than a blank screen.
 
 `prefers-reduced-motion: reduce` drops all of it: final state, no transitions,
 no parallax, no stagger.
+
+## Full-screen opening
+
+`assets/js/hero.js` draws a slowly moving particle loop behind a real HTML
+heading. Teal, sand, and blue streams echo the solver, teacher, and student
+loop. It uses Canvas 2D with no external dependencies: 6,200 particles on
+desktop, 2,600 on mobile, and a capped device-pixel ratio of 1.75.
+
+The opening fills the viewport (`100svh`, with a `100vh` fallback). The sticky
+navigation and original project details follow in normal document flow.
+Scrolling gently fades and shifts the title; both explore links go to
+`#project`. There is no scroll locking or delayed access to content.
+
+The pause/play button controls animation. Rendering stops when the hero is
+offscreen or the tab is hidden. Reduced-motion preferences start with a static
+particle frame and disable scroll parallax; visitors can explicitly play it.
+Without JavaScript or Canvas, the heading, atmospheric CSS background, and
+navigation remain available, and the unused pause control stays hidden.
 
 ## Search indexing is off
 
