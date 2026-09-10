@@ -171,17 +171,15 @@
     try { saved = localStorage.getItem('eswe-theme'); } catch (e) {}
     if (saved === 'dark' || saved === 'light') root.dataset.theme = saved;
 
-    var sysDark = window.matchMedia('(prefers-color-scheme: dark)');
     var effective = function () {
-      return root.dataset.theme || (sysDark.matches ? 'dark' : 'light');
+      return root.dataset.theme || 'dark';
     };
     var label = function () {
       btn.textContent = effective() === 'dark' ? '☀' : '☾';
       btn.title = 'Switch to ' + (effective() === 'dark' ? 'light' : 'dark') + ' theme';
+      btn.setAttribute('aria-label', btn.title);
     };
     label();
-    // while no explicit choice is stored, follow the OS
-    sysDark.addEventListener('change', function () { if (!root.dataset.theme) label(); });
 
     btn.addEventListener('click', function () {
       root.dataset.theme = effective() === 'dark' ? 'light' : 'dark';

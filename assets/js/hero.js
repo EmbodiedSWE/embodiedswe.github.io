@@ -7,17 +7,115 @@
 
   var hero = document.querySelector('header.hero');
   if (!hero) return;
-  var canvas = hero.querySelector('canvas');
+  var universe = document.querySelector('.site-universe');
+  var canvas = universe && universe.querySelector('canvas');
   var ctx = canvas && canvas.getContext('2d');
   if (!ctx || !window.requestAnimationFrame) return;
 
-  var button = hero.querySelector('.hero-pause');
+  var buttons = document.querySelectorAll('[data-animation-toggle]');
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var reduced = motion.matches, paused = reduced, visible = true;
   var width = 0, height = 0, scale = 0, particles = [];
   var raf = 0, previous = 0, elapsed = 0, scrollQueued = false;
+  var titleElapsed = 0;
   var TAU = Math.PI * 2;
   var colors = ['126,201,207', '209,183,144', '164,190,213'];
+  var title = hero.querySelector('h1');
+  var copy = hero.querySelector('.hero-copy');
+  var titleCanvas = document.createElement('canvas');
+  var titleCtx = titleCanvas.getContext('2d');
+  var titlePoints = [], titleFinished = reduced, titleActive = false;
+  var TITLE_END = 4300;
+  titleCanvas.className = 'hero-title-canvas';
+  titleCanvas.setAttribute('aria-hidden', 'true');
+
+  function finishTitle() {
+    titleFinished = true;
+    titleActive = false;
+    title.style.removeProperty('opacity');
+    titleCanvas.remove();
+    titlePoints = [];
+  }
+
+  // Sample each character at its actual DOM position, preserving the two font
+  // weights, kerning, and responsive letter spacing of the accessible heading.
+  function prepareTitle(dpr) {
+    if (titleFinished || !titleCtx) return;
+    try {
+      titleCanvas.width = canvas.width;
+      titleCanvas.height = canvas.height;
+      titleCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var bounds = copy.getBoundingClientRect();
+      var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+      var node, range = document.createRange();
+      titleCtx.fillStyle = '#fff';
+      titleCtx.textBaseline = 'alphabetic';
+      while ((node = walker.nextNode())) {
+        var style = getComputedStyle(node.parentElement);
+        titleCtx.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
+        for (var i = 0; i < node.length; i++) {
+          range.setStart(node, i);
+          range.setEnd(node, i + 1);
+          var rect = range.getBoundingClientRect();
+          var metrics = titleCtx.measureText(node.data[i]);
+          var ascent = metrics.fontBoundingBoxAscent;
+          var descent = metrics.fontBoundingBoxDescent;
+          // Unsupported font metrics leave the ordinary heading visible.
+          if (ascent === undefined || descent === undefined) return finishTitle();
+          var baseline = rect.top - bounds.top + (rect.height - ascent - descent) / 2 + ascent;
+          titleCtx.fillText(node.data[i], rect.left - bounds.left, baseline);
+        }
+      }
+      var pixels = titleCtx.getImageData(0, 0, titleCanvas.width, titleCanvas.height).data;
+      var heading = title.getBoundingClientRect();
+      var step = Math.max(2, Math.round((width < 700 ? 1.6 : 2.5) * dpr));
+      titlePoints = [];
+      var left = Math.max(0, Math.floor((heading.left - bounds.left) * dpr));
+      var right = Math.min(titleCanvas.width, Math.ceil((heading.right - bounds.left) * dpr));
+      // Font glyphs can extend slightly beyond the heading's line box.
+      var top = Math.max(0, Math.floor((heading.top - bounds.top - 12) * dpr));
+      var bottom = Math.min(titleCanvas.height, Math.ceil((heading.bottom - bounds.top + 12) * dpr));
+      for (var y = top; y < bottom; y += step) {
+        for (var x = left; x < right; x += step) {
+          if (pixels[(y * titleCanvas.width + x) * 4 + 3] < 130) continue;
+          var index = titlePoints.length;
+          var angle = index * 2.399963;
+          var radius = scale * (1.6 + (index % 17) / 28);
+          titlePoints.push({x:x / dpr, y:y / dpr,
+            sx:width / 2 + Math.cos(angle) * radius,
+            sy:height * 0.49 + Math.sin(angle) * radius * 0.72,
+            delay:((x / dpr - heading.left + bounds.left) / heading.width) * 500,
+            size:step / dpr * 0.78});
+        }
+      }
+      if (!titlePoints.length) return finishTitle();
+      titleActive = true;
+      copy.appendChild(titleCanvas);
+      drawTitle();
+    } catch (error) {
+      finishTitle();
+    }
+  }
+
+  function drawTitle() {
+    if (!titleActive) return;
+    if (titleElapsed >= TITLE_END) return finishTitle();
+    titleCtx.clearRect(0, 0, width, height);
+    var fade = Math.max(0, Math.min(1, (titleElapsed - 3500) / 800));
+    title.style.opacity = String(fade);
+    for (var i = 0; i < titlePoints.length; i++) {
+      var p = titlePoints[i];
+      var progress = Math.max(0, Math.min(1, (titleElapsed - 300 - p.delay) / 2100));
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var curl = Math.sin(progress * Math.PI) * (1 - progress) * scale * 0.3;
+      var x = p.sx + (p.x - p.sx) * ease + Math.sin(i) * curl;
+      var y = p.sy + (p.y - p.sy) * ease + Math.cos(i) * curl;
+      titleCtx.globalAlpha = (0.25 + ease * 0.75) * (1 - fade);
+      titleCtx.fillStyle = ease > 0.9 ? '#e4eee7' : 'rgb(' + colors[i % 3] + ')';
+      titleCtx.fillRect(x, y, p.size, p.size);
+    }
+    titleCtx.globalAlpha = 1;
+  }
 
   // Fixed seed keeps the composition stable through resizing and theme changes.
   function makeParticles() {
@@ -36,8 +134,8 @@
   }
 
   function resize() {
-    width = hero.clientWidth;
-    height = hero.clientHeight;
+    width = universe.clientWidth;
+    height = universe.clientHeight;
     var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
@@ -45,6 +143,7 @@
     scale = Math.min(width * 0.215, height * 0.36);
     if (width < 700) scale = Math.min(width * 0.3, height * 0.28);
     makeParticles();
+    prepareTitle(dpr);
     draw();
     updateScroll();
   }
@@ -78,12 +177,22 @@
       ctx.fillStyle = 'rgba(' + colors[q.band] + ',' + q.alpha.toFixed(3) + ')';
       ctx.fillRect(q.x, q.y, q.size, q.size);
     }
+    drawTitle();
   }
 
   function frame(now) {
     raf = 0;
-    if (paused || !visible || document.hidden) { previous = 0; return; }
-    if (previous) elapsed += Math.min(now - previous, 50);
+    if (paused || document.hidden) { previous = 0; return; }
+    // The subdued field keeps moving below the hero at a lower frame rate.
+    if (!visible && previous && now - previous < 32) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
+    if (previous) {
+      var delta = Math.min(now - previous, 50);
+      elapsed += delta;
+      if (visible) titleElapsed += delta;
+    }
     previous = now;
     draw();
     raf = requestAnimationFrame(frame);
@@ -93,29 +202,37 @@
     if (raf) cancelAnimationFrame(raf);
     raf = 0;
     previous = 0;
-    button.setAttribute('aria-pressed', String(paused));
-    button.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
-    button.querySelector('.hero-pause-icon').textContent = paused ? '▷' : 'Ⅱ';
-    button.querySelector('.hero-pause-label').textContent = paused ? 'Play' : 'Pause';
-    if (!paused && visible && !document.hidden) raf = requestAnimationFrame(frame);
+    buttons.forEach(function (button) {
+      button.setAttribute('aria-pressed', String(paused));
+      button.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
+      button.title = paused ? 'Play animation' : 'Pause animation';
+      button.querySelector('.hero-pause-icon').textContent = paused ? '▷' : 'Ⅱ';
+      var label = button.querySelector('.hero-pause-label');
+      if (label) label.textContent = paused ? 'Play' : 'Pause';
+    });
+    if (!paused && !document.hidden) raf = requestAnimationFrame(frame);
   }
 
   function updateScroll() {
     scrollQueued = false;
     var top = hero.getBoundingClientRect().top;
-    var progress = Math.max(0, Math.min(1, -top / height));
+    var heroHeight = hero.clientHeight;
+    var progress = Math.max(0, Math.min(1, -top / heroHeight));
     hero.style.setProperty('--hero-shift', (reduced ? 0 : progress * height * 0.18) + 'px');
     hero.style.setProperty('--hero-opacity', reduced ? '1' : String(1 - progress * 0.95));
-    // Also suspends offscreen animation if IntersectionObserver is unavailable.
-    var nextVisible = top < window.innerHeight && top + height > 0;
+    universe.style.setProperty('--universe-opacity', String(1 - progress * 0.68));
+    var nextVisible = top < window.innerHeight && top + heroHeight > 0;
     if (nextVisible !== visible) { visible = nextVisible; sync(); }
   }
 
-  button.hidden = false;
-  button.addEventListener('click', function () { paused = !paused; sync(); });
+  buttons.forEach(function (button) {
+    button.hidden = false;
+    button.addEventListener('click', function () { paused = !paused; sync(); });
+  });
   motion.addEventListener('change', function (event) {
     reduced = event.matches;
     paused = reduced;
+    if (reduced) finishTitle();
     updateScroll();
     sync();
   });
@@ -132,4 +249,8 @@
   }
   resize();
   sync();
+  // Re-sample if fonts finish loading during the entrance, without restarting it.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { if (!titleFinished) resize(); }).catch(finishTitle);
+  }
 })();

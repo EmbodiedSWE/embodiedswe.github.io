@@ -18,9 +18,11 @@
 </head>
 <body>
 
-<header class="hero" id="top" aria-labelledby="hero-title">
+<div class="site-universe" aria-hidden="true">
   <div class="hero-atmosphere" aria-hidden="true"></div>
   <canvas class="hero-canvas" aria-hidden="true"></canvas>
+</div>
+<header class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero-topline">
     <a class="hero-brand" href="#top"><span aria-hidden="true">{ }</span> EmbodiedSWE</a>
     <a class="hero-index" href="#project">Explore the research <span aria-hidden="true">↗</span></a>
@@ -37,7 +39,7 @@
       <span>03 <b>Learn</b></span>
     </div>
     <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
-    <button class="hero-pause" type="button" aria-label="Pause animation" aria-pressed="false" hidden>
+    <button class="hero-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden>
       <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
     </button>
   </div>
@@ -46,6 +48,7 @@
 <nav class="top">
   <div class="wrap row">
     <a class="brand" href="#top">EmbodiedSWE</a>
+    <div class="nav-links" aria-label="Research sections">
     <a class="lnk" href="#abstract">Abstract</a>
     <a class="lnk" href="#loop">The loop</a>
     <a class="lnk" href="#benchmark">Benchmark</a>
@@ -57,7 +60,8 @@
     <a class="lnk" href="#teacher">Data engine</a>
     <a class="lnk" href="#student">Agent training</a>
     <a class="lnk" href="#cite">Cite</a>
-    <span class="spacer"></span>
+    </div>
+    <button class="universe-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden title="Pause animation"><span class="hero-pause-icon" aria-hidden="true">Ⅱ</span></button>
     <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
   </div>
 </nav>

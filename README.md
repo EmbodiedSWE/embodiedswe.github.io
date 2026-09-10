@@ -159,16 +159,37 @@ heading. Teal, sand, and blue streams echo the solver, teacher, and student
 loop. It uses Canvas 2D with no external dependencies: 6,200 particles on
 desktop, 2,600 on mobile, and a capped device-pixel ratio of 1.75.
 
+On arrival, a second particle layer gathers from the orbit into the actual
+title lettering, holds briefly, and cross-fades to the HTML heading over a
+4.3-second entrance. Sampling the heading's character positions preserves its
+responsive typography and mixed weights. The entrance shares the background's
+pause and visibility handling, resamples on resize, and runs once per page load.
+Reduced motion skips title assembly; unavailable Canvas text metrics or sampling
+failures leave the ordinary heading visible.
+
 The opening fills the viewport (`100svh`, with a `100vh` fallback). The sticky
 navigation and original project details follow in normal document flow.
 Scrolling gently fades and shifts the title; both explore links go to
 `#project`. There is no scroll locking or delayed access to content.
 
-The pause/play button controls animation. Rendering stops when the hero is
-offscreen or the tab is hidden. Reduced-motion preferences start with a static
+The pause/play controls in the opening and sticky navigation stay synchronized.
+The star field is fixed behind the whole page, dims to 32% opacity below the
+opening, and keeps moving at roughly 30 fps while the hero is offscreen. Title
+assembly waits while offscreen. All rendering stops when the tab is hidden.
+Reduced-motion preferences start with a static
 particle frame and disable scroll parallax; visitors can explicitly play it.
 Without JavaScript or Canvas, the heading, atmospheric CSS background, and
 navigation remain available, and the unused pause control stays hidden.
+
+## Research-page styling
+
+The default palette continues the opening's dark sky, warm white type, and teal,
+sand, and blue accents through the research content. Translucent dark panels
+keep charts, tables, code, and task descriptions readable over the persistent
+stars. Roomier sections and lighter headings echo the opening typography.
+The navigation keeps section links in their own horizontally scrollable area,
+with theme and animation controls always accessible on narrow screens.
+An optional light reading theme is available; an explicit saved choice is kept.
 
 ## Search indexing is off
 
