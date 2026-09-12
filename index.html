@@ -113,7 +113,13 @@
     <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
       <div class="pipeline-heading"><div><p class="eyebrow">From physical tasks to learning agents</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
       <div class="pipeline-map">
-        <svg class="pipeline-connections" aria-hidden="true"><defs><marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker></defs><g class="pipeline-paths"></g><g class="pipeline-particles"></g></svg>
+        <svg class="pipeline-connections" aria-hidden="true"><defs>
+          <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker>
+          <g id="pipeline-brain-icon">
+            <path d="M16 7C16 2 8 2 7 7C3 7 1 12 4 15C0 19 3 24 7 24C6 29 12 32 16 27C20 32 26 29 25 24C29 24 32 19 28 15C31 12 29 7 25 7C24 2 16 2 16 7Z"/>
+            <path d="M16 7V27M7 7C7 11 9 12 12 12M4 15C7 14 10 16 10 19M7 24C10 25 13 22 12 20M25 7C25 11 23 12 20 12M28 15C25 14 22 16 22 19M25 24C22 25 19 22 20 20"/>
+          </g>
+        </defs><g class="pipeline-paths"></g><g class="pipeline-particles"></g></svg>
         <div class="pipeline-stages" role="group" aria-label="Explore a contribution">
           <button class="pipeline-card" type="button" aria-pressed="true" data-stage="0" disabled>
             <span class="pipeline-card-top"><span>01</span><span>Benchmark</span></span>
@@ -138,7 +144,7 @@
                 <path class="pipeline-flow" data-flow d="M49 75H79"/><path class="pipeline-flow" data-flow d="M151 75H181"/>
                 <path class="pipeline-feedback" data-flow d="M208 105V140H26V101"/>
                 <text class="pipeline-svg-label" x="26" y="34" text-anchor="middle">Agent</text><rect class="pipeline-shape" x="3" y="48" width="46" height="53" rx="9"/>
-                <path class="pipeline-agent" d="M15 64l-5 11 5 10m22-21 5 11-5 10m-9-24-5 28"/>
+                <use class="pipeline-brain" href="#pipeline-brain-icon" x="10" y="58"/>
                 <text class="pipeline-svg-label" x="115" y="34" text-anchor="middle">Solution code</text><rect class="pipeline-shape" x="79" y="48" width="72" height="57" rx="7"/>
                 <text class="pipeline-svg-label" x="88" y="63">solve.py</text><g class="pipeline-code-lines"><path d="M89 74h45"/><path d="M94 84h29"/><path d="M94 94h40"/></g>
                 <text class="pipeline-svg-label" x="208" y="34" text-anchor="middle">Simulator</text><rect class="pipeline-shape" x="181" y="48" width="56" height="57" rx="7"/>
@@ -161,7 +167,19 @@
                 <g class="pipeline-svg-label pipeline-dimension-labels" text-anchor="middle"><text x="24" y="92">Scene</text><text x="71" y="92">Strategy</text><text x="118" y="92">Phase</text><text x="167" y="92">Dynamics</text><text x="216" y="92">Visual</text></g>
                 <path class="pipeline-flow" data-flow d="M216 103V108H237V136H233"/><path class="pipeline-flow" data-flow d="M156 144H75"/>
                 <g class="pipeline-datasets"><rect x="160" y="130" width="21" height="13" rx="2"/><rect x="185" y="130" width="21" height="13" rx="2"/><rect x="210" y="130" width="21" height="13" rx="2"/><rect x="160" y="148" width="21" height="13" rx="2"/><rect x="185" y="148" width="21" height="13" rx="2"/><rect x="210" y="148" width="21" height="13" rx="2"/></g>
-                <text class="pipeline-svg-label" x="194" y="122" text-anchor="middle">Large dataset</text><rect class="pipeline-policy" x="5" y="130" width="67" height="32" rx="7"/><text class="pipeline-svg-label" x="38" y="151" text-anchor="middle">VLA · π</text><text class="pipeline-svg-label" x="5" y="121">Training</text>
+                <text class="pipeline-svg-label" x="194" y="122" text-anchor="middle">Large dataset</text><rect class="pipeline-policy" x="5" y="130" width="67" height="32" rx="7"/>
+                <defs>
+                  <!-- Original NVIDIA artwork; the mask isolates its square icon without redrawing it. -->
+                  <mask id="pipeline-groot-mask" maskUnits="userSpaceOnUse" x="10" y="132.5" width="27" height="27" style="mask-type:alpha">
+                    <image href="assets/img/fig/groot-official-header.png" x="10" y="132.5" width="111.5766" height="27" preserveAspectRatio="xMinYMin meet"/>
+                  </mask>
+                </defs>
+                <g class="pipeline-brand-mark"><title>NVIDIA Isaac GR00T and Physical Intelligence π</title>
+                  <rect x="10" y="132.5" width="27" height="27" mask="url(#pipeline-groot-mask)"/>
+                  <path class="pipeline-brand-divider" d="M42 137V155"/>
+                  <!-- Official Physical Intelligence logo geometry from its downloadable brand kit. -->
+                  <path transform="translate(48 136) scale(.2)" d="M99.6948 1.98372V16.8362H76.0936L74.059 47.7619C73.6521 53.1197 73.4486 57.7653 73.4486 61.6989C73.4486 71.1258 74.5337 76.8905 76.704 78.9929C78.942 81.0275 81.6209 82.0448 84.7406 82.0448C91.2513 82.0448 95.117 77.9417 96.3377 69.7355H100C97.762 88.5893 90.234 98.0163 77.4161 98.0163C71.4479 98.0163 66.6328 96.1851 62.9705 92.5229C59.3761 88.8606 57.5788 83.4351 57.5788 76.2462C57.5788 71.4988 58.2909 61.4615 59.7152 46.1343L62.4619 16.8362H40.8952C39.471 41.5225 37.7416 59.5626 35.707 70.9563C33.7403 82.3499 31.5361 89.7084 29.0946 93.0315C26.7209 96.3547 23.4656 98.0163 19.3286 98.0163C16.2089 98.0163 13.5639 97.1007 11.3937 95.2696C9.29129 93.4384 8.24008 91.0309 8.24008 88.0468C8.24008 85.1984 10.0712 81.2987 13.7335 76.3479C19.0912 69.159 23.0926 61.6989 25.7375 53.9674C28.3825 46.1682 30.3832 33.7911 31.7396 16.8362H24.822C19.2608 16.8362 14.9881 18.0909 12.0041 20.6002C9.08783 23.0417 6.30722 26.5683 3.66226 31.1801H0C1.96677 23.9234 4.51 17.9552 7.6297 13.2757C10.7494 8.59613 13.9369 5.54425 17.1923 4.12004C20.5154 2.69582 26.3818 1.98372 34.7915 1.98372H99.6948Z"/>
+                </g><text class="pipeline-svg-label" x="5" y="121">Training</text>
               </svg>
             </span>
             <span class="pipeline-card-copy">Scene × Strategy × Phase × Dynamics × Visual.<br>Train a generalist VLA policy.</span>
@@ -177,7 +195,7 @@
                 <g class="pipeline-datasets"><rect x="181" y="34" width="45" height="31" rx="4"/><rect x="190" y="43" width="45" height="31" rx="4"/></g><text class="pipeline-svg-label" x="207" y="21" text-anchor="middle">New tasks</text>
                 <path class="pipeline-flow" data-flow d="M208 78V108"/><text class="pipeline-svg-label" x="162" y="95" text-anchor="middle">Verified outcomes</text><circle class="pipeline-policy" cx="208" cy="119" r="11"/><path class="pipeline-agent" d="m203 119 4 4 7-8"/>
                 <path class="pipeline-feedback" data-flow d="M196 127Q191 145 177 145H68"/><text class="pipeline-svg-label" x="129" y="135" text-anchor="middle">RL</text>
-                <rect class="pipeline-shape" x="6" y="119" width="59" height="43" rx="8"/><path class="pipeline-agent" d="m24 130-6 10 6 10m24-20 6 10-6 10m-10-22-5 24"/><text class="pipeline-svg-label" x="36" y="110" text-anchor="middle">Coding agent</text>
+                <rect class="pipeline-shape" x="6" y="119" width="59" height="43" rx="8"/><use class="pipeline-brain" href="#pipeline-brain-icon" x="19.5" y="124.5"/><text class="pipeline-svg-label" x="36" y="110" text-anchor="middle">Coding agent</text>
               </svg>
             </span>
             <span class="pipeline-card-copy">Generate new tasks from seeds.<br>Improve the coding agent with RL on verified outcomes.</span>

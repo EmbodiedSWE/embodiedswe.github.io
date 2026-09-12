@@ -257,6 +257,16 @@ particles and CSS effects in place; offscreen/tab visibility and reduced-motion
 settings also control playback. The original solver/teacher/student details remain in an
 expandable block. Without JavaScript, all four cards and that text remain readable.
 
+Loop icon sources: the two coding-agent nodes share an original inline SVG brain
+outline, tinted to their stage colors. The policy-training node uses the official
+[NVIDIA Isaac GR00T artwork](https://github.com/NVIDIA/Isaac-GR00T/blob/4af2b622892f7dcb5aae5a3fb70bcb02dc217b96/media/header_compress_green.png)
+and [Physical Intelligence π logo](https://www.pi.website/download/brand/logo-light.svg).
+The NVIDIA PNG is stored unmodified at `assets/img/fig/groot-official-header.png`;
+an SVG alpha mask displays only the robot/network icon in the teacher's color.
+The π path preserves the official SVG geometry and inherits the same color.
+These are recolored research-figure illustrations, not claims of endorsement;
+the respective marks belong to NVIDIA and Physical Intelligence.
+
 ## Search indexing is off
 
 `index.html` carries `<meta name="robots" content="noindex, nofollow">` and
