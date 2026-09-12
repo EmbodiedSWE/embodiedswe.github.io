@@ -278,6 +278,5 @@ To allow indexing, delete `robots.txt` and that one meta tag, then push.
 ## Before going public
 
 - Author list is a placeholder (`Author list withheld — anonymous submission`).
-- Paper, arXiv and Blog badges are inert placeholders; wire them up as each lands.
+- Paper, arXiv, Blog and Code badges are inert placeholders; wire them up as each lands.
 - The BibTeX entry is a placeholder.
-- The Code badge points at the org, not a repo.
