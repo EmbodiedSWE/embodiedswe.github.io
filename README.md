@@ -21,6 +21,9 @@ index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
 assets/js/site.js       task gallery, catalog table, filters, nav, theme
 assets/js/hero.js       full-screen particle animation and pause control
+assets/js/diversification.js  five-level animated walkthrough of the original renders
+assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
+assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
 assets/js/charts.js     the three animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification, 4 failure modes)
@@ -190,6 +193,69 @@ stars. Roomier sections and lighter headings echo the opening typography.
 The navigation keeps section links in their own horizontally scrollable area,
 with theme and animation controls always accessible on narrow screens.
 An optional light reading theme is available; an explicit saved choice is kept.
+
+## Animated diversification figure
+
+The data-engine section replaces the static five-level montage with a viewer
+that cycles through Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds.
+Each level presents three original render crops, its multiplier, an explanation,
+and variation categories. Individual 1920 × 1080 WebP renders in
+`assets/img/diversification/` replace the tiny crops from the combined JPEG.
+SVG viewBoxes preserve the original figure's framing; dynamics noise bands and
+parameter ranges are SVG annotations. The complete source figure remains linked
+below the viewer and serves as the no-JavaScript fallback.
+
+Level buttons and Next pause automatic advancement for inspection. Play resumes;
+the timer suspends offscreen and in hidden tabs. Reduced motion starts paused and
+removes frame transitions. Without JavaScript, the original montage stays visible.
+
+## Long-horizon task timeline
+
+`#task-timeline` replaces the dense twelve-task filmstrip with one large 1080p
+frame, a task sidebar (a select menu on mobile), and five clickable thumbnails.
+Play steps through the five recorded samples every 2.4 seconds; it is not
+real-time video. Task and frame selection pause playback for inspection.
+Playback pauses offscreen, while an image decodes, and when the tab is hidden.
+Reduced motion starts paused and disables frame fades. The original montage is
+linked below the viewer and remains visible when JavaScript is unavailable.
+
+Assets in `assets/img/task-timeline/` include sixty original-resolution WebP
+frames and sixty 320 × 180 thumbnails. They load as needed for the selected task,
+with only the next full-size frame prefetched during playback. Source picks,
+stage descriptions, and recorded times follow the figure2 source notes; partial
+outcomes are labeled rather than represented as complete solves. See that asset
+folder's `SOURCES.md` for provenance and frame indices.
+
+## Scene and research loop
+
+The opening figure now shows only the kitchen scene and its four callouts.
+`assets/img/fig/scene.webp` was rendered from the top of the paper's original
+`figures/overview.pdf` at 2150 × 926 pixels using `pdftocairo` (360 DPI, crop
+x=0, y=0, width=2150, height=926), then encoded as WebP at quality 94.
+The complete earlier `overview.jpg` is retained.
+
+`#pipeline` follows Figure 1 (page 2) of the September 11, 2026 draft at
+`experiments/snapshots/paper_draft/Coding_agent_for_robotics.pdf` in the parent
+CoSiGen workspace: Benchmark Tasks, Coding Agent Solves Tasks, Data Generation
++ VLA, and Agent Improvement. The return connection goes from stage 04 back to
+the solver in stage 02, labeled “Improved agent becomes the solver.” The dashed
+route remains conceptual: Section 5.1 still says the full pipeline has not been
+run end to end. The scene is unchanged in the new figure; responsive images
+explicitly use `height: auto` to preserve their original aspect ratios.
+
+All connectors and SVG miniatures run concurrently, with continuous particles
+and directional arrows (no stage dwell time). The solver includes agent →
+solution code → simulator → simulation feedback; the teacher shows all five
+diversification dimensions, a large dataset, and VLA training; the student shows
+seed task → task generation → new tasks → verified outcomes → RL → coding agent.
+These are conceptual animations, not additional experimental results.
+
+Selecting a stage or Next shows its explanation and section link without
+interrupting the flow or automatically replacing the text while it is read.
+Narrow layouts stack cards and enlarge the SVGs on phones. Pause freezes both
+particles and CSS effects in place; offscreen/tab visibility and reduced-motion
+settings also control playback. The original solver/teacher/student details remain in an
+expandable block. Without JavaScript, all four cards and that text remain readable.
 
 ## Search indexing is off
 

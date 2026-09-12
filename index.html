@@ -88,8 +88,8 @@
 
 <div class="wrap" style="margin-top:44px">
   <figure class="fig hero-fig">
-    <img src="assets/img/fig/overview.jpg" alt="Overview: a kitchen-scale set of dexterous manipulation tasks, and the four-stage loop — benchmark, coding agent solves, one program becomes many trajectories, coding-agent self-improvement." loading="eager">
-    <figcaption><b>The loop.</b> A benchmark of long-horizon dexterous tasks; a coding agent writes and debugs a program against the simulator until the task is solved; one verified program is expanded into a diverse trajectory dataset that trains a general robot policy; and the generated tasks feed back into training the agent itself.</figcaption>
+    <img src="assets/img/fig/scene.webp" width="2150" height="926" alt="Robots share a kitchen workspace, with close-ups of deformable-object manipulation, contact-intensive assembly, long-horizon tasks, and humanoid manipulation." loading="eager">
+    <figcaption><b>A world of dexterous tasks.</b> Long-horizon manipulation across objects, physical interactions, and robot embodiments. <a href="#loop">Explore the learning loop ↓</a></figcaption>
   </figure>
 </div>
 
@@ -110,6 +110,91 @@
       <h2>Coding agents as solvers, teachers, and students</h2>
       <p class="lede">Solving tasks with programs is not the goal. A generalist robot cannot rely on an ever-growing collection of task-specific programs — that would rebuild a brittle expert system. So the agent's verified programs become supervision for a policy that acts without the agent in the loop, and the tasks it generates become training signal for the agent itself.</p>
     </div>
+    <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
+      <div class="pipeline-heading"><div><p class="eyebrow">From physical tasks to learning agents</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
+      <div class="pipeline-map">
+        <svg class="pipeline-connections" aria-hidden="true"><defs><marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker></defs><g class="pipeline-paths"></g><g class="pipeline-particles"></g></svg>
+        <div class="pipeline-stages" role="group" aria-label="Explore a contribution">
+          <button class="pipeline-card" type="button" aria-pressed="true" data-stage="0" disabled>
+            <span class="pipeline-card-top"><span>01</span><span>Benchmark</span></span>
+            <span class="pipeline-card-title">Benchmark Tasks</span>
+            <span class="pipeline-visual pipeline-benchmark" aria-hidden="true">
+              <span><img src="assets/img/poster/bulb.jpg" alt="" loading="lazy"><span>Light bulb</span></span>
+              <span><img src="assets/img/poster/ikea_table.jpg" alt="" loading="lazy"><span>IKEA assembly</span></span>
+              <span><img src="assets/img/poster/so101.jpg" alt="" loading="lazy"><span>Robot assembly</span></span>
+              <span><img src="assets/img/poster/coffee.jpg" alt="" loading="lazy"><span>Latte art</span></span>
+              <span><img src="assets/img/poster/slice_banana.jpg" alt="" loading="lazy"><span>Cutting food</span></span>
+              <span><img src="assets/img/poster/box_to_bin.jpg" alt="" loading="lazy"><span>Warehouse picking</span></span>
+              <span class="pipeline-scan"></span>
+            </span>
+            <span class="pipeline-card-copy">EmbodiedSWE-Bench<br>Agent-native, long-horizon dexterous daily-life tasks.</span>
+            <span class="pipeline-card-foot">28 tasks · 6 suites <span aria-hidden="true">↗</span></span>
+          </button>
+          <button class="pipeline-card" type="button" aria-pressed="false" data-stage="1" disabled>
+            <span class="pipeline-card-top"><span>02</span><span>Solver</span></span>
+            <span class="pipeline-card-title">Coding Agent Solves Tasks</span>
+            <span class="pipeline-visual" aria-hidden="true">
+              <svg viewBox="0 0 240 170" preserveAspectRatio="xMidYMid meet">
+                <path class="pipeline-flow" data-flow d="M49 75H79"/><path class="pipeline-flow" data-flow d="M151 75H181"/>
+                <path class="pipeline-feedback" data-flow d="M208 105V140H26V101"/>
+                <text class="pipeline-svg-label" x="26" y="34" text-anchor="middle">Agent</text><rect class="pipeline-shape" x="3" y="48" width="46" height="53" rx="9"/>
+                <path class="pipeline-agent" d="M15 64l-5 11 5 10m22-21 5 11-5 10m-9-24-5 28"/>
+                <text class="pipeline-svg-label" x="115" y="34" text-anchor="middle">Solution code</text><rect class="pipeline-shape" x="79" y="48" width="72" height="57" rx="7"/>
+                <text class="pipeline-svg-label" x="88" y="63">solve.py</text><g class="pipeline-code-lines"><path d="M89 74h45"/><path d="M94 84h29"/><path d="M94 94h40"/></g>
+                <text class="pipeline-svg-label" x="208" y="34" text-anchor="middle">Simulator</text><rect class="pipeline-shape" x="181" y="48" width="56" height="57" rx="7"/>
+                <path class="pipeline-arm" d="M192 94h29m-16 0V82l15-14-10-12"/><circle class="pipeline-joint" cx="205" cy="82" r="3"/><circle class="pipeline-joint" cx="220" cy="68" r="3"/>
+                <text class="pipeline-svg-label" x="120" y="125" text-anchor="middle">execute + evaluate</text><text class="pipeline-svg-label" x="120" y="159" text-anchor="middle">Simulation feedback</text>
+              </svg>
+            </span>
+            <span class="pipeline-card-copy">Write. Execute. Inspect.<br>Revise until verified.</span>
+            <span class="pipeline-card-foot">A verified program <span aria-hidden="true">↗</span></span>
+          </button>
+          <button class="pipeline-card" type="button" aria-pressed="false" data-stage="2" disabled>
+            <span class="pipeline-card-top"><span>03</span><span>Teacher</span></span>
+            <span class="pipeline-card-title">Data Generation + VLA</span>
+            <span class="pipeline-visual" aria-hidden="true">
+              <svg viewBox="0 0 240 170" preserveAspectRatio="xMidYMid meet">
+                <text class="pipeline-svg-label" x="5" y="15">One solution</text><rect class="pipeline-shape" x="5" y="23" width="61" height="29" rx="6"/><text class="pipeline-svg-label" x="12" y="42">solve.py</text>
+                <path class="pipeline-flow" data-flow d="M66 38H88V63H118V76"/><text class="pipeline-svg-label" x="109" y="31">Systematic</text><text class="pipeline-svg-label" x="109" y="45">diversification</text>
+                <path class="pipeline-branches" d="M24 76V69H216V76M71 76V69M167 76V69M24 101V108H216M71 101V108M118 101V108M167 101V108"/>
+                <g class="pipeline-datasets pipeline-dimensions"><rect x="3" y="76" width="42" height="25" rx="4"/><rect x="50" y="76" width="42" height="25" rx="4"/><rect x="97" y="76" width="42" height="25" rx="4"/><rect x="144" y="76" width="46" height="25" rx="4"/><rect x="195" y="76" width="42" height="25" rx="4"/></g>
+                <g class="pipeline-svg-label pipeline-dimension-labels" text-anchor="middle"><text x="24" y="92">Scene</text><text x="71" y="92">Strategy</text><text x="118" y="92">Phase</text><text x="167" y="92">Dynamics</text><text x="216" y="92">Visual</text></g>
+                <path class="pipeline-flow" data-flow d="M216 103V108H237V136H233"/><path class="pipeline-flow" data-flow d="M156 144H75"/>
+                <g class="pipeline-datasets"><rect x="160" y="130" width="21" height="13" rx="2"/><rect x="185" y="130" width="21" height="13" rx="2"/><rect x="210" y="130" width="21" height="13" rx="2"/><rect x="160" y="148" width="21" height="13" rx="2"/><rect x="185" y="148" width="21" height="13" rx="2"/><rect x="210" y="148" width="21" height="13" rx="2"/></g>
+                <text class="pipeline-svg-label" x="194" y="122" text-anchor="middle">Large dataset</text><rect class="pipeline-policy" x="5" y="130" width="67" height="32" rx="7"/><text class="pipeline-svg-label" x="38" y="151" text-anchor="middle">VLA · π</text><text class="pipeline-svg-label" x="5" y="121">Training</text>
+              </svg>
+            </span>
+            <span class="pipeline-card-copy">Scene × Strategy × Phase × Dynamics × Visual.<br>Train a generalist VLA policy.</span>
+            <span class="pipeline-card-foot">One solve → ~600 trajectories <span aria-hidden="true">↗</span></span>
+          </button>
+          <button class="pipeline-card" type="button" aria-pressed="false" data-stage="3" disabled>
+            <span class="pipeline-card-top"><span>04</span><span>Student</span></span>
+            <span class="pipeline-card-title">Agent Improvement</span>
+            <span class="pipeline-visual" aria-hidden="true">
+              <svg viewBox="0 0 240 170" preserveAspectRatio="xMidYMid meet">
+                <text class="pipeline-svg-label" x="28" y="21" text-anchor="middle">Seed task</text><rect class="pipeline-shape" x="6" y="32" width="45" height="39" rx="6"/><path class="pipeline-agent" d="M17 60V43h22v17Zm0-7h22"/>
+                <path class="pipeline-flow" data-flow d="M54 53H179"/><text class="pipeline-svg-label" x="116" y="42" text-anchor="middle">Task generation</text>
+                <g class="pipeline-datasets"><rect x="181" y="34" width="45" height="31" rx="4"/><rect x="190" y="43" width="45" height="31" rx="4"/></g><text class="pipeline-svg-label" x="207" y="21" text-anchor="middle">New tasks</text>
+                <path class="pipeline-flow" data-flow d="M208 78V108"/><text class="pipeline-svg-label" x="162" y="95" text-anchor="middle">Verified outcomes</text><circle class="pipeline-policy" cx="208" cy="119" r="11"/><path class="pipeline-agent" d="m203 119 4 4 7-8"/>
+                <path class="pipeline-feedback" data-flow d="M196 127Q191 145 177 145H68"/><text class="pipeline-svg-label" x="129" y="135" text-anchor="middle">RL</text>
+                <rect class="pipeline-shape" x="6" y="119" width="59" height="43" rx="8"/><path class="pipeline-agent" d="m24 130-6 10 6 10m24-20 6 10-6 10m-10-22-5 24"/><text class="pipeline-svg-label" x="36" y="110" text-anchor="middle">Coding agent</text>
+              </svg>
+            </span>
+            <span class="pipeline-card-copy">Generate new tasks from seeds.<br>Improve the coding agent with RL on verified outcomes.</span>
+            <span class="pipeline-card-foot">Improve the coding agent <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <p class="pipeline-return-label">↶ Improved agent becomes the solver · 04 → 02</p>
+      </div>
+      <div class="pipeline-detail" id="pipeline-detail">
+        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>Benchmark Tasks</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
+        <div><p class="pipeline-detail-description">An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.</p><p class="pipeline-detail-result">One task combines a scene, a robot, and a controller.</p></div>
+      </div>
+      <div class="pipeline-bottom"><span>Continuous flow · Select a stage to explore</span><button type="button" class="pipeline-next" hidden>Next stage →</button></div>
+      <p class="pipeline-caveat">The full loop has not yet been run end to end. Generalist robot-policy training belongs to <b>Teachers</b>; <b>Students</b> trains the coding agent itself.</p>
+      <p class="pipeline-status" role="status"></p>
+    </div>
+    <details class="pipeline-notes"><summary>More about solving, teaching, and learning</summary>
     <div class="lanes">
       <div class="lane solve">
         <span class="role">Solver</span>
@@ -130,6 +215,7 @@
         <div class="kpi">Turn-level PPO on <b>400</b> generated environments — reward <b>0.09 &rarr; 0.18</b></div>
       </div>
     </div>
+    </details>
   </div>
 </section>
 
@@ -188,12 +274,35 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Tasks</h2>
-      <p class="lede">Twelve long-horizon tasks as five-frame filmstrips, then rendered rollouts you can play. The benchmark emphasizes interactions that are underrepresented elsewhere: contact-intensive assembly, deformables, liquids, and topological change such as cutting.</p>
+      <p class="lede">Explore twelve long-horizon tasks, one stage at a time, then watch the rendered rollouts below. The benchmark emphasizes interactions that are underrepresented elsewhere: contact-intensive assembly, deformables, liquids, and topological change such as cutting.</p>
     </div>
 
-    <figure class="fig">
-      <img src="assets/img/fig/long_horizon.jpg" alt="Twelve tasks shown as five-frame filmstrips: T-shirt folding, syringe dosing, PC assembly, tool packing, table assembly, latte pouring, arm assembly, bulb screwing, box to bin, egg carton, banana slicing, and wheel carry." loading="lazy">
-      <figcaption><b>Long-horizon tasks.</b> Each row is one solved rollout sampled at five points. Embodiment in parentheses — single Franka, bimanual Franka, or the G1 humanoid.</figcaption>
+    <figure class="fig task-timeline" id="task-timeline">
+      <div class="task-timeline-player" hidden>
+        <div class="task-timeline-heading"><div><p class="eyebrow">Long-horizon tasks</p><h3>One task. Many steps.</h3></div><span class="task-timeline-count">12 tasks <span aria-hidden="true">·</span> 5 frames each</span></div>
+        <div class="task-timeline-layout">
+          <div class="task-timeline-list" role="group" aria-label="Choose a task"></div>
+          <label class="task-timeline-picker">Choose a task<select aria-label="Choose a task"></select></label>
+          <div class="task-timeline-detail">
+            <div class="task-timeline-title"><h4></h4><span class="tag task-timeline-robot"></span></div>
+            <p class="task-timeline-objective"></p>
+            <div class="task-timeline-screen" aria-busy="true">
+              <img class="task-timeline-image" width="1920" height="1080" alt="">
+              <span class="task-timeline-loading">Loading frame…</span>
+              <span class="task-timeline-stamp" aria-hidden="true"></span>
+            </div>
+            <div class="task-timeline-toolbar">
+              <div><span class="task-timeline-position"></span><p class="task-timeline-caption"></p></div>
+              <button class="task-timeline-play" type="button" aria-label="Pause task timeline">Ⅱ Pause</button>
+            </div>
+            <div class="task-timeline-frames" role="group" aria-label="Choose a recorded frame"></div>
+            <div class="task-timeline-footer"><p class="task-timeline-note"></p><a class="task-timeline-full" target="_blank" rel="noopener">Open full size ↗</a></div>
+            <p class="task-timeline-status" role="status"></p>
+          </div>
+        </div>
+      </div>
+      <img class="task-timeline-fallback" src="assets/img/fig/long_horizon.jpg" alt="Twelve tasks shown as five-frame filmstrips: T-shirt folding, syringe dosing, PC assembly, tool packing, table assembly, latte pouring, arm assembly, bulb screwing, box to bin, egg carton, banana slicing, and wheel carry." loading="lazy">
+      <figcaption><b>Long-horizon tasks.</b> Five recorded frames per task; playback steps through these samples, not real-time motion. <a href="assets/img/fig/long_horizon.jpg" target="_blank" rel="noopener">View the original overview ↗</a></figcaption>
     </figure>
 
     <h3 class="sub">Rendered rollouts</h3>
@@ -208,7 +317,7 @@
 
     <div class="gallery" id="gallery"></div>
 
-    <p class="cap" style="margin-top:14px">Click a tile to play; clips are trimmed and, where noted, sped up. The four <b>deformable</b> tasks — T-shirt folding, latte pouring, dough rolling and shoelace tying — run on a Newton cloth/liquid/rod backend whose coupled substrate cannot be rendered live; they appear in the filmstrips above.</p>
+    <p class="cap" style="margin-top:14px">Click a tile to play; clips are trimmed and, where noted, sped up. The four <b>deformable</b> tasks — T-shirt folding, latte pouring, dough rolling and shoelace tying — run on a Newton cloth/liquid/rod backend whose coupled substrate cannot be rendered live. T-shirt folding and latte pouring are shown in the recorded-frame viewer above.</p>
 
     <details class="catalog">
       <summary>Full task catalog — all 28 scenes, with supported embodiments and difficulty</summary>
@@ -415,14 +524,22 @@
 
     <p style="max-width:70ch;color:var(--mut)">Cumulative agent tokens flatten after the first two levels — the later ones are mostly scripted — so the token cost of each <em>successful</em> trajectory falls by about three orders of magnitude across the ladder.</p>
 
-    <div class="grid2" style="margin-top:22px;align-items:start">
+    <div class="gen-showcase">
       <div class="chart-card" data-chart="yield">
         <h4>One solve, level by level</h4>
         <p class="sub">Verified successful trajectories, log scale, with each level&rsquo;s multiplier.</p>
       </div>
-      <figure class="fig">
-        <img src="assets/img/fig/diversification.jpg" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task." loading="lazy">
-        <figcaption><b>The five levels, rendered.</b> One verified solution expanded level by level, every tile a real render; the tile tagged <em>base</em> in each group is the nominal case.</figcaption>
+      <figure class="fig diversification" id="diversification">
+        <div class="diversification-player" hidden>
+          <div class="diversification-heading"><div><p class="eyebrow">One verified solution</p><h3>The five levels, in motion</h3></div><button type="button" class="diversification-toggle" aria-label="Pause level animation">Ⅱ Pause</button></div>
+          <div class="diversification-levels" role="group" aria-label="Choose a diversification level"></div>
+          <div class="diversification-stage"></div>
+          <div class="diversification-timeline" aria-hidden="true"><span></span></div>
+          <div class="diversification-bottom"><span>Explore each level independently</span><button type="button" class="diversification-next">Next level <span aria-hidden="true">→</span></button></div>
+          <p class="diversification-status" role="status"></p>
+        </div>
+        <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task." loading="lazy">
+        <figcaption><b>One solve, many variations.</b> An animated walkthrough using the original simulation renders. Each level can run independently. <a href="assets/img/fig/diversification.jpg" target="_blank" rel="noopener">View the complete figure ↗</a></figcaption>
       </figure>
     </div>
   </div>
@@ -506,5 +623,8 @@
 <script src="assets/js/hero.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/charts.js"></script>
+<script src="assets/js/diversification.js"></script>
+<script src="assets/js/task-timeline.js"></script>
+<script src="assets/js/pipeline.js"></script>
 </body>
 </html>
