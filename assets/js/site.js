@@ -197,14 +197,14 @@
     var root = document.documentElement;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* 1 - progress line along the bottom of the sticky nav */
+    /* 1 - progress line along the bottom of the fixed top bar */
     var nav = document.querySelector('nav.top'), fill = null;
     if (nav) {
       var wrap = document.createElement('div');
       wrap.className = 'progress';
       fill = document.createElement('span');
       wrap.appendChild(fill);
-      nav.appendChild(wrap);
+      document.body.appendChild(wrap);
     }
 
     /* 2 - tag what reveals. Group children stagger against each other; solo

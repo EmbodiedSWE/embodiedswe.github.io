@@ -18,6 +18,23 @@
 </head>
 <body>
 
+<!-- Top bar: fixed and opaque; the page (including the bulb and title stages) starts beneath it. -->
+<nav class="top" aria-label="Site">
+  <div class="wrap row">
+    <a class="brand" href="#top">Embodied<b>SWE</b></a>
+    <div class="nav-links" aria-label="Paper, code and blog">
+      <span class="lnk soon" aria-disabled="true"><span class="ic">📄</span>Paper<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true"><span class="ic">🗂</span>arXiv<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true"><span class="ic">📝</span>Blog<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true"><span class="ic">⌨</span>Code<small>soon</small></span>
+    </div>
+    <div class="nav-tools">
+      <a class="gallery-cta" href="#tasks"><span class="ic" aria-hidden="true">▶</span><span class="cta-long">Task gallery</span><span class="cta-short">Gallery</span></a>
+      <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
+    </div>
+  </div>
+</nav>
+
 <div class="site-universe" aria-hidden="true">
   <div class="hero-atmosphere" aria-hidden="true"></div>
   <canvas class="hero-canvas" aria-hidden="true"></canvas>
@@ -86,45 +103,13 @@
         <span>03 <b>Learn</b></span>
       </div>
       <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
-      <button class="hero-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden>
-        <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
-      </button>
     </div>
   </div>
 </header>
 
-<nav class="top">
-  <div class="wrap row">
-    <a class="brand" href="#top">EmbodiedSWE</a>
-    <div class="nav-links" aria-label="Research sections">
-    <a class="lnk" href="#abstract">Abstract</a>
-    <a class="lnk" href="#loop">The loop</a>
-    <a class="lnk" href="#benchmark">Benchmark</a>
-    <a class="lnk" href="#tasks">Tasks</a>
-    <a class="lnk" href="#results">Results</a>
-    <a class="lnk" href="#failures">Failure modes</a>
-    <a class="lnk" href="#transfer">Transfer</a>
-    <a class="lnk" href="#tools">Harness</a>
-    <a class="lnk" href="#teacher">Data engine</a>
-    <a class="lnk" href="#student">Agent training</a>
-    <a class="lnk" href="#cite">Cite</a>
-    </div>
-    <button class="universe-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden title="Pause animation"><span class="hero-pause-icon" aria-hidden="true">Ⅱ</span></button>
-    <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
-  </div>
-</nav>
-
 <section class="project-intro" id="project" aria-labelledby="project-title">
   <div class="wrap">
     <p class="eyebrow" id="project-title">Agent-native robotics benchmark &amp; data engine</p>
-
-    <div class="badges">
-      <span class="badge primary soon"><span class="ic">📄</span> Paper <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">🗂</span> arXiv <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">📝</span> Blog <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">⌨</span> Code <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <a class="badge" href="#tasks"><span class="ic">▶</span> Task gallery</a>
-    </div>
   </div>
 </section>
 

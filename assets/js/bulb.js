@@ -50,9 +50,11 @@
     target = 1 + p * (N - 1);
     stage.classList.toggle('is-scrolled', p > 0.03);
   }
+  function navHeight() { var n = document.querySelector('nav.top'); return n ? n.offsetHeight : 0; }
   function update() {
     var r = stage.getBoundingClientRect();
-    setProgress(Math.min(1, Math.max(0, -r.top / (r.height - window.innerHeight))));
+    var pinTop = navHeight();   // the stage pins beneath the fixed top bar
+    setProgress(Math.min(1, Math.max(0, (pinTop - r.top) / (r.height - (window.innerHeight - pinTop)))));
   }
   var q = new URLSearchParams(location.search).get('bulb');
   if (q) { stage.style.height = '100vh'; resize(); setProgress(+q); current = target; draw(); window.addEventListener('resize', resize); return; }

@@ -54,8 +54,9 @@
   var target = 0, current = 0, running = false;
   function progress() {
     var r = hero.getBoundingClientRect();
-    var track = r.height - window.innerHeight;
-    return track > 0 ? Math.min(1, Math.max(0, -r.top / track)) : 1;
+    var nav = document.querySelector('nav.top'), pinTop = nav ? nav.offsetHeight : 0;   // pins beneath the fixed bar
+    var track = r.height - (window.innerHeight - pinTop);
+    return track > 0 ? Math.min(1, Math.max(0, (pinTop - r.top) / track)) : 1;
   }
   function tick() {
     current += (target - current) * EASE;
