@@ -1,5 +1,5 @@
 /* Bulb intro — scroll-scrubbed frame sequence shown before the hero.
- * Frames baked at 30 fps from reference/bulb_src/camera_motions/renders/web_hero_golf/c4_low_hero.mp4
+ * Frames baked at 30 fps from reference/bulb_src/camera_motions/renders/web_hero_pt/W_trans01_nofill.mp4 (path traced, opal shell)
  * (low angle, moonless_golf night sky): the last winding strokes, the SEAT at ~5.6 s (the bulb lights up), a hold.
  * Frames are pre-decoded and drawn on a canvas; the shown frame eases toward the scroll target every animation
  * frame, so fast scrolling never flashes or skips. Over the hold the stage fades into the fixed starfield.
