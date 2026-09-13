@@ -708,3 +708,15 @@ header.hero h1 span{font-weight:350;color:#d8e4df}
   header.hero h1{opacity:1!important}
   .hero-scroll-arrow{transition:none}
 }
+
+/* ---------- Bulb intro (scroll-scrubbed frames before the hero) ---------- */
+.bulb-stage{position:relative;height:400vh;z-index:1}                 /* longer = slower scrub */
+.bulb-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.bulb-sticky canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#060e12;
+  opacity:calc(1 - var(--fade,0))}                                      /* the lit bulb dissolves into the starfield */
+.bulb-hint{position:absolute;left:0;right:0;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#b5c5c4;transition:opacity .3s}
+.bulb-hint span:last-child{animation:bulb-bob 1.6s ease-in-out infinite}
+.bulb-stage.is-scrolled .bulb-hint{opacity:0}
+@keyframes bulb-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){.bulb-hint span:last-child{animation:none}}
