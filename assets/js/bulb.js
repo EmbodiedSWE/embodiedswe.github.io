@@ -1,6 +1,8 @@
 /* Bulb intro — scroll-scrubbed frame sequence shown before the hero.
- * Frames baked at 30 fps from reference/bulb_src/camera_motions/renders/web_hero_pt/W_trans01_nofill.mp4 (path traced, opal shell)
- * (low angle, moonless_golf night sky): the last winding strokes, the SEAT at ~5.6 s (the bulb lights up), a hold.
+ * Frames baked at 30 fps (1920x1080 WebP q85) from reference/bulb_src/camera_motions/renders/web_hero_glow_1080p/G_E_alive.mp4
+ * (path traced, opal shell; spec camera_motions/web_hero_glow_alive.json: the glow follows the threading - a stuttering
+ * ember on stroke 12, a dim glow on stroke 13, a slight sag while the jaws regrip, full at the SEAT; copy in assets/bulb/)
+ *  (low angle, moonless_golf night sky): the last winding strokes, the SEAT at 5.67 s, a hold.
  * Frames are pre-decoded and drawn on a canvas; the shown frame eases toward the scroll target every animation
  * frame, so fast scrolling never flashes or skips. Over the hold the stage fades into the fixed starfield.
  * Knobs: N (frame count), FADE_FROM (first frame of the fade-out), EASE (0..1, higher = snappier scrub).
@@ -11,7 +13,7 @@
   var canvas = stage && stage.querySelector('canvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
-  var src = function (i) { return 'assets/bulb/frames/frame_' + String(i).padStart(4, '0') + '.jpg'; };
+  var src = function (i) { return 'assets/bulb/frames/frame_' + String(i).padStart(4, '0') + '.webp'; };
 
   var frames = new Array(N + 1), ready = 0;
   function load(i) {
