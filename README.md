@@ -20,7 +20,9 @@ scroll-spy nav both need real HTTP.
 index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
 assets/js/site.js       task gallery, catalog table, filters, nav, theme
-assets/js/hero.js       full-screen particle animation and pause control
+assets/js/bulb.js       scroll-scrubbed bulb intro (frame sequence on a canvas)
+assets/js/title.js      title stage: paper title, authors and organizations pop in on scroll
+assets/js/hero.js       moving star field behind the title stage, and its pause control
 assets/js/diversification.js  five-level animated walkthrough of the original renders
 assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
@@ -157,32 +159,37 @@ no parallax, no stagger.
 
 ## Full-screen opening
 
-`assets/js/hero.js` draws a slowly moving particle loop behind a real HTML
-heading. Teal, sand, and blue streams echo the solver, teacher, and student
-loop. It uses Canvas 2D with no external dependencies: 6,200 particles on
-desktop, 2,600 on mobile, and a capped device-pixel ratio of 1.75.
+The page opens with the bulb intro (`assets/js/bulb.js`): a 400vh scroll track
+with a pinned canvas that scrubs through 261 pre-rendered frames of a gripper
+screwing in a light bulb. Over the last frames the lit bulb dissolves into the
+fixed star field.
 
-On arrival, a second particle layer gathers from the orbit into the actual
-title lettering, holds briefly, and cross-fades to the HTML heading over a
-4.3-second entrance. Sampling the heading's character positions preserves its
-responsive typography and mixed weights. The entrance shares the background's
-pause and visibility handling, resamples on resize, and runs once per page load.
-Reduced motion skips title assembly; unavailable Canvas text metrics or sampling
-failures leave the ordinary heading visible.
+The title stage (`header.hero`, `assets/js/title.js`) pins while the bulb is
+still dissolving (a 108vh overlap) and holds one full page for a 250vh track (220vh on phones). As
+the visitor scrolls, `title.js` writes `--t` (0..1) onto every `[data-pop]`
+element and CSS turns that into the pop: rise, un-blur, settle to full size.
+The reveal is two beats. First the wordmark blooms as the bulb's last wisps go
+(0–26% of the track) with the subtitle right behind it (8–34%); then the author
+list cascades in (34–58%) with the institutions and footnotes (54–66%) and the
+footer (64–70%). The finished page holds for the last 30% before it scrolls
+away. Items inside a group overlap so they read as one cascade. The
+shown progress eases toward the scroll position each frame, so a fast flick
+still lets every word land. `?title=0.6` freezes the stage at a progress for
+screenshots. Windows and easing are the knobs at the top of `title.js`.
 
-The opening fills the viewport (`100svh`, with a `100vh` fallback). The sticky
-navigation and original project details follow in normal document flow.
-Scrolling gently fades and shifts the title; both explore links go to
-`#project`. There is no scroll locking or delayed access to content.
+Without JavaScript nothing is hidden and the stage is an ordinary page; with
+`prefers-reduced-motion: reduce` the track collapses to one static page and
+everything is simply shown.
 
-The pause/play controls in the opening and sticky navigation stay synchronized.
-The star field is fixed behind the whole page, dims to 32% opacity below the
-opening, and keeps moving at roughly 30 fps while the hero is offscreen. Title
-assembly waits while offscreen. All rendering stops when the tab is hidden.
-Reduced-motion preferences start with a static
-particle frame and disable scroll parallax; visitors can explicitly play it.
-Without JavaScript or Canvas, the heading, atmospheric CSS background, and
-navigation remain available, and the unused pause control stays hidden.
+`assets/js/hero.js` draws the slowly moving star field behind it: a tilted
+torus of teal, sand, and blue particle streams that echo the solver, teacher,
+and student loop. Canvas 2D, no external dependencies: 6,200 particles on
+desktop, 2,600 on mobile, capped device-pixel ratio of 1.75. The field is fixed
+behind the whole page, dims to 32% opacity once the title stage has scrolled
+away, keeps moving at roughly 30 fps while offscreen, and stops when the tab is
+hidden. The pause/play controls in the opening and sticky navigation stay
+synchronized; reduced-motion preferences start with a static frame that
+visitors can explicitly play.
 
 ## Research-page styling
 
@@ -277,6 +284,6 @@ To allow indexing, delete `robots.txt` and that one meta tag, then push.
 
 ## Before going public
 
-- Author list is a placeholder (`Author list withheld — anonymous submission`).
+- Authors and institutions in the title stage are placeholders (`First Author`, `Institution One`...); replace them and add the links.
 - Paper, arXiv, Blog and Code badges are inert placeholders; wire them up as each lands.
 - The BibTeX entry is a placeholder.

@@ -28,26 +28,44 @@
     <div class="bulb-hint"><span>Scroll to screw in the bulb</span><span>↓</span></div>
   </div>
 </div>
-<header class="hero" id="top" aria-labelledby="hero-title">
-  <div class="hero-topline">
-    <a class="hero-brand" href="#top"><span aria-hidden="true">{ }</span> EmbodiedSWE</a>
-    <a class="hero-index" href="#project">Explore the research <span aria-hidden="true">↗</span></a>
-  </div>
-  <div class="hero-copy">
-    <p class="hero-kicker">From code to the physical world</p>
-    <h1 id="hero-title">Embodied<span>SWE</span></h1>
-    <p class="hero-subtitle">Coding agents for long-horizon<br>dexterous robotics.</p>
-  </div>
-  <div class="hero-bottomline">
-    <div class="hero-cycle" aria-label="Solvers, teachers, and students">
-      <span>01 <b>Solve</b></span><i aria-hidden="true"></i>
-      <span>02 <b>Teach</b></span><i aria-hidden="true"></i>
-      <span>03 <b>Learn</b></span>
+<!-- Title stage: a sticky full page that begins while the lit bulb is still dissolving. Words, authors and
+     organizations pop in as you scroll (assets/js/title.js drives --t on every [data-pop]); the whole page then
+     holds until the research begins.
+     TODO before publishing: replace the placeholder authors / institutions below and add links. -->
+<header class="hero title-stage" id="top" aria-labelledby="hero-title">
+  <div class="title-sticky">
+    <div class="title-copy">
+      <h1 id="hero-title">
+        <span class="title-mark"><span class="w" data-pop data-group="mark" style="--pop-y:64px;--pop-blur:16px">Embodied<b>SWE</b></span></span>
+        <span class="title-line"><span class="w" data-pop data-group="title">Coding</span> <span class="w" data-pop data-group="title">Agents</span> <span class="w" data-pop data-group="title">for</span> <span class="w" data-pop data-group="title">Long-Horizon</span> <span class="w" data-pop data-group="title">Dexterous</span> <span class="w" data-pop data-group="title">Robotics</span></span>
+      </h1>
+      <div class="title-authors" role="list" aria-label="Authors">
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">First Author</a><sup>1*</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Second Author</a><sup>1*</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Third Author</a><sup>2</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Fourth Author</a><sup>1</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Fifth Author</a><sup>2</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Sixth Author</a><sup>1,2</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Seventh Author</a><sup>1†</sup></span>
+        <span class="au" role="listitem" data-pop data-group="authors"><a href="#">Eighth Author</a><sup>1†</sup></span>
+      </div>
+      <div class="title-orgs" aria-label="Organizations">
+        <span class="org" data-pop data-group="orgs"><sup>1</sup>Institution One</span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>2</sup>Institution Two</span>
+      </div>
+      <p class="title-notes" data-pop data-group="orgs"><sup>*</sup>Equal contribution <span aria-hidden="true">·</span> <sup>†</sup>Corresponding authors</p>
     </div>
-    <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
-    <button class="hero-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden>
-      <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
-    </button>
+    <div class="hero-bottomline" data-pop data-group="foot">
+      <div class="hero-cycle" aria-label="Solvers, teachers, and students">
+        <span>01 <b>Solve</b></span><i aria-hidden="true"></i>
+        <span>02 <b>Teach</b></span><i aria-hidden="true"></i>
+        <span>03 <b>Learn</b></span>
+      </div>
+      <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
+      <button class="hero-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden>
+        <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -74,13 +92,7 @@
 
 <section class="project-intro" id="project" aria-labelledby="project-title">
   <div class="wrap">
-    <p class="eyebrow">Agent-native robotics benchmark &amp; data engine</p>
-    <h2 id="project-title">EmbodiedSWE</h2>
-    <p class="tagline">Coding Agents for Long-Horizon Dexterous Robotics</p>
-
-    <div class="authors">
-      <span class="pending">Author list withheld — anonymous submission</span>
-    </div>
+    <p class="eyebrow" id="project-title">Agent-native robotics benchmark &amp; data engine</p>
 
     <div class="badges">
       <span class="badge primary soon"><span class="ic">📄</span> Paper <span style="opacity:.75;font-weight:500">(soon)</span></span>
@@ -645,6 +657,7 @@
 </footer>
 
 <script src="assets/js/bulb.js"></script>
+<script src="assets/js/title.js"></script>
 <script src="assets/js/hero.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/charts.js"></script>
