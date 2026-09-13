@@ -3,7 +3,8 @@
  * organizations, then the footer, and the finished page holds for the rest of the track.
  *
  * Groups (data-group) take consecutive windows of the track's progress; inside a group the items overlap so
- * they read as one cascade rather than a slideshow. The shown progress eases toward the scroll position every
+ * they read as one cascade rather than a slideshow. A group with an `out` window also dissolves away again
+ * (--x, 0..1), which lets two author tiers share one slot. The shown progress eases toward the scroll position every
  * frame, so a flick still lets each word land. Knobs below; ?title=0.6 freezes the stage for screenshots. */
 (function () {
   var hero = document.querySelector('header.hero.title-stage');
@@ -12,35 +13,41 @@
   if (reduced.matches) return;                              // CSS shows everything, the track collapses
 
   var WINDOWS = {                                           // [start, end] in track progress, 0..1
-    mark:    [0.00, 0.26],                                  // beat 1: the wordmark blooms as the bulb's last wisps go
-    title:   [0.08, 0.34],                                  //         ...and the subtitle comes up right behind it
-    authors: [0.34, 0.58],                                  // beat 2: the author list cascades in
-    orgs:    [0.54, 0.66],                                  //         ...with the institutions and footnotes
-    foot:    [0.64, 0.70],                                  // 0.70..1 = the finished page holds
+    mark:     { in: [0.00, 0.22] },                         // the wordmark blooms as the bulb's last wisps go
+    title:    { in: [0.08, 0.30] },                         // the subtitle right behind it
+    leads:    { in: [0.28, 0.42] },                         // project leads
+    contrib:  { in: [0.38, 0.56] },                         // contributors
+    advisors: { in: [0.52, 0.66] },                         // advisors
+    orgs:     { in: [0.62, 0.76] },                         // institutions and the ordering note
+    foot:     { in: [0.72, 0.80] }                          // 0.80..1 = a short hold, then the research arrives
+    // a group may also carry out: [start, end] to dissolve away again (--x), e.g. to let two tiers share a slot
   };
-  var OVERLAP = 0.72;                                       // 0 = one after another, 1 = all together
+  var OVERLAP = 0.78;                                       // 0 = one after another, 1 = all together
   var EASE = 0.16;                                          // per-frame approach toward the scroll target
 
   var items = [];
   Object.keys(WINDOWS).forEach(function (group) {
     var els = hero.querySelectorAll('[data-pop][data-group="' + group + '"]');
-    var w = WINDOWS[group], span = w[1] - w[0], n = els.length;
+    var w = WINDOWS[group].in, out = WINDOWS[group].out, span = w[1] - w[0], n = els.length;
     var len = n > 1 ? span / (1 + (n - 1) * (1 - OVERLAP)) : span;        // each item's own window
     var step = n > 1 ? (span - len) / (n - 1) : 0;
-    for (var i = 0; i < n; i++) items.push({ el: els[i], start: w[0] + step * i, len: len, t: -1 });
+    for (var i = 0; i < n; i++) items.push({ el: els[i], start: w[0] + step * i, len: len, out: out, t: -1, x: -1 });
   });
   if (!items.length) return;
 
   function easeOut(x) { return 1 - Math.pow(1 - x, 3); }
+  function clamp01(x) { return Math.min(1, Math.max(0, x)); }
   function apply(p) {
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
-      var t = Math.min(1, Math.max(0, (p - it.start) / it.len));
-      t = easeOut(t);
-      if (t === it.t || (Math.abs(t - it.t) < 0.002 && t !== 1 && t !== 0)) continue;   // skip invisible changes
-      it.t = t;
+      var t = easeOut(clamp01((p - it.start) / it.len));
+      var x = it.out ? easeOut(clamp01((p - it.out[0]) / (it.out[1] - it.out[0]))) : 0;
+      var settled = (t === 0 || t === 1) && (x === 0 || x === 1);
+      if ((t === it.t && x === it.x) || (!settled && Math.abs(t - it.t) < 0.002 && Math.abs(x - it.x) < 0.002)) continue;
+      it.t = t; it.x = x;
       it.el.style.setProperty('--t', t.toFixed(3));
-      it.el.classList.toggle('is-set', t === 1);
+      if (it.out) it.el.style.setProperty('--x', x.toFixed(3));
+      it.el.classList.toggle('is-set', t === 1 && x === 0);
     }
   }
 

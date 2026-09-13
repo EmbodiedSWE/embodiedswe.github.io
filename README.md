@@ -165,14 +165,16 @@ screwing in a light bulb. Over the last frames the lit bulb dissolves into the
 fixed star field.
 
 The title stage (`header.hero`, `assets/js/title.js`) pins while the bulb is
-still dissolving (a 108vh overlap) and holds one full page for a 250vh track (220vh on phones). As
+still dissolving (a 108vh overlap) and pins one page for a 175vh track (170vh on phones), so the whole reveal takes under one screen of scrolling. As
 the visitor scrolls, `title.js` writes `--t` (0..1) onto every `[data-pop]`
 element and CSS turns that into the pop: rise, un-blur, settle to full size.
-The reveal is two beats. First the wordmark blooms as the bulb's last wisps go
-(0–26% of the track) with the subtitle right behind it (8–34%); then the author
-list cascades in (34–58%) with the institutions and footnotes (54–66%) and the
-footer (64–70%). The finished page holds for the last 30% before it scrolls
-away. Items inside a group overlap so they read as one cascade. The
+The reveal runs in quick beats: the wordmark blooms as the bulb's last wisps go
+(0–22% of the track) with the subtitle right behind it (8–30%); then the three
+author tiers pop in one after another: project leads (28–42%), contributors
+(38–56%), advisors (52–66%); then the institutions and the ordering note
+(62–76%) and the footer (72–80%). The page holds briefly (80–100%) and the
+research follows. A group may also carry an `out` window to dissolve again
+(`--x`, 0..1); nothing uses it at the moment. Items inside a group overlap so they read as one cascade. The
 shown progress eases toward the scroll position each frame, so a fast flick
 still lets every word land. `?title=0.6` freezes the stage at a progress for
 screenshots. Windows and easing are the knobs at the top of `title.js`.
@@ -284,6 +286,6 @@ To allow indexing, delete `robots.txt` and that one meta tag, then push.
 
 ## Before going public
 
-- Authors and institutions in the title stage are placeholders (`First Author`, `Institution One`...); replace them and add the links.
+- Advisor names in the title stage still link to `#`; add their pages. Institutions: 1 ByteDance Seed, 2 Yale, 3 Princeton, 4 CMU, 5 Stanford, 6 UCLA.
 - Paper, arXiv, Blog and Code badges are inert placeholders; wire them up as each lands.
 - The BibTeX entry is a placeholder.
