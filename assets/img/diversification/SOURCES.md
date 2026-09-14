@@ -43,7 +43,7 @@ except the two pc_all keyframe clips (see below). The Dynamics tiles keep their 
 | tomato | figure7/runs/dice_tomato/frames [18..62] | 45 | 12 | 3.8 | 325 |
 | nominal | figure7/runs/bulb_traj/base2_clip/frames [0..697] | 234 | 30 | 7.8 | 292 |
 | recovery | figure7/runs/bulb_traj/recovery_clip/frames [0..2087] | 262 | 30 | 8.7 | 423 |
-| grasp-right | figure7/runs/fold_right_first_dense [1..110] | 110 | 20 | 5.5 | 288 |
+| grasp-side | figure7/runs/fold_left_first_dense + figure7/runs/fold_right_first_dense [1..72] | 144 | 24 | 6.0 | 356 |
 | bolting | figure7/runs/pc_states/frames [0..60] | 61 | 12 | 5.1 | 271 |
 | ram | figure7/runs/pc_states/frames [256..274] | 19 | 4 | 4.3 | 169 |
 | gpu | figure7/runs/pc_states/frames [274..282] | 9 | 2.5 | 2.8 | 157 |
@@ -57,8 +57,11 @@ Notes on the sources:
   Recovery exposures were built from: `bulb_recovery_traj/bulb_recover.npz` (recovery: grasp, the bulb slips
   and drops, the arm re-descends, regrasps, threads and seats it) and the nominal solve recorded from that
   recording's step-0 layout (`runs/bulb_base2_states`). Wide camera, every 8th / 3rd recorded step.
-- **grasp-right** is a dense re-run of the swapped-sleeve fold solution (`tools/fold_right_first/solve.py`,
-  400 frames over the 4410-step fold); the clip covers the first grasp and fold of the right sleeve.
+- **grasp-side** plays two runs back to back with a short dip to black between them: the reference fold
+  solution, which pinches the LEFT sleeve first (`runs/fold_left_first_dense`), then the swapped-sleeve solution
+  (`tools/fold_right_first/solve.py`, `runs/fold_right_first_dense`), which pinches the RIGHT sleeve first. Both
+  are dense re-runs through `fig1/tools/fold_frames.py --frames 400` from the same camera, and both segments
+  cover the same frame indices (the approach, the first grasp and the fold of that sleeve).
 - **bolting / ram / gpu** slice the recorded pc_all solve at the three entry states (0 / 256 / 274) from
   the solve camera. The RAM and GPU phases exist only as 19 and 9 keyframes 5 sim-s apart, so those two
   clips are dissolved between keyframes (`minterpolate mi_mode=blend`) rather than stepped. The Phase

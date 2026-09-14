@@ -15,7 +15,7 @@
     {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4',
       description:'Change the grasp, reorder interchangeable steps, or choose another plan. Recovery branches let the robot regrasp a dropped object and continue.',
       tags:['Recovery', 'Step order', 'Grasp side', 'Task plan'],
-      frames:[['Nominal insertion · base','nominal',860,540,1100],['Drop → regrasp → insert','recovery',860,540,1100],['Alternate grasp side','grasp-right',1000,480,1100]]},
+      frames:[['Nominal insertion · base','nominal',860,540,1100],['Drop → regrasp → insert','recovery',860,540,1100],['First grasp: left sleeve, then right sleeve','grasp-right',1000,480,1100]]},
     {name:'Phase', color:'var(--learn)', title:'Start further into the task.', mult:'×2.5',
       description:'Initialize a valid intermediate state and finish from there. Entry phases and object arrangements vary without replaying every earlier step.',
       tags:['Entry phase', 'Intermediate state'],
@@ -44,15 +44,16 @@
   var source = host.querySelector('.diversification-fallback');
   var assetRoot = 'assets/img/diversification/';
   var clipRoot = 'assets/video/diversification/';
-  // Frames with a looping clip (720 × 480, same crop as the still). Dynamics keeps its annotated stills.
-  var clips = {banana:1, carrot:1, tomato:1, nominal:1, recovery:1, 'grasp-right':1, bolting:1, ram:1, gpu:1,
-    daylight:1, warm:1, side:1};
+  // Frame key -> clip file stem (720 × 480, same crop as the still). Dynamics keeps its annotated stills; the
+  // grasp-side clip plays the left-sleeve-first and right-sleeve-first grasps back to back.
+  var clips = {banana:'banana', carrot:'carrot', tomato:'tomato', nominal:'nominal', recovery:'recovery',
+    'grasp-right':'grasp-side', bolting:'bolting', ram:'ram', gpu:'gpu', daylight:'daylight', warm:'warm', side:'side'};
 
   function renderFrame(frame) {
     if (clips[frame[1]]) {
       // The poster is the clip's first frame; playback is driven by syncClips (never while hidden or frozen).
       return '<div class="diversification-media"><video muted loop playsinline preload="none"' +
-        ' poster="' + clipRoot + frame[1] + '.webp" src="' + clipRoot + frame[1] + '.mp4"' +
+        ' poster="' + clipRoot + clips[frame[1]] + '.webp" src="' + clipRoot + clips[frame[1]] + '.mp4"' +
         ' aria-label="' + frame[0] + '"></video></div>';
     }
     return renderStill(frame);
