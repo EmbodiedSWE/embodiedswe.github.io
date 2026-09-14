@@ -245,7 +245,7 @@ The complete earlier `overview.jpg` is retained.
 
 `#pipeline` follows Figure 1 (page 2) of the September 11, 2026 draft at
 `experiments/snapshots/paper_draft/Coding_agent_for_robotics.pdf` in the parent
-CoSiGen workspace: Benchmark Tasks, Coding Agent Solves Tasks, Data Generation
+CoSiGen workspace: New Benchmark, Agent Evaluation, Data Generation
 + VLA, and Agent Improvement. The return connection goes from stage 04 back to
 the solver in stage 02, labeled “Improved agent becomes the solver.” The dashed
 route remains conceptual: Section 5.1 still says the full pipeline has not been

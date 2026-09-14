@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/img/fig/overview.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css?v=202609141304">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B6B70'/><text y='71' x='50' text-anchor='middle' font-size='62' font-family='ui-monospace,monospace' fill='%23fff'>&#123;&#125;</text></svg>">
 </head>
 <body>
@@ -122,7 +122,7 @@
         <div class="pipeline-stages" role="group" aria-label="Explore a contribution">
           <button class="pipeline-card" type="button" aria-pressed="true" data-stage="0" disabled>
             <span class="pipeline-card-top"><span>01</span><span>Benchmark</span></span>
-            <span class="pipeline-card-title">Benchmark Tasks</span>
+            <span class="pipeline-card-title">New Benchmark</span>
             <span class="pipeline-visual pipeline-benchmark" aria-hidden="true">
               <span><img src="assets/img/poster/bulb.jpg" alt="" loading="lazy"><span>Light bulb</span></span>
               <span><img src="assets/img/poster/ikea_table.jpg" alt="" loading="lazy"><span>IKEA assembly</span></span>
@@ -132,12 +132,12 @@
               <span><img src="assets/img/poster/box_to_bin.jpg" alt="" loading="lazy"><span>Warehouse picking</span></span>
               <span class="pipeline-scan"></span>
             </span>
-            <span class="pipeline-card-copy">EmbodiedSWE-Bench<br>Agent-native, long-horizon dexterous daily-life tasks.</span>
-            <span class="pipeline-card-foot">28 tasks · 6 suites <span aria-hidden="true">↗</span></span>
+            <span class="pipeline-card-copy">Agent-native, long-horizon dexterous daily-life tasks.</span>
+            <span class="pipeline-card-foot">6 suites · 28 tasks · 17 embodiments <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="1" disabled>
             <span class="pipeline-card-top"><span>02</span><span>Solver</span></span>
-            <span class="pipeline-card-title">Coding Agent Solves Tasks</span>
+            <span class="pipeline-card-title">Agent Evaluation</span>
             <span class="pipeline-visual" aria-hidden="true">
               <svg viewBox="0 0 240 170" preserveAspectRatio="xMidYMid meet">
                 <path class="pipeline-flow" data-flow d="M49 75H79"/><path class="pipeline-flow" data-flow d="M151 75H181"/>
@@ -204,7 +204,7 @@
         <p class="pipeline-return-label">↶ Improved agent becomes the solver · 04 → 02</p>
       </div>
       <div class="pipeline-detail" id="pipeline-detail">
-        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>Benchmark Tasks</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
+        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>New Benchmark</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
         <div><p class="pipeline-detail-description">An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.</p><p class="pipeline-detail-result">One task combines a scene, a robot, and a controller.</p></div>
       </div>
       <div class="pipeline-bottom"><span>Continuous flow · Select a stage to explore</span><button type="button" class="pipeline-next" hidden>Next stage →</button></div>
@@ -248,7 +248,7 @@
     <div class="stats">
       <div class="stat"><div class="n">28</div><div class="l">registered scenes, each one task</div></div>
       <div class="stat"><div class="n">6</div><div class="l">suites</div></div>
-      <div class="stat"><div class="n">5</div><div class="l">embodiments, arm to humanoid</div></div>
+      <div class="stat"><div class="n">17</div><div class="l">embodiments, arm to humanoid</div></div>
       <div class="stat"><div class="n">5</div><div class="l">generic controllers</div></div>
       <div class="stat"><div class="n">~30<span style="font-size:.6em"> min</span></div><div class="l">of continuous interaction, longest tasks</div></div>
     </div>
@@ -263,7 +263,7 @@
       </div>
       <div class="box">
         <h4><span class="idx">02</span> Robot</h4>
-        <p>The embodiment and the control interfaces available. Franka, UFACTORY xArm7 and Kinova Gen3 arms; a bimanual Franka composed from two arms; and a 29-DoF Unitree G1 humanoid whose legs run a pretrained locomotion policy.</p>
+        <p>The embodiment and the control interfaces available. Seventeen robots are paired with tasks: twelve single arms (Franka, UFACTORY xArm7, Kinova Gen3 and Jaco2, Denso Cobotta Pro, Flexiv Rizon 4, Rethink Sawyer, Festo, Unitree Z1, AgileX PiPER, Trossen WidowX AI), three bimanual rigs (bimanual Franka, bimanual PiPER, ALOHA), and two humanoids: a 29-DoF Unitree G1 whose legs run a pretrained locomotion policy, and a Fourier GR1-T2. The frontier evaluation ran on five of them.</p>
       </div>
       <div class="box">
         <h4><span class="idx">03</span> Controller</h4>
@@ -337,10 +337,10 @@
     <p class="cap" style="margin-top:14px">Click a tile to play; clips are trimmed and, where noted, sped up. The four <b>deformable</b> tasks — T-shirt folding, latte pouring, dough rolling and shoelace tying — run on a Newton cloth/liquid/rod backend whose coupled substrate cannot be rendered live. T-shirt folding and latte pouring are shown in the recorded-frame viewer above.</p>
 
     <details class="catalog">
-      <summary>Full task catalog — all 28 scenes, with supported embodiments and difficulty</summary>
+      <summary>Full task catalog — all 28 scenes, with evaluated embodiments and difficulty</summary>
       <div class="tbl-scroll">
         <table>
-          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Embodiments</th><th>Difficulty</th></tr></thead>
+          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Evaluated on</th><th>Difficulty</th></tr></thead>
           <tbody id="catalog-body"></tbody>
         </table>
       </div>
@@ -637,13 +637,13 @@
   </div>
 </footer>
 
-<script src="assets/js/bulb.js"></script>
-<script src="assets/js/title.js"></script>
-<script src="assets/js/hero.js"></script>
-<script src="assets/js/site.js"></script>
-<script src="assets/js/charts.js"></script>
-<script src="assets/js/diversification.js"></script>
-<script src="assets/js/task-timeline.js"></script>
-<script src="assets/js/pipeline.js"></script>
+<script src="assets/js/bulb.js?v=202609141304"></script>
+<script src="assets/js/title.js?v=202609141304"></script>
+<script src="assets/js/hero.js?v=202609141304"></script>
+<script src="assets/js/site.js?v=202609141304"></script>
+<script src="assets/js/charts.js?v=202609141304"></script>
+<script src="assets/js/diversification.js?v=202609141304"></script>
+<script src="assets/js/task-timeline.js?v=202609141304"></script>
+<script src="assets/js/pipeline.js?v=202609141304"></script>
 </body>
 </html>

@@ -6,10 +6,10 @@
   var host = document.getElementById('pipeline');
   if (!host) return;
   var stages = [
-    {role:'Benchmark', title:'Benchmark Tasks', color:'var(--solve)',
+    {role:'Benchmark', title:'New Benchmark', color:'var(--solve)',
       description:'An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.',
       result:'One task combines a scene, a robot, and a controller.', href:'#benchmark', link:'Explore the benchmark'},
-    {role:'Solver', title:'Coding Agent Solves Tasks', color:'var(--learn)',
+    {role:'Solver', title:'Agent Evaluation', color:'var(--learn)',
       description:'The coding agent writes solution code (solve.py), executes and evaluates it in the simulator, and uses simulation feedback to revise the solution. This inner feedback loop turns physical task outcomes into the next code revision.',
       result:'Agent → solution code → simulator → simulation feedback → agent.', href:'#results', link:'Explore agent results'},
     {role:'Teacher', title:'Data Generation + VLA', color:'var(--teach)',
