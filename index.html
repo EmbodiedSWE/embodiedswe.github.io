@@ -220,7 +220,7 @@
       </div>
       <div class="pipeline-detail" id="pipeline-detail">
         <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>EmbodiedSWE-Bench</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
-        <div><p class="pipeline-detail-description">A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, packing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.</p></div>
+        <div><p class="pipeline-detail-description">A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, organizing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.</p></div>
       </div>
       <p class="pipeline-status" role="status"></p>
     </div>
@@ -273,17 +273,16 @@
   <div class="wrap">
     <h3 class="sub">Task gallery</h3>
     <div class="filters" role="group" aria-label="Filter tasks by suite">
-      <button type="button" data-suite="all" aria-pressed="true">All 15</button>
-      <button type="button" data-suite="assembly" aria-pressed="false">Assembly</button>
-      <button type="button" data-suite="packing" aria-pressed="false">Packing</button>
+      <button type="button" data-suite="assembly" aria-pressed="true">Assembly</button>
+      <button type="button" data-suite="packing" aria-pressed="false">Organizing</button>
       <button type="button" data-suite="puzzle" aria-pressed="false">Puzzle</button>
+      <button type="button" data-suite="deformable" aria-pressed="false">Deformable</button>
+      <button type="button" data-suite="liquid" aria-pressed="false">Liquid</button>
       <button type="button" data-suite="cutting" aria-pressed="false">Cutting</button>
       <button type="button" data-suite="locomanip" aria-pressed="false">Locomanip</button>
     </div>
 
     <div class="gallery" id="gallery"></div>
-
-    <p class="cap" style="margin-top:14px">Click a tile to play; clips are trimmed and, where noted, sped up. The four <b>deformable</b> tasks — T-shirt folding, latte pouring, dough rolling and shoelace tying — run on a Newton cloth/liquid/rod backend whose coupled substrate cannot be rendered live. T-shirt folding and latte pouring are shown in the recorded-frame viewer above.</p>
 
     <details class="catalog">
       <summary>Full task catalog — all 28 scenes, with evaluated embodiments and difficulty</summary>

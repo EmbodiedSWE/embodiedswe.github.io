@@ -2,23 +2,34 @@
 (function () {
   'use strict';
 
-  /* ---------- rendered rollouts (15 clips available) ---------- */
+  /* ---------- task gallery (26 clips; shoelace tying and dicing have no clip yet) ---------- */
   var CLIPS = [
-    { f:'ikea_table',      name:'Table assembly',    scene:'ikea_table',     suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:8, desc:'Thread four legs onto the corner studs of a tabletop.' },
+    { f:'ikea_table',      name:'Table assembly',    scene:'ikea_table',     suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:4, desc:'Thread four legs onto the corner studs of a tabletop.' },
     { f:'so101',           name:'Robot-arm assembly',scene:'so101',          suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:1, desc:'Seat the servo, screw it down, clip on the forearm.' },
     { f:'pc_motherboard',  name:'Motherboard mount', scene:'pc_motherboard', suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Drive seven mounting bolts with an Allen key to secure a motherboard in a case.' },
     { f:'allen_bolt',      name:'Allen bolt',        scene:'allen_bolt',     suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:1, desc:'Drive an Allen bolt into a threaded plate using an L-shaped key.' },
     { f:'bulb',            name:'Bulb screwing',     scene:'bulb',           suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:5, desc:'Pick up a light bulb and screw it into its socket until fully seated.' },
     { f:'nut_thread',      name:'Nut threading',     scene:'nut_thread',     suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up an M16 nut and thread it onto a fixed bolt.' },
     { f:'pc_gpu',          name:'GPU insertion',     scene:'pc_gpu',         suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Align a graphics card with a PCIe slot and press it into place.' },
+    { f:'pc_gpu_ram',      name:'GPU + RAM install', scene:'pc_gpu_ram',     suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Install a graphics card and then seat two memory modules in their slots.' },
     { f:'pc_ram',          name:'RAM seating',       scene:'pc_ram',         suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Align and seat two memory modules in separate DIMM slots.' },
     { f:'tool_packing',    name:'Tool packing',      scene:'tool_packing',   suite:'packing',   diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:5, desc:'Stow three tools in their assigned drawers, then close the cabinet.' },
     { f:'pen_holder',      name:'Pen holder',        scene:'pen_holder',     suite:'packing',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Insert every present pen tip-up, then stand the filled holder upright.' },
-    { f:'syringe',         name:'Syringe dosing',    scene:'syringe',        suite:'puzzle',    diff:'Hard',   emb:'Bimanual Franka',       sp:1, desc:'Draw liquid from a reservoir, meter three target doses, and repark the syringe.' },
+    { f:'egg_carton',      name:'Egg carton',        scene:'egg_carton',     suite:'packing',   diff:'Hard',   emb:'Unitree G1',            sp:1, desc:'Seat three eggs upright in the cells of an egg carton, then push the hinged lid closed.' },
+    { f:'clear_organic',   name:'Clear organics',    scene:'clear_organic_objects', suite:'packing', diff:'Medium', emb:'Franka · Unitree G1', sp:2, desc:'Clear the organic objects on a cluttered table into a bin while leaving the other items in place.' },
+    { f:'latte',           name:'Latte pouring',     scene:'latte',          suite:'liquid',     diff:'Hard',   emb:'Bimanual Franka',       sp:3, desc:'Coordinate two arms to pour milk into a carried coffee mug without excessive spilling.' },
+    { f:'syringe',         name:'Syringe dosing',    scene:'syringe',        suite:'liquid',    diff:'Hard',   emb:'Bimanual Franka',       sp:1, desc:'Draw liquid from a reservoir, meter three target doses, and repark the syringe.' },
     { f:'coffee',          name:'Coffee brewing',    scene:'coffee',         suite:'puzzle',    diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:1, desc:'Load a capsule, brew, and return the filled mug to the serving tray.' },
     { f:'spatula',         name:'Spatula flip',      scene:'spatula',        suite:'puzzle',    diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Wedge a spatula under bread, flip it, reload the blade, and serve to a plate.' },
-    { f:'slice_banana',    name:'Slicing',           scene:'slice',          suite:'cutting',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up a chef knife and slice a banana into a target number of pieces.' },
-    { f:'box_to_bin',      name:'Box to bin',        scene:'box_to_bin',     suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a box off a shelf and carry it to a sorting bin across the room.' }
+    { f:'push_shapes',     name:'Push shapes',       scene:'push_shapes',    suite:'puzzle',    diff:'Easy',   emb:'Unitree G1',            sp:1, desc:'Push three blocks onto their matching pads, correcting each block’s orientation along the way.' },
+    { f:'classify_objects', name:'Classify objects', scene:'classify_objects', suite:'puzzle',  diff:'Easy',   emb:'Unitree G1',            sp:1, desc:'Sort scattered coloured blocks into the zones matching their colours.' },
+    { f:'stack_blocks',    name:'Stack blocks',      scene:'stack_blocks',   suite:'puzzle',    diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Stack scattered blocks into a single aligned tower on a marked pad.' },
+    { f:'tshirt',          name:'T-shirt folding',   scene:'tshirt',         suite:'deformable', diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Fold a T-shirt into a compact, flat bundle.' },
+    { f:'dumpling',        name:'Dough rolling',     scene:'dumpling',       suite:'deformable', diff:'Hard',   emb:'Franka',                sp:1, desc:'Roll a ball of dough flat into a round dumpling wrapper with a rolling pin.' },
+    { f:'slice_banana',    name:'Banana slicing',           scene:'slice',          suite:'cutting',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up a chef knife and slice a banana into a target number of pieces.' },
+    { f:'fruit_delivery',  name:'Fruit delivery',    scene:'fruit_delivery', suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick up every fruit on a long table and carry it around the table to a plate beyond arm reach.' },
+    { f:'box_to_bin',      name:'Box to bin',        scene:'box_to_bin',     suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a box off a shelf and carry it to a sorting bin across the room.' },
+    { f:'wheel_carry',     name:'Wheel carry',       scene:'wheel_carry',    suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a steering wheel off one packing table and carry it to a basket on another, three metres away.' }
   ];
 
   /* ---------- full catalog: all 28 registered scenes ---------- */
@@ -33,18 +44,18 @@
     ['Assembly','pc_gpu_ram','Install a graphics card and then seat two memory modules in their slots.',A,'Medium'],
     ['Assembly','pc_motherboard','Use an Allen key to drive seven mounting bolts and secure a motherboard inside a case.',A,'Medium'],
     ['Assembly','pc_ram','Align and seat two memory modules in separate DIMM slots.',A,'Easy'],
-    ['Packing','pen_holder','Insert every present pen tip-up and then place the filled holder upright.',A,'Easy'],
-    ['Packing','tool_packing','Stow three tools in their assigned drawers and close the cabinet.',A,'Medium'],
-    ['Packing','egg_carton','Seat three eggs upright in the cells of an egg carton, then push the hinged lid closed.',G,'Hard'],
-    ['Packing','clear_organic_objects','Clear the organic objects on a cluttered table into a bin while leaving the other items in place.',G,'Medium'],
+    ['Organizing','pen_holder','Insert every present pen tip-up and then place the filled holder upright.',A,'Easy'],
+    ['Organizing','tool_packing','Stow three tools in their assigned drawers and close the cabinet.',A,'Medium'],
+    ['Organizing','egg_carton','Seat three eggs upright in the cells of an egg carton, then push the hinged lid closed.',G,'Hard'],
+    ['Organizing','clear_organic_objects','Clear the organic objects on a cluttered table into a bin while leaving the other items in place.',G,'Medium'],
     ['Puzzle','coffee','Load a capsule, brew coffee, and return the filled mug to the serving tray.',A,'Medium'],
     ['Puzzle','spatula','Wedge a spatula under bread, flip it, reload it onto the blade, and serve it to a plate.',A,'Easy'],
-    ['Puzzle','syringe','Draw liquid from a reservoir, meter three target doses, and repark the syringe.',B,'Hard'],
+    ['Liquid','syringe','Draw liquid from a reservoir, meter three target doses, and repark the syringe.',B,'Hard'],
     ['Puzzle','push_shapes','Push three blocks onto their matching pads, correcting each block’s orientation along the way.',G,'Easy'],
     ['Puzzle','classify_objects','Sort scattered coloured blocks into the zones matching their colours.',G,'Easy'],
     ['Puzzle','stack_blocks','Stack scattered blocks into a single aligned tower on a marked pad.',G,'Medium'],
     ['Deformable','tshirt','Fold a T-shirt into a compact, flat bundle.',A,'Medium'],
-    ['Deformable','latte','Coordinate two arms to pour milk into a carried coffee mug without excessive spilling.',B,'Hard'],
+    ['Liquid','latte','Coordinate two arms to pour milk into a carried coffee mug without excessive spilling.',B,'Hard'],
     ['Deformable','dumpling','Roll a ball of dough flat into a round dumpling wrapper with a rolling pin.',A,'Hard'],
     ['Deformable','shoe_knot','Tie a half knot from the two shoelaces of a sneaker.',A,'Hard'],
     ['Cutting','slice','Pick up a chef knife from its rest and slice a carrot (or a banana) into a target number of pieces on a chopping board.',A,'Easy'],
@@ -83,19 +94,17 @@
   var gallery = document.getElementById('gallery');
   if (gallery) {
     gallery.innerHTML = CLIPS.map(function (t) {
-      var speed = t.sp > 1 ? ' · ' + t.sp + '×' : '';
       return '' +
         '<article class="card" data-suite="' + t.suite + '">' +
           '<div class="shot" tabindex="0" role="button" aria-label="Play ' + esc(t.name) + ' rollout">' +
-            '<video src="assets/video/' + t.f + '.mp4" poster="assets/img/poster/' + t.f + '.jpg"' +
-              ' muted loop playsinline preload="none"></video>' +
-            '<span class="play">▶ play' + speed + '</span>' +
+            '<img class="thumb" data-src="assets/img/poster/' + t.f + '.jpg" alt="" decoding="async">' +
+            '<video data-src="assets/video/' + t.f + '.mp4" muted loop playsinline preload="none"></video>' +
+            '<span class="play">▶ play</span>' +
           '</div>' +
           '<div class="meta">' +
-            '<h4>' + esc(t.name) + '</h4>' +
+            '<h4><span>' + esc(t.name) + '</span><span class="tag d-' + t.diff.toLowerCase() + '">' + t.diff + '</span></h4>' +
             '<div class="tags">' +
               '<span class="tag">' + esc(t.scene) + '</span>' +
-              '<span class="tag d-' + t.diff.toLowerCase() + '">' + t.diff + '</span>' +
               '<span class="tag">' + esc(t.emb) + '</span>' +
             '</div>' +
             '<p>' + esc(t.desc) + '</p>' +
@@ -103,53 +112,70 @@
         '</article>';
     }).join('');
 
+    /* Thumbnails are plain images, fetched for every card (hidden ones too) once the gallery is within a
+       viewport of the fold, so switching suites is instant. The clip itself is attached to its <video> only
+       on the first hover / tap, and the image stays on top until the video has real frames to show. */
+    function warmThumbs() {
+      gallery.querySelectorAll('img.thumb[data-src]').forEach(function (im) {
+        im.src = im.dataset.src; im.removeAttribute('data-src');
+      });
+    }
+    if ('IntersectionObserver' in window) {
+      var warm = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) { warmThumbs(); warm.disconnect(); }
+      }, {rootMargin: '100% 0px'});
+      warm.observe(gallery);
+    } else { warmThumbs(); }
+
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+    function start(shot) {
+      var v = shot.querySelector('video');
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      var p = v.play();
+      shot.classList.add('playing');
+      if (p && p.catch) p.catch(function () { shot.classList.remove('playing'); });
+    }
+    function stop(shot, rewind) {
+      var v = shot.querySelector('video');
+      v.pause(); if (rewind && v.getAttribute('src')) v.currentTime = 0;
+      shot.classList.remove('playing', 'live');
+    }
     function toggle(shot) {
       var v = shot.querySelector('video');
       if (v.paused) {
-        gallery.querySelectorAll('video').forEach(function (o) {
-          if (o !== v && !o.paused) { o.pause(); o.parentElement.classList.remove('playing'); }
-        });
-        v.play().then(function () { shot.classList.add('playing'); }).catch(function () {});
-      } else {
-        v.pause();
-        shot.classList.remove('playing');
-      }
+        gallery.querySelectorAll('.shot.playing').forEach(function (o) { if (o !== shot) stop(o, false); });
+        start(shot);
+      } else stop(shot, false);
     }
 
     gallery.querySelectorAll('.shot').forEach(function (shot) {
       var v = shot.querySelector('video');
+      v.addEventListener('playing', function () { shot.classList.add('live'); });   // frames are on screen
       shot.addEventListener('click', function () { toggle(shot); });
       shot.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(shot); }
       });
       if (fine) {
-        shot.addEventListener('mouseenter', function () {
-          v.play().then(function () { shot.classList.add('playing'); }).catch(function () {});
-        });
-        shot.addEventListener('mouseleave', function () {
-          v.pause(); v.currentTime = 0; shot.classList.remove('playing');
-        });
+        shot.addEventListener('mouseenter', function () { start(shot); });
+        shot.addEventListener('mouseleave', function () { stop(shot, true); });
       }
     });
 
-    /* suite filter */
+    /* suite filter: one suite at a time; the button marked aria-pressed in the HTML is the initial one */
     var buttons = document.querySelectorAll('.filters button');
-    buttons.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var want = b.dataset.suite;
-        buttons.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
-        gallery.querySelectorAll('.card').forEach(function (c) {
-          var show = want === 'all' || c.dataset.suite === want;
-          c.hidden = !show;
-          if (!show) {
-            var v = c.querySelector('video');
-            v.pause(); c.querySelector('.shot').classList.remove('playing');
-          }
-        });
+    function showSuite(b) {
+      var want = b.dataset.suite;
+      buttons.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+      gallery.querySelectorAll('.card').forEach(function (c) {
+        var show = want === 'all' || c.dataset.suite === want;
+        c.hidden = !show;
+        if (!show) stop(c.querySelector('.shot'), false);
       });
-    });
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { showSuite(b); }); });
+    var initial = document.querySelector('.filters button[aria-pressed="true"]');
+    if (initial) showSuite(initial);
   }
 
   /* ---------- catalog table ---------- */
