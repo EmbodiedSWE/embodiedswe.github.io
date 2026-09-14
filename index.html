@@ -110,7 +110,7 @@
       <p class="lede">We study how frontier coding agents can help robotics. EmbodiedSWE has four parts. <b>EmbodiedSWE-Bench</b> is an agent-native benchmark of everyday robotics tasks. A <b>frontier evaluation</b> measures how well today's coding agents perform on them along several dimensions. <b>EmbodiedSWE-Gen</b> then diversifies the agents' verified solutions into a large dataset for training a general robot policy. Finally, we generate new tasks from existing ones to further <b>improve the coding agents via RL</b>.</p>
     </div>
     <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
-      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
+      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-next" type="button" hidden>Next stage →</button></div>
       <div class="pipeline-map">
         <svg class="pipeline-connections" aria-hidden="true"><defs>
           <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker>
@@ -204,35 +204,11 @@
         <p class="pipeline-return-label">Improved agent becomes the solver</p>
       </div>
       <div class="pipeline-detail" id="pipeline-detail">
-        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>New Benchmark</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
-        <div><p class="pipeline-detail-description">An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.</p><p class="pipeline-detail-result">One task combines a scene, a robot, and a controller.</p></div>
+        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>EmbodiedSWE-Bench</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
+        <div><p class="pipeline-detail-description">A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, packing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.</p></div>
       </div>
-      <div class="pipeline-bottom"><span>Continuous flow · Select a stage to explore</span><button type="button" class="pipeline-next" hidden>Next stage →</button></div>
-      <p class="pipeline-caveat">The full loop has not yet been run end to end. Generalist robot-policy training belongs to <b>Teachers</b>; <b>Students</b> trains the coding agent itself.</p>
       <p class="pipeline-status" role="status"></p>
     </div>
-    <details class="pipeline-notes"><summary>More about solving, teaching, and learning</summary>
-    <div class="lanes">
-      <div class="lane solve">
-        <span class="role">Solver</span>
-        <h3>Write the program</h3>
-        <p>The agent inspects the environment, executes candidate solutions, diagnoses failures, and revises its code — optimizing a program rather than the parameters of a learned policy. It writes directly against the simulator with full state access, so what is measured is physical reasoning and coding, not the designer's choice of primitives.</p>
-        <div class="kpi">Best agent solves <b>61%</b> of tasks in a 4-hour budget — the benchmark is far from saturated</div>
-      </div>
-      <div class="lane teach">
-        <span class="role">Teacher</span>
-        <h3>Multiply the solution</h3>
-        <p>A hierarchical data engine expands one verified solve along five nested levels — scene, strategy, phase, dynamics, and appearance — and keeps only trajectories that pass the task grader and an open-loop replay check. Agent effort is spent once; the rest is scripted.</p>
-        <div class="kpi">One verified solve &rarr; <b>~600</b> verified trajectories, at a falling token cost each</div>
-      </div>
-      <div class="lane learn">
-        <span class="role">Student</span>
-        <h3>Learn from outcomes</h3>
-        <p>Robotics tasks are a natural training ground for coding agents: outcomes are verifiable in the simulator and multi-stage tasks come with well-defined partial credit. A seed-and-mutate pipeline builds new environments at training scale, and the agent is post-trained on their rubric scores.</p>
-        <div class="kpi">Turn-level PPO on <b>400</b> generated environments — reward <b>0.09 &rarr; 0.18</b></div>
-      </div>
-    </div>
-    </details>
   </div>
 </section>
 

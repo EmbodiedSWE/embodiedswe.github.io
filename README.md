@@ -259,12 +259,12 @@ diversification dimensions, a large dataset, and VLA training; the student shows
 seed task → task generation → new tasks → verified outcomes → RL → coding agent.
 These are conceptual animations, not additional experimental results.
 
-Selecting a stage or Next shows its explanation and section link without
-interrupting the flow or automatically replacing the text while it is read.
-Narrow layouts stack cards and enlarge the SVGs on phones. Pause freezes both
-particles and CSS effects in place; offscreen/tab visibility and reduced-motion
-settings also control playback. The original solver/teacher/student details remain in an
-expandable block. Without JavaScript, all four cards and that text remain readable.
+Selecting a stage or Next (a pill in the loop heading) shows its explanation and
+section link without interrupting the flow or automatically replacing the text
+while it is read. Narrow layouts stack cards and enlarge the SVGs on phones.
+There is no pause button; offscreen/tab visibility and reduced-motion settings
+control playback. The loop has no footer row, caveat, or expandable
+solver/teacher/student block any more. Without JavaScript, all four cards remain readable.
 
 Loop icon sources: the two coding-agent nodes share an original inline SVG brain
 outline, tinted to their stage colors. The policy-training node uses the official

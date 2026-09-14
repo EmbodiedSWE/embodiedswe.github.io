@@ -199,7 +199,7 @@
 
     /* 1 - tag what reveals. Group children stagger against each other; solo
            elements just fade up on their own. */
-    var GROUPS = ['.lanes', '.grid2', '.grid3', '.stats', '.ladder', '.gallery', '.fm-row'];
+    var GROUPS = ['.grid2', '.grid3', '.stats', '.ladder', '.gallery', '.fm-row'];
     var SOLO = ['.sec-head', 'h3.sub', 'hr.rule', '.note', '.cap', '.bib', '.tbl-scroll',
                 'details.catalog', '.filters', '.wrap > p', '.wrap > figure.fig',
                 '[data-chart]'];   /* [data-chart] also catches chart cards that
