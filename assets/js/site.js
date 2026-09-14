@@ -163,6 +163,35 @@
     sections.forEach(function (s) { obs.observe(s); });
   }
 
+  /* ---------- side menu: visible from the Overview down; the section whose top has passed the nav is marked ---------- */
+  (function () {
+    var menu = document.getElementById('side-menu');
+    if (!menu) return;
+    var items = Array.prototype.slice.call(menu.querySelectorAll('a')).map(function (a) {
+      return { a: a, el: document.querySelector(a.getAttribute('href')) };
+    }).filter(function (i) { return i.el && i.a.getAttribute('href') !== '#top'; });   // "Top" is a link back to the title, never the current section
+    var overview = document.getElementById('overview');
+    if (!overview || !items.length) return;
+    menu.hidden = false;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var navH = document.querySelector('nav.top').offsetHeight || 56;
+      var show = overview.getBoundingClientRect().top <= navH + 80;
+      menu.classList.toggle('show', show);
+      if (!show) return;
+      var line = navH + 140, current = null;
+      items.forEach(function (i) { if (i.el.getBoundingClientRect().top <= line) current = i; });
+      var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) current = items[items.length - 1];
+      items.forEach(function (i) { i.a.classList.toggle('on', i === current); });
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+
   /* ---------- theme toggle ---------- */
   var btn = document.getElementById('theme');
   if (btn) {

@@ -104,11 +104,40 @@ button.theme:hover{border-color:var(--acc);background:var(--panel2)}
 
 /* ---------------- sections ---------------- */
 section{padding:88px 0 12px;scroll-margin-top:36px}
+
+/* ---------- side menu: a fixed card listing the sections as a timeline, placed 48px outside the right edge of the
+   content container (not the viewport edge) and centred vertically. Shown from the Overview down (site.js). ---------- */
+.side-menu{display:none}
+@media (min-width:1500px){
+  /* .wrap is max-width 1160px incl. 32px side padding, centred: its content edge is at 50% + 548px */
+  .side-menu{display:block;position:fixed;left:calc(50% + 548px + 48px);top:50%;transform:translateY(-50%) translateX(8px);z-index:30;
+    opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
+    padding:14px 14px 10px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 94%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 10%,transparent),0 14px 40px #0007;backdrop-filter:blur(8px)}
+  .side-menu.show{opacity:1;pointer-events:auto;transform:translateY(-50%)}
+  .side-menu a{text-decoration:none;color:var(--faint);transition:color .2s}
+  .side-menu a:hover,.side-menu a.on{color:var(--ink)}
+  .side-menu-head{display:block;font:12.5px var(--sans);color:var(--mut);padding:0 0 10px 22px}
+  .side-menu ul{list-style:none;margin:0;padding:0;position:relative}
+  .side-menu ul::before{content:"";position:absolute;left:3px;top:14px;bottom:14px;width:1px;background:var(--line)}     /* timeline */
+  .side-menu li a{position:relative;display:grid;grid-template-columns:2ch auto;column-gap:8px;align-items:baseline;padding:7px 2px 7px 22px}
+  .side-menu li a::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;border-radius:50%;background:var(--line);
+    transform:translateY(-50%);transition:background .2s,box-shadow .2s}
+  .side-menu li a b{font:11px var(--mono);color:var(--acc);opacity:.7}
+  .side-menu li a span{font:12.5px var(--sans);white-space:nowrap}
+  .side-menu li a.on span{font-weight:600}
+  .side-menu li a.on b{opacity:1}
+  .side-menu li a.on::before{background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent),0 0 10px var(--acc)}
+  .side-menu-cite{display:flex;align-items:center;gap:9px;margin-top:8px;padding:12px 4px 4px 0;border-top:1px solid var(--line);font:12.5px var(--sans)}
+  .side-menu-cite svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round;flex:none;margin-left:-3px}
+}
 #overview{padding-top:36px}                                      /* follows the title page closely */
+#overview .sec-head h2{font-size:clamp(38px,5vw,58px)}                    /* the opening section heading, a step larger */
 #overview .sec-head p.lede{max-width:none}                       /* full column, not the 68ch measure */
 #overview .sec-head p.lede b{color:var(--ink);font-weight:550}
 .sec-head{margin-bottom:34px}
 .sec-head h2{font-size:clamp(29px,3.8vw,44px);font-weight:500;letter-spacing:-.04em}
+.sec-head h2 .sec-no{color:var(--acc);font-variant-numeric:tabular-nums;margin-right:.15em}   /* section number */
 .sec-head p.lede{color:var(--mut);margin:22px 0 0;font-size:17px;max-width:68ch;line-height:1.85}
 h3.sub{font-size:22px;font-weight:500;margin:46px 0 18px;letter-spacing:-.025em}
 p{margin:0 0 16px}

@@ -29,10 +29,25 @@
       <span class="lnk soon" aria-disabled="true">Code<small>soon</small></span>
     </div>
     <div class="nav-tools">
-      <a class="gallery-cta" href="#tasks"><span class="ic" aria-hidden="true">▶</span><span class="cta-long">Task gallery</span><span class="cta-short">Gallery</span></a>
+      <a class="gallery-cta" href="#benchmark"><span class="ic" aria-hidden="true">▶</span><span class="cta-long">Task gallery</span><span class="cta-short">Gallery</span></a>
       <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
     </div>
   </div>
+</nav>
+
+<!-- Side menu: a fixed rail listing the sections; site.js shows it once the Overview is reached and marks the section in view. -->
+<nav class="side-menu" id="side-menu" aria-label="Sections" hidden>
+  <a class="side-menu-head" href="#top">Top</a>
+  <ul>
+    <li><a href="#benchmark"><b>01</b><span>Benchmark</span></a></li>
+    <li><a href="#results"><b>02</b><span>Evaluation</span></a></li>
+    <li><a href="#failures"><b>03</b><span>Failures</span></a></li>
+    <li><a href="#transfer"><b>04</b><span>Transfer</span></a></li>
+    <li><a href="#tools"><b>05</b><span>Tools</span></a></li>
+    <li><a href="#teacher"><b>06</b><span>Data gen</span></a></li>
+    <li><a href="#student"><b>07</b><span>Students</span></a></li>
+  </ul>
+  <a class="side-menu-cite" href="#cite"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13M6 8.5h4M6 11h4"/></svg><span>Cite</span></a>
 </nav>
 
 <div class="site-universe" aria-hidden="true">
@@ -217,8 +232,8 @@
 <section id="benchmark">
   <div class="wrap">
     <div class="sec-head">
-      <h2>EmbodiedSWE-Bench</h2>
-      <p class="lede">A simulation benchmark built to be <b>diverse</b>, <b>long-horizon</b>, and <b>physically realistic</b>, on three principles: modularity, standardization, and agent-native access. Physics runs on PhysX through Isaac Lab at a 10 ms step; threaded-assembly scenes model explicit thread engagement with signed-distance-field collision meshes.</p>
+      <h2><span class="sec-no">01</span> EmbodiedSWE-Bench</h2>
+      <p class="lede">A simulation benchmark built to be <b>diverse</b>, <b>long-horizon</b>, and <b>physically realistic</b>, on three principles: modularity, standardization, and agent-native access. Physics runs on PhysX through Isaac Lab.</p>
     </div>
 
     <div class="stats">
@@ -329,7 +344,7 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Frontier agents remain unsaturated</h2>
+      <h2><span class="sec-no">02</span> Frontier agents remain unsaturated</h2>
       <p class="lede">Five frontier coding models, each in its own standard coding harness, one NVIDIA RTX 4090 per run and a 4-hour wall-clock budget. Every submission is graded offline against the hidden rubric to a score in [0, 1]; scores below are hack-adjusted, and a run audited as a reward hack scores zero.</p>
     </div>
 
@@ -379,7 +394,7 @@
 <section id="failures">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Three recurring failure modes</h2>
+      <h2><span class="sec-no">03</span> Three recurring failure modes</h2>
       <p class="lede">Each was observed across models and tasks, and each has a concrete agent trajectory documented in the paper's appendix.</p>
     </div>
     <h3 class="sub" style="margin-top:26px">Failure mode 1 — not grounding in vision</h3>
@@ -435,7 +450,7 @@
 <section id="transfer">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Transfer across tasks and embodiments</h2>
+      <h2><span class="sec-no">04</span> Transfer across tasks and embodiments</h2>
       <p class="lede">A verified solution encodes reusable task structure as well as embodiment-specific knowledge — reliable grasp configurations, approach poses, controller settings. Each transfer run gets one extra read-only file: a verified solution to another task, or to the same task on another arm.</p>
     </div>
 
@@ -469,7 +484,7 @@
 <section id="tools">
   <div class="wrap">
     <div class="sec-head">
-      <h2>A harness for long horizons</h2>
+      <h2><span class="sec-no">05</span> A harness for long horizons</h2>
       <p class="lede">Beyond the standard coding harnesses, the benchmark ships tools that exploit what simulation makes cheap: resettable state and parallelism.</p>
     </div>
 
@@ -501,7 +516,7 @@
 <section id="teacher">
   <div class="wrap">
     <div class="sec-head">
-      <h2>EmbodiedSWE-Gen — one solve, many trajectories</h2>
+      <h2><span class="sec-no">06</span> EmbodiedSWE-Gen — one solve, many trajectories</h2>
       <p class="lede">A single coding-agent solve can cost hours of wall clock and substantial tokens, so it is far too expensive to be one demonstration. Purely scripted generation is cheap but its diversity saturates around a narrow regime. The data engine puts agent effort where diversity actually needs judgement, and scripts the rest.</p>
     </div>
 
@@ -543,7 +558,7 @@
 <section id="student">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Coding agents as students</h2>
+      <h2><span class="sec-no">07</span> Coding agents as students</h2>
       <p class="lede">Robotics simulation is a natural training environment for a coding agent: outcomes are verifiable in the simulator, and multi-stage tasks come with well-defined partial credit. What did not exist was such tasks at training scale — so the pipeline builds them.</p>
     </div>
 
