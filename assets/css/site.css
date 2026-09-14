@@ -104,6 +104,7 @@ button.theme:hover{border-color:var(--acc);background:var(--panel2)}
 
 /* ---------------- sections ---------------- */
 section{padding:88px 0 12px;scroll-margin-top:36px}
+#tasks{padding-top:8px}#tasks h3.sub:first-child{margin-top:16px}   /* continues the benchmark section: the gallery sits right under its intro */
 
 /* ---------- side menu: a fixed card listing the sections as a timeline, placed 48px outside the right edge of the
    content container (not the viewport edge) and centred vertically. Shown from the Overview down (site.js). ---------- */
@@ -158,7 +159,8 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:76px auto 0;max-width:1
 figure{margin:0}
 .fig{background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
   padding:14px;box-shadow:var(--shadow)}
-.fig img{border-radius:7px;width:100%;height:auto}
+.fig img,.fig video{border-radius:7px;width:100%;height:auto;display:block}
+.task-film{margin:0 0 34px}
 .fig.plain{background:transparent;border:0;box-shadow:none;padding:0}
 figcaption{font-size:14px;color:var(--mut);margin-top:13px;line-height:1.6}
 figcaption b{color:var(--ink);font-weight:650}
@@ -733,7 +735,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
   border:1px solid #b8ccc64a;border-radius:20px;transition:background .2s}
 .hero-scroll:hover .hero-scroll-arrow{background:#b8ccc617}
 @media (max-width:700px){
-  .wrap{padding:0 20px}section{padding-top:64px}#overview{padding-top:28px}
+  .wrap{padding:0 20px}section{padding-top:64px}#tasks{padding-top:6px}#overview{padding-top:28px}
   :root{--nav-h:52px}nav.top .row{grid-template-columns:auto 1fr auto;gap:8px}nav.top .brand{font-size:14px}
   nav.top .nav-links{justify-content:flex-start;gap:0}nav.top .lnk{font-size:13px;padding:8px 8px;gap:4px}nav.top .lnk.soon small{display:none}
   nav.top .gallery-cta{font-size:12.5px;padding:8px 11px}nav.top .gallery-cta .ic{display:none}

@@ -60,6 +60,25 @@
     });
   }
 
+  /* ---------- in-view autoplay (task overview film) ----------
+     Muted, so browsers allow it without a gesture. Nothing is fetched until the player is about to scroll into
+     view (preload="none"); it pauses again offscreen and when the tab is hidden. The controls stay, so a visitor
+     can unmute or scrub. If they pause it by hand we leave it alone. */
+  document.querySelectorAll('video[data-autoplay-in-view]').forEach(function (v) {
+    var inView = false, userPaused = false;
+    v.addEventListener('pause', function () { if (inView && !document.hidden && !v.ended) userPaused = true; });
+    v.addEventListener('play', function () { userPaused = false; });
+    function sync() {
+      if (inView && !document.hidden && !userPaused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else if (!inView || document.hidden) { if (!v.paused) { userPaused = false; v.pause(); } }
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; sync(); },
+        {threshold: 0.15, rootMargin: '120px 0px'}).observe(v);
+    } else { inView = true; sync(); }
+    document.addEventListener('visibilitychange', sync);
+  });
+
   /* ---------- gallery ---------- */
   var gallery = document.getElementById('gallery');
   if (gallery) {
