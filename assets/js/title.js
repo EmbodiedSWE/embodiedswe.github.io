@@ -84,7 +84,9 @@
 /* The brand link in the top bar (href="#top") lands on the finished title page rather than the dark start of its
  * track: the last scroll position with the whole page on screen, and never before the bulb stage has left. That
  * also covers reduced motion, where the choreography above is off, the track is collapsed and the bulb still
- * scrubs. Same for a page opened at #top. Without JS the plain anchor stands. */
+ * scrubs. Then a little further, so the EmbodiedSWE heading sits just under the bar rather than mid-screen: the
+ * pinned page scrolls up as one piece, and the research begins to show beneath it. Same for a page opened at
+ * #top. Without JS the plain anchor stands. */
 (function () {
   var hero = document.querySelector('header.hero.title-stage');
   if (!hero || !('scrollTo' in window)) return;
@@ -96,7 +98,9 @@
     var end = h.bottom + y - window.innerHeight;             // its bottom meets the viewport bottom (end of the hold)
     var bulb = document.querySelector('.bulb-stage'), gone = 0;
     if (bulb) gone = bulb.getBoundingClientRect().bottom + y - (window.innerHeight - pinTop);   // bulb scrolled off
-    return Math.max(0, Math.round(Math.max(top, end, gone)));
+    var mark = hero.querySelector('.title-mark'), sticky = hero.querySelector('.title-sticky'), lift = 0;
+    if (mark && sticky) lift = Math.max(0, mark.getBoundingClientRect().top - sticky.getBoundingClientRect().top - 28);
+    return Math.max(0, Math.round(Math.max(top, end, gone) + lift));   // heading 28px under the bar
   }
   function land(smooth) {
     window.scrollTo({ top: landingY(), left: 0, behavior: smooth && !reduced.matches ? 'smooth' : 'auto' });

@@ -197,17 +197,7 @@
     var root = document.documentElement;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* 1 - progress line along the bottom of the fixed top bar */
-    var nav = document.querySelector('nav.top'), fill = null;
-    if (nav) {
-      var wrap = document.createElement('div');
-      wrap.className = 'progress';
-      fill = document.createElement('span');
-      wrap.appendChild(fill);
-      document.body.appendChild(wrap);
-    }
-
-    /* 2 - tag what reveals. Group children stagger against each other; solo
+    /* 1 - tag what reveals. Group children stagger against each other; solo
            elements just fade up on their own. */
     var GROUPS = ['.lanes', '.grid2', '.grid3', '.stats', '.ladder', '.gallery', '.fm-row'];
     var SOLO = ['.sec-head', 'h3.sub', 'hr.rule', '.note', '.cap', '.bib', '.tbl-scroll',
@@ -245,7 +235,7 @@
 
     root.classList.add('reveal');          /* activates the hidden state */
 
-    /* 3 - reveal on intersect, once each */
+    /* 2 - reveal on intersect, once each */
     function show(el, step) {
       var i = parseInt(el.dataset.rvi || 0, 10);
       if (reduce || !i) { el.classList.add('rv-in'); return; }
@@ -262,7 +252,7 @@
 
     document.querySelectorAll('[data-rv], .hero-fig').forEach(function (n) { obs.observe(n); });
 
-    /* 4 - progress line + a small parallax on the opening figure.
+    /* 3 - a small parallax on the opening figure.
            The figure carries the reveal transform, so parallax rides the img
            inside it and the two never fight over one property. */
     var img = document.querySelector('.hero-fig img');
@@ -272,10 +262,6 @@
     function frame() {
       queued = false;
       var y = window.pageYOffset || root.scrollTop;
-      if (fill) {
-        var span = (root.scrollHeight - root.clientHeight) || 1;
-        fill.style.transform = 'scaleX(' + Math.min(y / span, 1).toFixed(4) + ')';
-      }
       if (img && !reduce && wide) {
         img.style.transform = 'translateY(' + Math.min(y * 0.05, 18).toFixed(1) + 'px)';
       }
