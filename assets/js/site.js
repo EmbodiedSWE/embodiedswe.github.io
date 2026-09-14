@@ -184,7 +184,14 @@
       items.forEach(function (i) { if (i.el.getBoundingClientRect().top <= line) current = i; });
       var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
       if (atBottom) current = items[items.length - 1];
-      items.forEach(function (i) { i.a.classList.toggle('on', i === current); });
+      var idx = items.indexOf(current);
+      items.forEach(function (i, k) { i.a.classList.toggle('on', i === current); i.a.classList.toggle('past', idx > -1 && k < idx); });
+      /* lit timeline segment: from the first dot down to the current one (full length once we are at Cite) */
+      var ul = menu.querySelector('ul');
+      var fill = 0;
+      if (current && ul.contains(current.a)) fill = current.a.offsetTop + current.a.offsetHeight / 2 - 14;
+      else if (current) fill = ul.offsetHeight - 28;
+      ul.style.setProperty('--fill', Math.max(0, fill) + 'px');
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', onScroll, { passive: true });

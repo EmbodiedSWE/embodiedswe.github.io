@@ -112,14 +112,18 @@ section{padding:88px 0 12px;scroll-margin-top:36px}
   /* .wrap is max-width 1160px incl. 32px side padding, centred: its content edge is at 50% + 548px */
   .side-menu{display:block;position:fixed;left:calc(50% + 548px + 48px);top:50%;transform:translateY(-50%) translateX(8px);z-index:30;
     opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
-    padding:14px 14px 10px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 94%,transparent);
-    box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 10%,transparent),0 14px 40px #0007;backdrop-filter:blur(8px)}
+    padding:14px 14px 10px;border:1px solid color-mix(in srgb,var(--acc) 38%,var(--line));border-radius:12px;
+    background:radial-gradient(120% 90% at 0 0,color-mix(in srgb,var(--acc) 12%,transparent),transparent 60%),color-mix(in srgb,var(--panel) 94%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 14%,transparent),0 0 36px color-mix(in srgb,var(--acc) 16%,transparent),0 14px 40px #0007;
+    backdrop-filter:blur(8px)}
   .side-menu.show{opacity:1;pointer-events:auto;transform:translateY(-50%)}
   .side-menu a{text-decoration:none;color:var(--faint);transition:color .2s}
   .side-menu a:hover,.side-menu a.on{color:var(--ink)}
   .side-menu-head{display:block;font:12.5px var(--sans);color:var(--mut);padding:0 0 10px 22px}
   .side-menu ul{list-style:none;margin:0;padding:0;position:relative}
-  .side-menu ul::before{content:"";position:absolute;left:3px;top:14px;bottom:14px;width:1px;background:var(--line)}     /* timeline */
+  .side-menu ul::before{content:"";position:absolute;left:3px;top:14px;bottom:14px;width:1px;background:var(--line)}     /* timeline track */
+  .side-menu ul::after{content:"";position:absolute;left:3px;top:14px;height:var(--fill,0px);width:1px;background:var(--acc);
+    box-shadow:0 0 8px var(--acc);transition:height .45s cubic-bezier(.4,0,.2,1)}                                             /* lit segment */
   .side-menu li a{position:relative;display:grid;grid-template-columns:2ch auto;column-gap:8px;align-items:baseline;padding:7px 2px 7px 22px}
   .side-menu li a::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;border-radius:50%;background:var(--line);
     transform:translateY(-50%);transition:background .2s,box-shadow .2s}
@@ -127,7 +131,14 @@ section{padding:88px 0 12px;scroll-margin-top:36px}
   .side-menu li a span{font:12.5px var(--sans);white-space:nowrap}
   .side-menu li a.on span{font-weight:600}
   .side-menu li a.on b{opacity:1}
-  .side-menu li a.on::before{background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent),0 0 10px var(--acc)}
+  .side-menu li a.past::before{background:color-mix(in srgb,var(--acc) 60%,var(--line))}
+  .side-menu li a.on::before{background:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent),0 0 10px var(--acc);
+    animation:side-menu-pulse 2.6s ease-in-out infinite}
+  .side-menu li a.on span{color:var(--acc-ink)}
+  .side-menu li a.on b{text-shadow:0 0 8px color-mix(in srgb,var(--acc) 60%,transparent)}
+  @keyframes side-menu-pulse{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent),0 0 10px var(--acc)}
+    50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--acc) 14%,transparent),0 0 18px var(--acc)}}
+  @media (prefers-reduced-motion:reduce){.side-menu li a.on::before{animation:none}.side-menu ul::after{transition:none}}
   .side-menu-cite{display:flex;align-items:center;gap:9px;margin-top:8px;padding:12px 4px 4px 0;border-top:1px solid var(--line);font:12.5px var(--sans)}
   .side-menu-cite svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round;flex:none;margin-left:-3px}
 }
