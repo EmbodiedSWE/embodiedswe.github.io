@@ -219,18 +219,8 @@
     });
     SOLO.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (n) {
-        /* .hero-fig has its own entrance; closest() covers self and ancestors */
-        if (n.classList.contains('hero-fig')) return;
         if (!n.hasAttribute('data-rv') && !n.closest('[data-rv]')) n.setAttribute('data-rv', '');
       });
-    });
-
-    /* Project details enter when scrolled into view below the full-screen hero. */
-    document.querySelectorAll(
-      '.project-intro .eyebrow, .project-intro h2, .project-intro .tagline,' +
-      ' .project-intro .authors, .project-intro .badges').forEach(function (n, i) {
-      n.setAttribute('data-rv', '');
-      n.dataset.rvi = i;
     });
 
     root.classList.add('reveal');          /* activates the hidden state */
@@ -250,33 +240,7 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-    document.querySelectorAll('[data-rv], .hero-fig').forEach(function (n) { obs.observe(n); });
-
-    /* 3 - a small parallax on the opening figure.
-           The figure carries the reveal transform, so parallax rides the img
-           inside it and the two never fight over one property. */
-    var img = document.querySelector('.hero-fig img');
-    var wide = window.matchMedia('(min-width: 900px)').matches;
-    var queued = false;
-
-    function frame() {
-      queued = false;
-      var y = window.pageYOffset || root.scrollTop;
-      if (img && !reduce && wide) {
-        img.style.transform = 'translateY(' + Math.min(y * 0.05, 18).toFixed(1) + 'px)';
-      }
-    }
-    function onScroll() {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(frame);
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () {
-      wide = window.matchMedia('(min-width: 900px)').matches;
-      onScroll();
-    }, { passive: true });
-    frame();
+    document.querySelectorAll('[data-rv]').forEach(function (n) { obs.observe(n); });
   })();
 
   /* ---------- copy bibtex ---------- */

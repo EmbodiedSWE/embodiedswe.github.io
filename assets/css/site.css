@@ -87,10 +87,6 @@ button.theme{flex:none;border:1px solid var(--line);background:var(--panel);colo
 button.theme:hover{border-color:var(--acc);background:var(--panel2)}
 
 /* ---------------- hero ---------------- */
-.project-intro{padding:72px 0 0;text-align:center;scroll-margin-top:-8px}
-.project-intro h2{font-size:clamp(38px,6.4vw,72px);font-weight:500;letter-spacing:-.055em;color:var(--ink)}
-.project-intro .tagline{font-size:clamp(17px,2.4vw,21px);color:var(--mut);font-weight:450;
-  margin:20px auto 0;max-width:42ch;text-wrap:balance}
 .authors{margin:26px auto 0;max-width:60ch;font-size:15px;color:var(--mut)}
 .authors .pending{display:inline-block;font-family:var(--mono);font-size:12.5px;
   padding:7px 12px;color:var(--faint)}
@@ -108,12 +104,13 @@ button.theme:hover{border-color:var(--acc);background:var(--panel2)}
 
 /* ---------------- sections ---------------- */
 section{padding:88px 0 12px;scroll-margin-top:36px}
+#overview{padding-top:36px}                                      /* follows the title page closely */
+#overview .sec-head p.lede{max-width:none}                       /* full column, not the 68ch measure */
+#overview .sec-head p.lede b{color:var(--ink);font-weight:550}
 .sec-head{margin-bottom:34px}
 .sec-head h2{font-size:clamp(29px,3.8vw,44px);font-weight:500;letter-spacing:-.04em}
 .sec-head p.lede{color:var(--mut);margin:22px 0 0;font-size:17px;max-width:68ch;line-height:1.85}
 h3.sub{font-size:22px;font-weight:500;margin:46px 0 18px;letter-spacing:-.025em}
-#abstract p{color:var(--mut);font-size:18px;line-height:1.9}
-#abstract b{color:var(--ink);font-weight:550}
 p{margin:0 0 16px}
 hr.rule{border:0;border-top:1px solid var(--line);margin:76px auto 0;max-width:1096px}
 
@@ -629,13 +626,6 @@ html.reveal [data-rv-hero]{opacity:0;transform:translateY(26px);
              transform .82s cubic-bezier(.22,.61,.36,1)}
 html.reveal [data-rv-hero].rv-in{opacity:1;transform:none}
 
-/* the opening figure also settles in scale, which reads as depth rather than motion */
-html.reveal .hero-fig{opacity:0;transform:translateY(30px) scale(.985);
-  transition:opacity 1s cubic-bezier(.22,.61,.36,1),
-             transform 1s cubic-bezier(.22,.61,.36,1)}
-html.reveal .hero-fig.rv-in{opacity:1;transform:none}
-.hero-fig{will-change:transform}
-
 /* section rules draw themselves out from the left */
 html.reveal hr.rule{transform:scaleX(0);transform-origin:left center;
   transition:transform 1s cubic-bezier(.22,.61,.36,1)}
@@ -643,8 +633,7 @@ html.reveal hr.rule.rv-in{transform:scaleX(1)}
 
 @media (prefers-reduced-motion: reduce){
   html.reveal [data-rv],
-  html.reveal [data-rv-hero],
-  html.reveal .hero-fig{opacity:1;transform:none;transition:none}
+  html.reveal [data-rv-hero]{opacity:1;transform:none;transition:none}
   html.reveal hr.rule{transform:none;transition:none}
 }
 
@@ -679,7 +668,7 @@ header.hero.is-live [data-pop]:not(.is-set){will-change:opacity,transform,filter
 header.hero.is-live [data-pop].is-set{filter:none}
 
 .title-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:56px 24px 96px;pointer-events:none}
+  text-align:center;padding:56px 24px;pointer-events:none}
 .title-copy>*{pointer-events:auto}
 header.hero h1{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.2vw,16px);margin:0;
   color:#f3f1e9;text-shadow:0 2px 35px #060e12b3;line-height:1.05}
@@ -719,34 +708,31 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 @media (min-width:960px){.title-notes{max-width:none;white-space:nowrap}}   /* one line where it fits; wraps below */
 .title-notes sup{color:#9ed9d6;font-size:10px;vertical-align:.4em;line-height:0}
 
-.hero-bottomline{position:absolute;left:clamp(24px,4vw,64px);right:clamp(24px,4vw,64px);bottom:32px;z-index:2;
-  display:flex;align-items:center;justify-content:center;gap:24px;--pop-y:14px}
-.hero-scroll{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;
-  gap:15px;font-size:11px;letter-spacing:.03em;white-space:nowrap}
+.hero-bottomline{display:flex;align-items:center;justify-content:center;margin-top:clamp(36px,5.5vh,60px);--pop-y:14px}   /* in the flow, just under the logos */
+.hero-scroll{display:flex;align-items:center;gap:15px;font-size:11px;letter-spacing:.03em;white-space:nowrap;color:inherit;text-decoration:none}
 .hero-scroll-arrow{width:30px;height:42px;display:grid;place-items:center;font-size:20px;
   border:1px solid #b8ccc64a;border-radius:20px;transition:background .2s}
 .hero-scroll:hover .hero-scroll-arrow{background:#b8ccc617}
 @media (max-width:700px){
-  .wrap{padding:0 20px}section{padding-top:64px}.project-intro{padding-top:64px}
+  .wrap{padding:0 20px}section{padding-top:64px}#overview{padding-top:28px}
   :root{--nav-h:52px}nav.top .row{grid-template-columns:auto 1fr auto;gap:8px}nav.top .brand{font-size:14px}
   nav.top .nav-links{justify-content:flex-start;gap:0}nav.top .lnk{font-size:13px;padding:8px 8px;gap:4px}nav.top .lnk.soon small{display:none}
   nav.top .gallery-cta{font-size:12.5px;padding:8px 11px}nav.top .gallery-cta .ic{display:none}
   nav.top .gallery-cta .cta-long{display:none}nav.top .gallery-cta .cta-short{display:inline}nav.top .nav-tools{gap:6px}
   nav.top .lnk{font-size:12.5px;padding:8px 6px}button.theme{width:30px;height:30px;font-size:13px}
   .lane,.box{padding:22px}.chart-card{padding:18px 14px 12px}
-  #abstract p{font-size:16.5px}.sec-head p.lede{font-size:16px}
+  .sec-head p.lede{font-size:16px}
   header.hero{--title-track:170vh}
-  .title-copy{padding:80px 18px 130px}
+  .title-copy{padding:80px 18px}
   .title-mark{font-size:clamp(44px,13vw,64px)}.title-line{font-size:clamp(19px,5.4vw,26px);white-space:normal;max-width:20ch;text-wrap:balance}
   .title-people{margin-top:30px;gap:10px}.title-tier{column-gap:12px;row-gap:3px;font-size:13px}
   .title-tier:first-child{font-size:14.5px}
   .title-orgs{gap:12px 18px;font-size:11px;margin-top:26px}.title-orgs i{display:none}
   .title-notes{font-size:10.5px;margin-top:10px}
-  .hero-bottomline{bottom:24px;align-items:flex-end}
-  .hero-scroll{position:static;transform:none}
+  .hero-bottomline{margin-top:30px}
 }
 @media (max-height:540px) and (min-width:701px){
-  .title-sticky{min-height:400px}.hero-bottomline{bottom:18px}
+  .title-sticky{min-height:400px}.hero-bottomline{margin-top:22px}
   .title-mark{font-size:clamp(42px,8vw,88px)}
   .title-line{font-size:clamp(18px,2.6vw,30px)}.title-people{margin-top:18px;gap:10px}.title-tier{font-size:14px}
 }
@@ -766,4 +752,13 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 .bulb-hint span:last-child{animation:bulb-bob 1.6s ease-in-out infinite}
 .bulb-stage.is-scrolled .bulb-hint{opacity:0}
 @keyframes bulb-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* loading panel over the stage until every frame is in (assets/js/bulb.js); html.bulb-loading locks the scroll */
+html.bulb-loading{overflow:hidden}
+.bulb-loader{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;background:#060e12;transition:opacity .7s ease}
+.bulb-loader.is-done{opacity:0;pointer-events:none}
+.bulb-loader .lbl{font:11px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8ea6a8}
+.bulb-loader .bar{width:min(240px,56vw);height:2px;border-radius:1px;background:#76979633;overflow:hidden}
+.bulb-loader .bar i{display:block;height:100%;width:0;background:#9ed9d6;transition:width .25s linear}
+.bulb-loader .pct{font:11px var(--mono);letter-spacing:.1em;color:#9ed9d6}
 @media (prefers-reduced-motion: reduce){.bulb-hint span:last-child{animation:none}}

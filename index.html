@@ -95,45 +95,22 @@
         <span class="org" data-pop data-group="orgs"><sup>5</sup><img src="assets/img/orgs/stanford.svg" alt="Stanford"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
         <span class="org" data-pop data-group="orgs"><sup>6</sup><img src="assets/img/orgs/ucla.svg" alt="UCLA"></span>
       </div>
-    </div>
-    <div class="hero-bottomline" data-pop data-group="foot">
-      <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
+      <div class="hero-bottomline" data-pop data-group="foot">
+        <a class="hero-scroll" href="#overview"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
+      </div>
     </div>
   </div>
 </header>
 
-<section class="project-intro" id="project" aria-labelledby="project-title">
-  <div class="wrap">
-    <p class="eyebrow" id="project-title">Agent-native robotics benchmark &amp; data engine</p>
-  </div>
-</section>
-
-<div class="wrap" style="margin-top:44px">
-  <figure class="fig hero-fig">
-    <img src="assets/img/fig/scene.webp" width="2150" height="926" alt="Robots share a kitchen workspace, with close-ups of deformable-object manipulation, contact-intensive assembly, long-horizon tasks, and humanoid manipulation." loading="eager">
-    <figcaption><b>A world of dexterous tasks.</b> Long-horizon manipulation across objects, physical interactions, and robot embodiments. <a href="#loop">Explore the learning loop ↓</a></figcaption>
-  </figure>
-</div>
-
-<section id="abstract">
-  <div class="wrap narrow">
-    <div class="sec-head"><h2>Abstract</h2></div>
-    <p>We study coding agents for long-horizon, dexterous robotics and ask whether their solutions can provide scalable supervision for general robot policies. We introduce <b>EmbodiedSWE-Bench</b>, an agent-native simulation benchmark spanning contact-rich manipulation, deformable objects, liquids, cutting, and tasks requiring up to half an hour of continuous interaction to solve.</p>
-    <p>We evaluate frontier coding agents and find that, with careful system and harness design, they demonstrate strong capability on complex long-horizon tasks and transfer prior solutions across tasks and robot embodiments. At the same time, the benchmark remains far from saturated, with the hardest tasks still unsolved by the agent autonomously.</p>
-    <p>We then propose <b>EmbodiedSWE-Gen</b>, a scalable pipeline that converts verified solutions into diverse trajectories for training a generalist policy. Finally, we propose a pipeline that automatically generates diverse simulation environments with verifiable outcomes, and show that it provides a verifiable, learnable training signal for reinforcement learning on <code>Seed-2.1-Lite</code>. Together, our framework casts coding agents as <b>solvers</b>, <b>teachers</b>, and <b>students</b> in a scalable robot-learning loop.</p>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="loop">
+<!-- Overview: the first section after the title page. -->
+<section id="overview">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Coding agents as solvers, teachers, and students</h2>
-      <p class="lede">Solving tasks with programs is not the goal. A generalist robot cannot rely on an ever-growing collection of task-specific programs — that would rebuild a brittle expert system. So the agent's verified programs become supervision for a policy that acts without the agent in the loop, and the tasks it generates become training signal for the agent itself.</p>
+      <h2>Overview</h2>
+      <p class="lede">We study how frontier coding agents can help robotics. EmbodiedSWE has four parts. <b>EmbodiedSWE-Bench</b> is an agent-native benchmark of everyday robotics tasks. A <b>frontier evaluation</b> measures how well today's coding agents perform on them along several dimensions. <b>EmbodiedSWE-Gen</b> then diversifies the agents' verified solutions into a large dataset for training a general robot policy. Finally, we generate new tasks from existing ones to further <b>improve the coding agents via RL</b>.</p>
     </div>
     <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
-      <div class="pipeline-heading"><div><p class="eyebrow">From physical tasks to learning agents</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
+      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
       <div class="pipeline-map">
         <svg class="pipeline-connections" aria-hidden="true"><defs>
           <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker>
