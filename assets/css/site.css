@@ -63,7 +63,6 @@ nav.top .nav-tools{justify-self:end;display:flex;align-items:center;gap:10px}
 nav.top .lnk{position:relative;flex:none;display:inline-flex;align-items:center;gap:7px;
   text-decoration:none;color:var(--ink);font-size:14.5px;font-weight:550;letter-spacing:.01em;
   padding:8px 14px;border-radius:999px;white-space:nowrap;transition:color .25s ease,background .25s ease}
-nav.top .lnk .ic{font-size:14px;line-height:1}
 nav.top .lnk::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:2px;border-radius:1px;
   background:var(--acc);transform:translateX(-50%);transition:width .3s ease}
 nav.top a.lnk:hover{background:var(--panel2)}
@@ -705,6 +704,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 .title-tier{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;column-gap:clamp(14px,2vw,24px);row-gap:4px;
   font-size:clamp(14px,1.1vw,15.5px);font-weight:450;letter-spacing:-.01em;line-height:1.45;color:#e2eae7}
 .title-tier .au{white-space:nowrap}
+.title-tier.wide{max-width:min(690px,88vw)}                                    /* contributors: two balanced rows, not 7 + 2 */
 .title-tier sup{font:10.5px var(--mono);color:#9ed9d6;margin-left:3px;vertical-align:.55em;line-height:0}
 .title-tier a:hover{color:#9ed9d6;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .tier-label{flex-basis:100%;font:9.5px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8ea6a8;margin-bottom:-3px}
@@ -718,16 +718,11 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 .title-orgs img{height:clamp(20px,2vw,28px);width:auto;opacity:.9;display:inline-block}
 .title-orgs i{width:1px;height:18px;background:#76979666}
 .title-notes{margin:12px auto 0;max-width:62ch;font:11px var(--mono);letter-spacing:.06em;color:#8ea6a8;text-wrap:balance}
+@media (min-width:960px){.title-notes{max-width:none;white-space:nowrap}}   /* one line where it fits; wraps below */
 .title-notes sup{color:#9ed9d6;font-size:10px;vertical-align:.4em;line-height:0}
 
 .hero-bottomline{position:absolute;left:clamp(24px,4vw,64px);right:clamp(24px,4vw,64px);bottom:32px;z-index:2;
-  display:flex;align-items:center;justify-content:space-between;gap:24px;--pop-y:14px}
-.hero-cycle{display:flex;align-items:center;gap:14px;font:10px var(--mono);color:#8cb3b7}
-.hero-cycle span{white-space:nowrap}
-.hero-cycle b{font:11px var(--sans);color:#d1d8d4;margin-left:5px;font-weight:450}
-.hero-cycle i{display:block;width:22px;height:1px;background:#76979655}
-.hero-cycle span:nth-of-type(2){color:#d3b493}
-.hero-cycle span:nth-of-type(3){color:#a7b9da}
+  display:flex;align-items:center;justify-content:center;gap:24px;--pop-y:14px}
 .hero-scroll{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;
   gap:15px;font-size:11px;letter-spacing:.03em;white-space:nowrap}
 .hero-scroll-arrow{width:30px;height:42px;display:grid;place-items:center;font-size:20px;
@@ -736,7 +731,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 @media (max-width:700px){
   .wrap{padding:0 20px}section{padding-top:64px}.project-intro{padding-top:64px}
   :root{--nav-h:52px}nav.top .row{grid-template-columns:auto 1fr auto;gap:8px}nav.top .brand{font-size:14px}
-  nav.top .nav-links{justify-content:flex-start;gap:0}nav.top .lnk{font-size:13px;padding:8px 8px;gap:4px}nav.top .lnk .ic{display:none}nav.top .lnk.soon small{display:none}
+  nav.top .nav-links{justify-content:flex-start;gap:0}nav.top .lnk{font-size:13px;padding:8px 8px;gap:4px}nav.top .lnk.soon small{display:none}
   nav.top .gallery-cta{font-size:12.5px;padding:8px 11px}nav.top .gallery-cta .ic{display:none}
   nav.top .gallery-cta .cta-long{display:none}nav.top .gallery-cta .cta-short{display:inline}nav.top .nav-tools{gap:6px}
   nav.top .lnk{font-size:12.5px;padding:8px 6px}button.theme{width:30px;height:30px;font-size:13px}
@@ -750,7 +745,6 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
   .title-orgs{gap:12px;font-size:11px;margin-top:20px}.title-orgs i{height:16px}
   .title-notes{font-size:10.5px;margin-top:12px}
   .hero-bottomline{bottom:24px;align-items:flex-end}
-  .hero-cycle{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);gap:12px}
   .hero-scroll{position:static;transform:none}
 }
 @media (max-height:540px) and (min-width:701px){
