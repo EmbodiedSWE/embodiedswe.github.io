@@ -450,8 +450,10 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 .diversification-mult span{display:block;font:9px var(--mono);letter-spacing:0;color:var(--faint);margin-top:5px}
 .diversification-frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .diversification-frame{min-width:0;animation:diversification-enter .7s both;animation-delay:var(--frame-delay)}
-.diversification-frame>svg{display:block;width:100%;aspect-ratio:1.5;border-radius:7px;
+.diversification-frame>svg,.diversification-media{display:block;width:100%;aspect-ratio:1.5;border-radius:7px;
   overflow:hidden;background:var(--panel2);border:1px solid var(--line)}
+.diversification-media{position:relative}
+.diversification-media video{display:block;width:100%;height:100%;object-fit:cover}
 .diversification-frame figcaption{font-size:10px;line-height:1.45;margin-top:9px;min-height:30px}
 .diversification-description{font-size:14px;line-height:1.75;color:var(--mut);margin:18px 0 16px}
 .diversification-tags{display:flex;flex-wrap:wrap;gap:6px}

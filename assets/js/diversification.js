@@ -1,5 +1,7 @@
 /* Animate the original figure's real renders without generating synthetic data.
- * Individual 1920 × 1080 sources keep the crops sharp on high-density screens.
+ * Individual 1920 × 1080 sources keep the crops sharp on high-density screens. Tiles with a clip loop a
+ * short mp4 cut from the same simulation run (experiments/snapshots/figure7/tools/make_web_clips.py,
+ * sources in assets/img/diversification/SOURCES.md); the others keep the still.
  */
 (function () {
   'use strict';
@@ -35,11 +37,28 @@
   var status = host.querySelector('.diversification-status');
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var paused = motion.matches, visible = false, current = 0, elapsed = 0, previous = 0, raf = 0;
-  var duration = 6500;
+  var frozen = motion.matches; // the explicit Pause (or reduced motion): stops the level clock AND the clips
+  // Level dwell: at least `minDwell` (reading time, the only dwell for a stills-only level), stretched to
+  // the next loop boundary of the level's longest clip so auto-advance never cuts a clip mid-motion.
+  var minDwell = 6500, duration = minDwell;
   var source = host.querySelector('.diversification-fallback');
   var assetRoot = 'assets/img/diversification/';
+  var clipRoot = 'assets/video/diversification/';
+  // Frames with a looping clip (720 × 480, same crop as the still). Dynamics keeps its annotated stills.
+  var clips = {banana:1, carrot:1, tomato:1, nominal:1, recovery:1, 'grasp-right':1, bolting:1, ram:1, gpu:1,
+    daylight:1, warm:1, side:1};
 
   function renderFrame(frame) {
+    if (clips[frame[1]]) {
+      // The poster is the clip's first frame; playback is driven by syncClips (never while hidden or frozen).
+      return '<div class="diversification-media"><video muted loop playsinline preload="none"' +
+        ' poster="' + clipRoot + frame[1] + '.webp" src="' + clipRoot + frame[1] + '.mp4"' +
+        ' aria-label="' + frame[0] + '"></video></div>';
+    }
+    return renderStill(frame);
+  }
+
+  function renderStill(frame) {
     var svg = '<svg viewBox="0 0 337.5 225" role="img" aria-label="' + frame[0] + '">';
     if (frame[1] === 'params') {
       // Same schematic ranges as the source figure, expressed as crisp vectors.
@@ -79,6 +98,7 @@
   function show(index, announce) {
     current = index;
     elapsed = 0;
+    duration = minDwell;
     progress.style.transform = 'scaleX(0)';
     var level = levels[index];
     host.style.setProperty('--level-color', level.color);
@@ -88,11 +108,21 @@
     stage.innerHTML = '<div class="diversification-summary"><div><span class="diversification-number">LEVEL 0' + (index + 1) +
       '</span><h4>' + level.title + '</h4></div><div class="diversification-mult">' + level.mult + '<span>level multiplier</span></div></div>' +
       '<div class="diversification-frames">' + level.frames.map(function (frame, i) {
-        return '<figure class="diversification-frame" style="--frame-delay:' + (i * 130) + 'ms">' +
+        return '<figure class="diversification-frame" data-frame="' + i + '" style="--frame-delay:' + (i * 130) + 'ms">' +
           renderFrame(frame) +
           '<figcaption>' + frame[0] + '</figcaption></figure>';
       }).join('') + '</div><p class="diversification-description">' + level.description + '</p>' +
       '<div class="diversification-tags">' + level.tags.map(function (tag) { return '<span>' + tag + '</span>'; }).join('') + '</div>';
+    stage.querySelectorAll('.diversification-frame video').forEach(function (video) {
+      video.addEventListener('error', function () { // missing or unplayable clip: fall back to the still
+        var i = +video.closest('.diversification-frame').getAttribute('data-frame');
+        video.parentNode.outerHTML = renderStill(level.frames[i]);
+        fitDwell();
+      }, {once:true});
+      video.addEventListener('loadedmetadata', fitDwell);
+    });
+    fitDwell();
+    syncClips();
     // Only manual changes announce, so auto-play does not interrupt reading.
     if (announce) status.textContent = 'Level ' + (index + 1) + ': ' + level.name + '. ' + level.description;
   }
@@ -116,6 +146,26 @@
     toggle.setAttribute('aria-label', paused ? 'Play level animation' : 'Pause level animation');
     toggle.setAttribute('aria-pressed', String(paused));
     if (!paused && visible && !document.hidden) raf = requestAnimationFrame(tick);
+    syncClips();
+  }
+
+  function fitDwell() {
+    var longest = 0;
+    stage.querySelectorAll('video').forEach(function (video) {
+      if (video.duration && isFinite(video.duration)) longest = Math.max(longest, video.duration * 1000);
+    });
+    duration = longest ? Math.ceil(minDwell / longest) * longest : minDwell;
+  }
+
+  function syncClips() {
+    // Clips run whenever the player is on screen and not explicitly paused; picking a level by hand
+    // stops the level clock but keeps the clips moving.
+    var play = visible && !document.hidden && !frozen;
+    stage.querySelectorAll('video').forEach(function (video) {
+      if (!play) { video.pause(); return; }
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    });
   }
 
   tabs.innerHTML = levels.map(function (level, i) {
@@ -127,8 +177,8 @@
   host.querySelector('.diversification-next').addEventListener('click', function () {
     paused = true; show((current + 1) % levels.length, true); sync();
   });
-  toggle.addEventListener('click', function () { paused = !paused; sync(); });
-  motion.addEventListener('change', function (event) { paused = event.matches; sync(); });
+  toggle.addEventListener('click', function () { paused = !paused; frozen = paused; sync(); });
+  motion.addEventListener('change', function (event) { paused = frozen = event.matches; sync(); });
   document.addEventListener('visibilitychange', sync);
 
   function start() {

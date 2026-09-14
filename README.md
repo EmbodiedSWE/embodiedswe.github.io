@@ -21,7 +21,7 @@ index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
 assets/js/site.js       task gallery, catalog table, filters, nav, theme
 assets/js/hero.js       full-screen particle animation and pause control
-assets/js/diversification.js  five-level animated walkthrough of the original renders
+assets/js/diversification.js  five-level walkthrough: looping clips (or stills) from the original renders
 assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
 assets/js/charts.js     the three animated SVG charts
@@ -29,6 +29,8 @@ assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification, 4 failure modes)
 assets/img/poster/      one poster frame per gallery clip
 assets/video/           15 task rollouts, 1280px, silent, looping
+assets/video/diversification/  12 tile clips for the diversification player, 720 × 480, silent,
+                        looping, + first-frame WebP posters (sources: assets/img/diversification/SOURCES.md)
 ```
 
 ## The animated charts
