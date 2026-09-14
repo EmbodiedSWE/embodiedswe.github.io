@@ -8,10 +8,11 @@
  * Knobs: N (frame count), FADE_FROM (first frame of the fade-out), EASE (0..1, higher = snappier scrub).
  * ?bulb=0.85 freezes the stage at a scroll fraction for screenshots / quick previews.
  *
- * Loader: on a fresh visit at the top of the page a panel covers the stage and the page cannot scroll until every
+ * Loader: on a fresh visit at the top of the page a full-screen "Loading Experience..." screen (text plus three
+ * spinning rings, after doorman-humanoid.github.io) covers the whole viewport and the page cannot scroll until every
  * frame has arrived (~6.6 MB), so the first screw-down never lands on a frame that is still in flight. It lifts after
  * LOAD_CAP ms regardless (the nearest-loaded-frame fallback below takes over), and is skipped when the page opens
- * mid-way (a hash, a restored scroll position). ?loader=0.42 holds the panel at 42 % for screenshots. */
+ * mid-way (a hash, a restored scroll position). ?loader=1 holds the screen up for screenshots. */
 (function () {
   var N = 261, FADE_FROM = 222, EASE = 0.14, LOAD_CAP = 15000;
   var stage = document.querySelector('.bulb-stage');
@@ -21,38 +22,36 @@
   var src = function (i) { return 'assets/bulb/frames/frame_' + String(i).padStart(4, '0') + '.webp'; };
   var params = new URLSearchParams(location.search);
 
-  /* ---- loading panel ---- */
-  var loader = null, fill = null, pct = null, done = false, root = document.documentElement;
+  /* ---- loading screen ---- */
+  var loader = null, done = false, root = document.documentElement;
   function settled() { return ready + failed; }
   function showLoader() {
-    loader = document.createElement('div'); loader.className = 'bulb-loader'; loader.setAttribute('aria-live', 'polite');
-    loader.innerHTML = '<span class="lbl">Loading the bulb</span><span class="bar"><i></i></span><span class="pct">0%</span>';
-    fill = loader.querySelector('i'); pct = loader.querySelector('.pct');
-    canvas.parentNode.appendChild(loader);
+    loader = document.createElement('div'); loader.className = 'loading-screen'; loader.setAttribute('role', 'status');
+    loader.innerHTML = '<div class="loading-text">Loading Experience...</div>' +
+      '<div class="loading-spinner" aria-hidden="true"><i></i><i></i><i></i></div>';
+    document.body.appendChild(loader);
     root.classList.add('bulb-loading');                    // html{overflow:hidden}: no scrolling ahead of the frames
     window.scrollTo(0, 0);
-  }
-  function paint(p) {
-    if (!fill) return;
-    fill.style.width = (p * 100).toFixed(1) + '%'; pct.textContent = Math.round(p * 100) + '%';
   }
   function finish() {
     if (done) return; done = true;
     root.classList.remove('bulb-loading');
     if (!loader) return;
-    paint(1); loader.classList.add('is-done');
-    setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 800);
+    var screen = loader;
+    setTimeout(function () {                                // a beat so the first frame is on the canvas before the fade
+      screen.classList.add('hidden');
+      setTimeout(function () { if (screen.parentNode) screen.parentNode.removeChild(screen); }, 800);
+    }, 300);
   }
   var hold = params.get('loader');
   var fresh = !location.hash && window.pageYOffset < 2 && !params.get('bulb');
-  if (hold) { showLoader(); paint(+hold); }
+  if (hold) showLoader();
   else if (fresh) { showLoader(); setTimeout(finish, LOAD_CAP); }
   else done = true;
 
   var frames = new Array(N + 1), ready = 0, failed = 0;
   function progressed() {
     if (done || hold) return;
-    paint(settled() / N);
     if (settled() >= N) finish();
   }
   function load(i) {

@@ -752,13 +752,19 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 .bulb-hint span:last-child{animation:bulb-bob 1.6s ease-in-out infinite}
 .bulb-stage.is-scrolled .bulb-hint{opacity:0}
 @keyframes bulb-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-/* loading panel over the stage until every frame is in (assets/js/bulb.js); html.bulb-loading locks the scroll */
+/* full-screen "Loading Experience..." screen until every frame is in (assets/js/bulb.js; text + three spinning rings,
+   after doorman-humanoid.github.io). html.bulb-loading locks the scroll; .hidden fades it out before it is removed. */
 html.bulb-loading{overflow:hidden}
-.bulb-loader{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:14px;background:#060e12;transition:opacity .7s ease}
-.bulb-loader.is-done{opacity:0;pointer-events:none}
-.bulb-loader .lbl{font:11px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8ea6a8}
-.bulb-loader .bar{width:min(240px,56vw);height:2px;border-radius:1px;background:#76979633;overflow:hidden}
-.bulb-loader .bar i{display:block;height:100%;width:0;background:#9ed9d6;transition:width .25s linear}
-.bulb-loader .pct{font:11px var(--mono);letter-spacing:.1em;color:#9ed9d6}
+.loading-screen{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#000;opacity:1;transition:opacity .8s ease}
+.loading-screen.hidden{opacity:0;pointer-events:none}
+.loading-text{font:500 1.5rem/1 var(--sans);letter-spacing:2px;color:#9ED9D6;margin-bottom:2rem}
+.loading-spinner{position:relative;width:60px;height:60px}
+.loading-spinner i{position:absolute;inset:0;border:3px solid transparent;border-top-color:#9ED9D6;border-radius:50%;
+  animation:spin 1.5s cubic-bezier(.68,-.55,.265,1.55) infinite}
+.loading-spinner i:nth-child(2){border-top-color:#C5EDEA;animation-duration:2s;animation-delay:-.3s}
+.loading-spinner i:nth-child(3){border-top-color:#5FA7A3;animation-duration:2.5s;animation-delay:-.6s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:640px){.loading-text{font-size:1.2rem;letter-spacing:1px}.loading-spinner{width:50px;height:50px}}
+@media (prefers-reduced-motion: reduce){.loading-spinner i{animation-duration:4s}}
 @media (prefers-reduced-motion: reduce){.bulb-hint span:last-child{animation:none}}
