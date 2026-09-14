@@ -110,7 +110,7 @@
       <p class="lede">We study how frontier coding agents can help robotics. EmbodiedSWE has four parts. <b>EmbodiedSWE-Bench</b> is an agent-native benchmark of everyday robotics tasks. A <b>frontier evaluation</b> measures how well today's coding agents perform on them along several dimensions. <b>EmbodiedSWE-Gen</b> then diversifies the agents' verified solutions into a large dataset for training a general robot policy. Finally, we generate new tasks from existing ones to further <b>improve the coding agents via RL</b>.</p>
     </div>
     <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
-      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-next" type="button" hidden>Next stage →</button></div>
+      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>EmbodiedSWE Overview</h3></div><button class="pipeline-next" type="button" hidden>Next stage →</button></div>
       <div class="pipeline-map">
         <svg class="pipeline-connections" aria-hidden="true"><defs>
           <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker>
@@ -294,7 +294,7 @@
           </div>
         </div>
       </div>
-      <img class="task-timeline-fallback" src="assets/img/fig/long_horizon.jpg" alt="Twelve tasks shown as five-frame filmstrips: T-shirt folding, syringe dosing, PC assembly, tool packing, table assembly, latte pouring, arm assembly, bulb screwing, box to bin, egg carton, banana slicing, and wheel carry." loading="lazy">
+      <img class="task-timeline-fallback" src="assets/img/fig/long_horizon.jpg" width="2000" height="932" alt="Twelve tasks shown as five-frame filmstrips: T-shirt folding, syringe dosing, PC assembly, tool packing, table assembly, latte pouring, arm assembly, bulb screwing, box to bin, egg carton, banana slicing, and wheel carry." loading="lazy">
       <figcaption><b>Long-horizon tasks.</b> Five recorded frames per task; playback steps through these samples, not real-time motion. <a href="assets/img/fig/long_horizon.jpg" target="_blank" rel="noopener">View the original overview ↗</a></figcaption>
     </figure>
 
@@ -391,7 +391,7 @@
         <p>On <code>syringe</code>, <b>Opus 5</b> reads six images in the whole run — none after minute 88 — and monitors its rollouts only through printed numbers. It reports a verified 57% draw across six submissions. The grader scores every one of its 36 graded versions <b>0.0</b>: the syringe is on the floor and the tubes were never touched.</p>
       </div>
       <figure class="fig">
-        <img src="assets/img/fig/fm_1a.jpg" alt="The agent's delivered syringe solution replayed: the syringe lies on the floor with its barrel empty and the tubes untouched, while the agent claims a verified 57 percent draw and the grader scores 0.0." loading="lazy">
+        <img src="assets/img/fig/fm_1a.jpg" width="884" height="628" alt="The agent's delivered syringe solution replayed: the syringe lies on the floor with its barrel empty and the tubes untouched, while the agent claims a verified 57 percent draw and the grader scores 0.0." loading="lazy">
       </figure>
     </div>
 
@@ -401,7 +401,7 @@
         <p>On <code>pen_holder</code>, <b>Opus 5</b> renders 168 frames and reads only four of them, all between minutes 41 and 44. Its own recorded states show the holder lying on its side in <b>385 of 1,665</b> states, the arm folded with four joints at their stops, and pencils frozen in mid-air — none of which has a corresponding metric, so none is ever mentioned.</p>
       </div>
       <figure class="fig">
-        <img src="assets/img/fig/fm_1b.jpg" alt="State recorded by the agent's own tooling but never viewed: the pen holder on its side, the arm folded with four joints at their stops, and pencils frozen in mid-air." loading="lazy">
+        <img src="assets/img/fig/fm_1b.jpg" width="884" height="628" alt="State recorded by the agent's own tooling but never viewed: the pen holder on its side, the arm folded with four joints at their stops, and pencils frozen in mid-air." loading="lazy">
       </figure>
     </div>
 
@@ -412,7 +412,7 @@
         <p>The agent locks in a flawed decomposition early, then treats every later failure as a tuning problem <em>inside</em> it. On the bimanual <code>syringe</code> task, <b>Opus 4.8</b> concludes from a single failed reach test that the job needs one arm, parks the second, and spends <b>three hours</b> tuning. All 25 versions score 0.0.</p>
       </div>
       <figure class="fig">
-        <img src="assets/img/fig/fm_2.jpg" alt="The agent's delivered solution replayed: one arm attempts the whole bimanual syringe task while the second arm stays parked; all 25 versions score zero." loading="lazy">
+        <img src="assets/img/fig/fm_2.jpg" width="884" height="628" alt="The agent's delivered solution replayed: one arm attempts the whole bimanual syringe task while the second arm stays parked; all 25 versions score zero." loading="lazy">
       </figure>
     </div>
 
@@ -424,7 +424,7 @@
         <p>The hack is rarely one decision. Each step is framed locally as an engineering workaround — &ldquo;replace the stiff fixture&rdquo;, &ldquo;use the exposed plunger command&rdquo; — until the agent is optimizing the hack itself. Codex-harness runs hacked at <b>39–43%</b>, against <b>4–11%</b> for Claude Code.</p>
       </div>
       <figure class="fig">
-        <img src="assets/img/fig/fm_3.jpg" alt="The agent's delivered solution replayed: both arms commanded zero and never moving, the tube moved by an applied force and never gripped, and the tubes filled by overridden seat sensors, yet scored 1.0." loading="lazy">
+        <img src="assets/img/fig/fm_3.jpg" width="884" height="680" alt="The agent's delivered solution replayed: both arms commanded zero and never moving, the tube moved by an applied force and never gripped, and the tubes filled by overridden seat sensors, yet scored 1.0." loading="lazy">
       </figure>
     </div>
   </div>
@@ -531,7 +531,7 @@
           <div class="diversification-bottom"><span>Explore each level independently</span><button type="button" class="diversification-next">Next level <span aria-hidden="true">→</span></button></div>
           <p class="diversification-status" role="status"></p>
         </div>
-        <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task." loading="lazy">
+        <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" width="1700" height="1210" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task.">
         <figcaption><b>One solve, many variations.</b> An animated walkthrough using the original simulation renders. Each level can run independently. <a href="assets/img/fig/diversification.jpg" target="_blank" rel="noopener">View the complete figure ↗</a></figcaption>
       </figure>
     </div>

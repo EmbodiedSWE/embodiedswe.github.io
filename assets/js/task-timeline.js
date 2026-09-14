@@ -197,10 +197,9 @@
       }, {threshold:0.2}).observe(screen);
     } else { visible = true; updatePlayback(); }
   }
-  if ('IntersectionObserver' in window) {
-    var starter = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) { starter.disconnect(); start(); }
-    }, {rootMargin:'300px'});
-    starter.observe(host);
-  } else start();
+  /* Build the player at load rather than on approach: it is ~900px taller than the fallback figure, and
+     growing the page while an anchor jump (e.g. the overview's "Explore" links) is in flight lands the jump
+     hundreds of pixels off. Frames are still fetched one at a time on demand, and playback still waits for
+     the screen to be visible. */
+  start();
 })();

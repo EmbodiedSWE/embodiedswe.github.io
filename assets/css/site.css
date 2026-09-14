@@ -148,14 +148,16 @@ figcaption b{color:var(--ink);font-weight:650}
 .pipeline-particle{fill:var(--flow-color);filter:drop-shadow(0 0 4px var(--flow-color));pointer-events:none}
 .pipeline-card{--card-color:var(--solve);display:flex;flex-direction:column;position:relative;text-align:left;
   font-family:var(--sans);background:var(--bg);border:1px solid var(--line);border-radius:12px;
-  padding:18px 14px;color:var(--ink);min-width:0;cursor:pointer;transition:border-color .3s,box-shadow .3s}
+  padding:18px 14px;color:var(--ink);min-width:0;cursor:pointer;transition:border-color .3s,box-shadow .3s,transform .3s}
 .pipeline-card:nth-child(2){--card-color:var(--learn)}
 .pipeline-card:nth-child(3){--card-color:var(--teach)}
 .pipeline-card:nth-child(4){--card-color:var(--solve)}
 .pipeline-card:disabled{cursor:default;opacity:1}
 .pipeline-card:hover{border-color:var(--card-color)}
-.pipeline-card[aria-pressed="true"]{border-color:var(--card-color);
-  box-shadow:0 0 28px color-mix(in srgb,var(--card-color) 11%,transparent),inset 0 1px 0 var(--card-color)}
+/* selected card: lifted, ringed in its stage color, deep tinted shadow and a colored wash fading from the top */
+.pipeline-card[aria-pressed="true"]{border-color:var(--card-color);transform:translateY(-4px);
+  box-shadow:0 0 0 1.5px var(--card-color),0 18px 44px color-mix(in srgb,var(--card-color) 24%,transparent);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card-color) 12%,var(--bg)),var(--bg) 55%)}
 .pipeline-card-top{display:flex;justify-content:space-between;gap:10px;font:9px var(--mono);
   text-transform:uppercase;letter-spacing:.1em;color:var(--card-color);margin-bottom:16px}
 .pipeline-card-title{font-size:20px;line-height:1.25;font-weight:500;letter-spacing:-.035em;min-height:50px}  /* room for a 2-line title */
