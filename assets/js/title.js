@@ -80,3 +80,37 @@
   window.addEventListener('resize', update);
   current = target = progress(); apply(current);
 })();
+
+/* The brand link in the top bar (href="#top") lands on the finished title page rather than the dark start of its
+ * track: the last scroll position with the whole page on screen, and never before the bulb stage has left. That
+ * also covers reduced motion, where the choreography above is off, the track is collapsed and the bulb still
+ * scrubs. Same for a page opened at #top. Without JS the plain anchor stands. */
+(function () {
+  var hero = document.querySelector('header.hero.title-stage');
+  if (!hero || !('scrollTo' in window)) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function landingY() {
+    var nav = document.querySelector('nav.top'), pinTop = nav ? nav.offsetHeight : 0, y = window.pageYOffset;
+    var h = hero.getBoundingClientRect();
+    var top = h.top + y - pinTop;                            // the page's top meets the bar (its start, no track)
+    var end = h.bottom + y - window.innerHeight;             // its bottom meets the viewport bottom (end of the hold)
+    var bulb = document.querySelector('.bulb-stage'), gone = 0;
+    if (bulb) gone = bulb.getBoundingClientRect().bottom + y - (window.innerHeight - pinTop);   // bulb scrolled off
+    return Math.max(0, Math.round(Math.max(top, end, gone)));
+  }
+  function land(smooth) {
+    window.scrollTo({ top: landingY(), left: 0, behavior: smooth && !reduced.matches ? 'smooth' : 'auto' });
+  }
+  var brand = document.querySelectorAll('a[href="#top"]');
+  for (var b = 0; b < brand.length; b++) {
+    brand[b].addEventListener('click', function (e) {
+      e.preventDefault();
+      land(true);
+      try { history.replaceState(null, '', '#top'); } catch (err) { /* sandboxed frame: the scroll still happened */ }
+    });
+  }
+  if (location.hash === '#top') {                          // after the browser's own fragment jump
+    var onload = function () { requestAnimationFrame(function () { land(false); }); };
+    if (document.readyState === 'complete') onload(); else window.addEventListener('load', onload);
+  }
+})();

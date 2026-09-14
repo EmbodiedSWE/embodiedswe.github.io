@@ -759,7 +759,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
   .title-line{font-size:clamp(18px,2.6vw,30px)}.title-people{margin-top:18px;gap:10px}.title-tier{font-size:14px}
 }
 @media (prefers-reduced-motion: reduce){
-  header.hero{height:auto}.title-sticky{position:relative;transform:none;opacity:1;will-change:auto}
+  header.hero{height:auto;margin-top:0}.title-sticky{position:relative;transform:none;opacity:1;will-change:auto}   /* no track: the page follows the bulb */
   header.hero.is-live [data-pop]{opacity:1;transform:none;filter:none;will-change:auto}
   .hero-scroll-arrow{transition:none}
 }
