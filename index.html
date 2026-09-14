@@ -81,7 +81,7 @@
       <span class="badge soon"><span class="ic">🗂</span> arXiv <span style="opacity:.75;font-weight:500">(soon)</span></span>
       <span class="badge soon"><span class="ic">📝</span> Blog <span style="opacity:.75;font-weight:500">(soon)</span></span>
       <span class="badge soon"><span class="ic">⌨</span> Code <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <a class="badge" href="#tasks"><span class="ic">▶</span> Task gallery</a>
+      <a class="badge" href="#tasks"><span class="ic">▶</span> Explore tasks</a>
     </div>
   </div>
 </section>
@@ -292,56 +292,87 @@
   <div class="wrap">
     <div class="sec-head">
       <h2>Tasks</h2>
-      <p class="lede">Explore twelve long-horizon tasks, one stage at a time, then watch the rendered rollouts below. The benchmark emphasizes interactions that are underrepresented elsewhere: contact-intensive assembly, deformables, liquids, and topological change such as cutting.</p>
+      <p class="lede">From threading fasteners and folding cloth to pouring liquids and carrying objects, explore the physical interactions behind our 28-task benchmark.</p>
     </div>
 
-    <figure class="fig task-timeline" id="task-timeline">
-      <div class="task-timeline-player" hidden>
-        <div class="task-timeline-heading"><div><p class="eyebrow">Long-horizon tasks</p><h3>One task. Many steps.</h3></div><span class="task-timeline-count">12 tasks <span aria-hidden="true">·</span> 5 frames each</span></div>
-        <div class="task-timeline-layout">
-          <div class="task-timeline-list" role="group" aria-label="Choose a task"></div>
-          <label class="task-timeline-picker">Choose a task<select aria-label="Choose a task"></select></label>
-          <div class="task-timeline-detail">
-            <div class="task-timeline-title"><h4></h4><span class="tag task-timeline-robot"></span></div>
-            <p class="task-timeline-objective"></p>
-            <div class="task-timeline-screen" aria-busy="true">
-              <img class="task-timeline-image" width="1920" height="1080" alt="">
-              <span class="task-timeline-loading">Loading frame…</span>
-              <span class="task-timeline-stamp" aria-hidden="true"></span>
-            </div>
-            <div class="task-timeline-toolbar">
-              <div><span class="task-timeline-position"></span><p class="task-timeline-caption"></p></div>
-              <button class="task-timeline-play" type="button" aria-label="Pause task timeline">Ⅱ Pause</button>
-            </div>
-            <div class="task-timeline-frames" role="group" aria-label="Choose a recorded frame"></div>
-            <div class="task-timeline-footer"><p class="task-timeline-note"></p><a class="task-timeline-full" target="_blank" rel="noopener">Open full size ↗</a></div>
-            <p class="task-timeline-status" role="status"></p>
+    <div class="task-explorer" id="task-explorer">
+      <div id="task-player-home">
+        <article class="task-player" id="task-player" aria-labelledby="task-title">
+          <div class="task-media">
+            <video id="task-video" controls muted loop playsinline preload="none" width="1280" height="720"
+              src="assets/video/ikea_table.mp4" poster="assets/img/poster/ikea_table.jpg"
+              aria-label="Table assembly rollout" aria-describedby="task-clip-note">
+              <a href="assets/video/ikea_table.mp4">Watch table assembly</a>
+            </video>
+            <div class="task-video-footer"><span id="task-clip-note">Edited excerpt · 4× speed</span><a id="task-video-link" href="assets/video/ikea_table.mp4" target="_blank" rel="noopener">Open video ↗</a></div>
+            <p class="task-video-error" id="task-video-error" role="status" hidden>This clip could not load. Try the “Open video” link.</p>
           </div>
-        </div>
+          <div class="task-detail">
+            <p class="eyebrow" id="task-suite">Assembly</p>
+            <h3 id="task-title">Table assembly</h3>
+            <p class="task-objective" id="task-objective">Thread four legs onto the corner studs of a tabletop.</p>
+            <dl class="task-facts"><div><dt>Robot shown</dt><dd id="task-robot">Bimanual Franka</dd></div><div><dt>Difficulty</dt><dd id="task-difficulty">Hard</dd></div></dl>
+            <div class="task-challenge"><h4>What makes it challenging</h4><p id="task-challenge">Coordinate two arms to align and engage threads, then repeat the sequence across four legs.</p></div>
+            <details class="task-specs"><summary>Task details</summary><dl><dt>Scene</dt><dd><code id="task-scene">ikea_table</code></dd><dt>Supported embodiments</dt><dd id="task-embodiments">Bimanual Franka</dd></dl></details>
+          </div>
+        </article>
       </div>
-      <img class="task-timeline-fallback" src="assets/img/fig/long_horizon.jpg" alt="Twelve tasks shown as five-frame filmstrips: T-shirt folding, syringe dosing, PC assembly, tool packing, table assembly, latte pouring, arm assembly, bulb screwing, box to bin, egg carton, banana slicing, and wheel carry." loading="lazy">
-      <figcaption><b>Long-horizon tasks.</b> Five recorded frames per task; playback steps through these samples, not real-time motion. <a href="assets/img/fig/long_horizon.jpg" target="_blank" rel="noopener">View the original overview ↗</a></figcaption>
-    </figure>
 
-    <h3 class="sub">Rendered rollouts</h3>
-    <div class="filters" role="group" aria-label="Filter tasks by suite">
-      <button type="button" data-suite="all" aria-pressed="true">All 15</button>
-      <button type="button" data-suite="assembly" aria-pressed="false">Assembly</button>
-      <button type="button" data-suite="packing" aria-pressed="false">Packing</button>
-      <button type="button" data-suite="puzzle" aria-pressed="false">Puzzle</button>
-      <button type="button" data-suite="cutting" aria-pressed="false">Cutting</button>
-      <button type="button" data-suite="locomanip" aria-pressed="false">Locomanip</button>
+      <div class="task-browser" id="task-browser" hidden>
+        <div class="task-browse-heading"><h3>A few places to start</h3><span>Six views of the benchmark</span></div>
+        <div class="task-featured" id="task-featured" role="group" aria-label="Featured tasks"></div>
+
+        <div class="task-browse-heading task-all-heading"><h3>Explore all tasks</h3><span id="task-results" role="status">26 videos · 28 tasks</span></div>
+        <div class="filters" role="group" aria-label="Filter tasks by suite">
+          <button type="button" data-suite="all" aria-pressed="true">All</button>
+          <button type="button" data-suite="assembly" aria-pressed="false">Assembly</button>
+          <button type="button" data-suite="packing" aria-pressed="false">Packing</button>
+          <button type="button" data-suite="puzzle" aria-pressed="false">Puzzle</button>
+          <button type="button" data-suite="deformable" aria-pressed="false">Deformable</button>
+          <button type="button" data-suite="cutting" aria-pressed="false">Cutting</button>
+          <button type="button" data-suite="locomanip" aria-pressed="false">Locomotion + manipulation</button>
+        </div>
+        <div class="task-grid" id="task-grid" role="group" aria-label="All benchmark tasks"></div>
+        <p class="task-announcement" id="task-announcement" role="status"></p>
+      </div>
+      <noscript>
+        <div class="task-fallback"><h3>Watch the task clips</h3><ul>
+          <li><a href="assets/video/ikea_table.mp4">Table assembly</a></li>
+          <li><a href="assets/video/so101.mp4">Robot-arm assembly</a></li>
+          <li><a href="assets/video/pc_motherboard.mp4">Motherboard mount</a></li>
+          <li><a href="assets/video/allen_bolt.mp4">Allen bolt</a></li>
+          <li><a href="assets/video/bulb.mp4">Bulb screwing</a></li>
+          <li><a href="assets/video/nut_thread.mp4">Nut threading</a></li>
+          <li><a href="assets/video/pc_gpu.mp4">GPU insertion</a></li>
+          <li><a href="assets/video/pc_gpu_ram.mp4">GPU + RAM install</a></li>
+          <li><a href="assets/video/pc_ram.mp4">RAM seating</a></li>
+          <li><a href="assets/video/tool_packing.mp4">Tool packing</a></li>
+          <li><a href="assets/video/pen_holder.mp4">Pen holder</a></li>
+          <li><a href="assets/video/egg_carton.mp4">Egg carton</a></li>
+          <li><a href="assets/video/clear_organic.mp4">Clear organics</a></li>
+          <li><a href="assets/video/syringe.mp4">Syringe dosing</a></li>
+          <li><a href="assets/video/coffee.mp4">Coffee brewing</a></li>
+          <li><a href="assets/video/spatula.mp4">Spatula flip</a></li>
+          <li><a href="assets/video/push_shapes.mp4">Push shapes</a></li>
+          <li><a href="assets/video/classify_objects.mp4">Classify objects</a></li>
+          <li><a href="assets/video/stack_blocks.mp4">Stack blocks</a></li>
+          <li><a href="assets/video/tshirt.mp4">T-shirt folding</a></li>
+          <li><a href="assets/video/latte.mp4">Latte pouring</a></li>
+          <li><a href="assets/video/dumpling.mp4">Dough rolling</a></li>
+          <li><a href="assets/video/slice_banana.mp4">Banana slicing</a></li>
+          <li><a href="assets/video/fruit_delivery.mp4">Fruit delivery</a></li>
+          <li><a href="assets/video/box_to_bin.mp4">Box to bin</a></li>
+          <li><a href="assets/video/wheel_carry.mp4">Wheel carry</a></li>
+        </ul></div>
+      </noscript>
+      <p class="cap">Clips show edited excerpts of task execution; speedups are labeled in the player. Deformable tasks include cloth and liquid simulation. Shoelace tying and dicing are listed with videos forthcoming.</p>
     </div>
 
-    <div class="gallery" id="gallery"></div>
-
-    <p class="cap" style="margin-top:14px">Click a tile to play; clips are trimmed and, where noted, sped up. The four <b>deformable</b> tasks — T-shirt folding, latte pouring, dough rolling and shoelace tying — run on a Newton cloth/liquid/rod backend whose coupled substrate cannot be rendered live. T-shirt folding and latte pouring are shown in the recorded-frame viewer above.</p>
-
-    <details class="catalog">
+    <details class="catalog" hidden>
       <summary>Full task catalog — all 28 scenes, with supported embodiments and difficulty</summary>
       <div class="tbl-scroll">
         <table>
-          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Embodiments</th><th>Difficulty</th></tr></thead>
+          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Embodiments</th><th>Difficulty</th><th>Video</th></tr></thead>
           <tbody id="catalog-body"></tbody>
         </table>
       </div>
@@ -642,7 +673,6 @@
 <script src="assets/js/site.js"></script>
 <script src="assets/js/charts.js"></script>
 <script src="assets/js/diversification.js"></script>
-<script src="assets/js/task-timeline.js"></script>
 <script src="assets/js/pipeline.js"></script>
 </body>
 </html>

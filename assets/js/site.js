@@ -1,24 +1,35 @@
-/* EmbodiedSWE project page — gallery, catalog, nav scroll-spy, theme. */
+/* EmbodiedSWE project page — video task explorer, catalog, nav scroll-spy, theme. */
 (function () {
   'use strict';
 
-  /* ---------- rendered rollouts (15 clips available) ---------- */
+  /* ---------- rendered rollouts (26 clips available) ---------- */
   var CLIPS = [
-    { f:'ikea_table',      name:'Table assembly',    scene:'ikea_table',     suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:8, desc:'Thread four legs onto the corner studs of a tabletop.' },
+    { f:'ikea_table',      name:'Table assembly',    scene:'ikea_table',     suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:4, desc:'Thread four legs onto the corner studs of a tabletop.' },
     { f:'so101',           name:'Robot-arm assembly',scene:'so101',          suite:'assembly',  diff:'Hard',   emb:'Bimanual Franka',       sp:1, desc:'Seat the servo, screw it down, clip on the forearm.' },
     { f:'pc_motherboard',  name:'Motherboard mount', scene:'pc_motherboard', suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Drive seven mounting bolts with an Allen key to secure a motherboard in a case.' },
     { f:'allen_bolt',      name:'Allen bolt',        scene:'allen_bolt',     suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:1, desc:'Drive an Allen bolt into a threaded plate using an L-shaped key.' },
     { f:'bulb',            name:'Bulb screwing',     scene:'bulb',           suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:5, desc:'Pick up a light bulb and screw it into its socket until fully seated.' },
     { f:'nut_thread',      name:'Nut threading',     scene:'nut_thread',     suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up an M16 nut and thread it onto a fixed bolt.' },
     { f:'pc_gpu',          name:'GPU insertion',     scene:'pc_gpu',         suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Align a graphics card with a PCIe slot and press it into place.' },
+    { f:'pc_gpu_ram',      name:'GPU + RAM install', scene:'pc_gpu_ram',     suite:'assembly',  diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Install a graphics card and then seat two memory modules in their slots.' },
     { f:'pc_ram',          name:'RAM seating',       scene:'pc_ram',         suite:'assembly',  diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Align and seat two memory modules in separate DIMM slots.' },
     { f:'tool_packing',    name:'Tool packing',      scene:'tool_packing',   suite:'packing',   diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:5, desc:'Stow three tools in their assigned drawers, then close the cabinet.' },
     { f:'pen_holder',      name:'Pen holder',        scene:'pen_holder',     suite:'packing',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Insert every present pen tip-up, then stand the filled holder upright.' },
+    { f:'egg_carton',      name:'Egg carton',        scene:'egg_carton',     suite:'packing',   diff:'Hard',   emb:'Unitree G1',            sp:1, desc:'Seat three eggs upright in the cells of an egg carton, then push the hinged lid closed.' },
+    { f:'clear_organic',   name:'Clear organics',    scene:'clear_organic_objects', suite:'packing', diff:'Medium', emb:'Franka · Unitree G1', sp:2, desc:'Clear the organic objects on a cluttered table into a bin while leaving the other items in place.' },
     { f:'syringe',         name:'Syringe dosing',    scene:'syringe',        suite:'puzzle',    diff:'Hard',   emb:'Bimanual Franka',       sp:1, desc:'Draw liquid from a reservoir, meter three target doses, and repark the syringe.' },
     { f:'coffee',          name:'Coffee brewing',    scene:'coffee',         suite:'puzzle',    diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:1, desc:'Load a capsule, brew, and return the filled mug to the serving tray.' },
     { f:'spatula',         name:'Spatula flip',      scene:'spatula',        suite:'puzzle',    diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Wedge a spatula under bread, flip it, reload the blade, and serve to a plate.' },
-    { f:'slice_banana',    name:'Slicing',           scene:'slice',          suite:'cutting',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up a chef knife and slice a banana into a target number of pieces.' },
-    { f:'box_to_bin',      name:'Box to bin',        scene:'box_to_bin',     suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a box off a shelf and carry it to a sorting bin across the room.' }
+    { f:'push_shapes',     name:'Push shapes',       scene:'push_shapes',    suite:'puzzle',    diff:'Easy',   emb:'Unitree G1',            sp:1, desc:'Push three blocks onto their matching pads, correcting each block’s orientation along the way.' },
+    { f:'classify_objects', name:'Classify objects', scene:'classify_objects', suite:'puzzle',  diff:'Easy',   emb:'Unitree G1',            sp:1, desc:'Sort scattered coloured blocks into the zones matching their colours.' },
+    { f:'stack_blocks',    name:'Stack blocks',      scene:'stack_blocks',   suite:'puzzle',    diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Stack scattered blocks into a single aligned tower on a marked pad.' },
+    { f:'tshirt',          name:'T-shirt folding',   scene:'tshirt',         suite:'deformable', diff:'Medium', emb:'Franka · xArm7 · Gen3', sp:2, desc:'Fold a T-shirt into a compact, flat bundle.' },
+    { f:'latte',           name:'Latte pouring',     scene:'latte',          suite:'deformable', diff:'Hard',   emb:'Bimanual Franka',       sp:3, desc:'Coordinate two arms to pour milk into a carried coffee mug without excessive spilling.' },
+    { f:'dumpling',        name:'Dough rolling',     scene:'dumpling',       suite:'deformable', diff:'Hard',   emb:'Franka',                sp:1, desc:'Roll a ball of dough flat into a round dumpling wrapper with a rolling pin.' },
+    { f:'slice_banana',    name:'Banana slicing',           scene:'slice',          suite:'cutting',   diff:'Easy',   emb:'Franka · xArm7 · Gen3', sp:1, desc:'Pick up a chef knife and slice a banana into a target number of pieces.' },
+    { f:'fruit_delivery',  name:'Fruit delivery',    scene:'fruit_delivery', suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick up every fruit on a long table and carry it around the table to a plate beyond arm reach.' },
+    { f:'box_to_bin',      name:'Box to bin',        scene:'box_to_bin',     suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a box off a shelf and carry it to a sorting bin across the room.' },
+    { f:'wheel_carry',     name:'Wheel carry',       scene:'wheel_carry',    suite:'locomanip', diff:'Medium', emb:'Unitree G1',            sp:1, desc:'Pick a steering wheel off one packing table and carry it to a basket on another, three metres away.' }
   ];
 
   /* ---------- full catalog: all 28 registered scenes ---------- */
@@ -36,7 +47,7 @@
     ['Packing','pen_holder','Insert every present pen tip-up and then place the filled holder upright.',A,'Easy'],
     ['Packing','tool_packing','Stow three tools in their assigned drawers and close the cabinet.',A,'Medium'],
     ['Packing','egg_carton','Seat three eggs upright in the cells of an egg carton, then push the hinged lid closed.',G,'Hard'],
-    ['Packing','clear_organic_objects','Clear the organic objects on a cluttered table into a bin while leaving the other items in place.',G,'Medium'],
+    ['Packing','clear_organic_objects','Clear the organic objects on a cluttered table into a bin while leaving the other items in place.','Franka · Unitree G1','Medium'],
     ['Puzzle','coffee','Load a capsule, brew coffee, and return the filled mug to the serving tray.',A,'Medium'],
     ['Puzzle','spatula','Wedge a spatula under bread, flip it, reload it onto the blade, and serve it to a plate.',A,'Easy'],
     ['Puzzle','syringe','Draw liquid from a reservoir, meter three target doses, and repark the syringe.',B,'Hard'],
@@ -60,86 +71,168 @@
     });
   }
 
-  /* ---------- gallery ---------- */
-  var gallery = document.getElementById('gallery');
-  if (gallery) {
-    gallery.innerHTML = CLIPS.map(function (t) {
-      var speed = t.sp > 1 ? ' · ' + t.sp + '×' : '';
-      return '' +
-        '<article class="card" data-suite="' + t.suite + '">' +
-          '<div class="shot" tabindex="0" role="button" aria-label="Play ' + esc(t.name) + ' rollout">' +
-            '<video src="assets/video/' + t.f + '.mp4" poster="assets/img/poster/' + t.f + '.jpg"' +
-              ' muted loop playsinline preload="none"></video>' +
-            '<span class="play">▶ play' + speed + '</span>' +
-          '</div>' +
-          '<div class="meta">' +
-            '<h4>' + esc(t.name) + '</h4>' +
-            '<div class="tags">' +
-              '<span class="tag">' + esc(t.scene) + '</span>' +
-              '<span class="tag d-' + t.diff.toLowerCase() + '">' + t.diff + '</span>' +
-              '<span class="tag">' + esc(t.emb) + '</span>' +
-            '</div>' +
-            '<p>' + esc(t.desc) + '</p>' +
-          '</div>' +
-        '</article>';
+  /* ---------- video task explorer ---------- */
+  var explorer = document.getElementById('task-explorer');
+  var clipsByScene = {};
+  CLIPS.forEach(function (t) { clipsByScene[t.scene.toLowerCase()] = t; });
+  clipsByScene.so_101 = clipsByScene.so101;
+  var suiteNames = {assembly:'Assembly', packing:'Packing', puzzle:'Puzzle',
+    deformable:'Deformable', cutting:'Cutting', locomanip:'Locomotion + manipulation'};
+  var challenges = {
+    assembly:'Align parts precisely and maintain stable contact through insertion or fastening.',
+    packing:'Sequence grasps and placements in confined spaces without disturbing objects already placed.',
+    puzzle:'Complete a sequence of tool and object interactions, with each step setting up the next.',
+    deformable:'Control objects whose shape or flow changes throughout the interaction.',
+    cutting:'Orient the knife and control contact as cutting changes the object’s geometry.',
+    locomanip:'Coordinate grasping, carrying, and placement while moving beyond the initial workspace.'
+  };
+  var taskChallenges = {
+    ikea_table:'Coordinate two arms to align and engage threads, then repeat the sequence across four legs.',
+    tshirt:'Control flexible cloth through successive folds while keeping the final bundle flat and compact.',
+    latte:'Coordinate the pitcher and mug with two arms while controlling liquid flow and spillage.',
+    slice_banana:'Grasp and orient a knife, then make repeated cuts as the banana separates into pieces.',
+    syringe:'Coordinate two arms to draw liquid, dispense three target doses, and return the syringe.',
+    wheel_carry:'Keep a stable grasp on the wheel while moving between tables three metres apart.',
+    so101:'Sequence servo placement, tool use, fastening, and forearm attachment in a constrained assembly.',
+    bulb:'Maintain alignment and controlled rotation as the bulb engages its threaded socket.',
+    egg_carton:'Place fragile objects upright in small cells, then close the lid without dislodging them.'
+  };
+  var missingNames = {shoe_knot:'Shoelace tying', dice:'Dicing'};
+
+  if (explorer) {
+    var player = document.getElementById('task-player');
+    var home = document.getElementById('task-player-home');
+    var video = document.getElementById('task-video');
+    var grid = document.getElementById('task-grid');
+    var featured = document.getElementById('task-featured');
+    var error = document.getElementById('task-video-error');
+    var announcement = document.getElementById('task-announcement');
+    var mobile = window.matchMedia('(max-width:700px)');
+    var selected = null;
+    var activeCard = null;
+    var byFile = {};
+    CLIPS.forEach(function (t) { byFile[t.f] = t; });
+    var featuredIds = ['ikea_table','tshirt','latte','slice_banana','syringe','wheel_carry'];
+
+    function card(t) {
+      return '<button class="task-tile" type="button" data-task="' + t.f +
+        '" data-suite="' + t.suite + '" aria-pressed="false" aria-controls="task-player">' +
+        '<span class="task-tile-image"><img src="assets/img/poster/' + t.f +
+        '.jpg" width="1280" height="720" loading="lazy" decoding="async" alt="">' +
+        '<span class="task-tile-play" aria-hidden="true">▶</span></span>' +
+        '<span class="task-tile-copy"><strong>' + esc(t.name) + '</strong><small>' +
+        esc(suiteNames[t.suite]) + '</small></span></button>';
+    }
+    featured.innerHTML = featuredIds.map(function (id) { return card(byFile[id]); }).join('');
+    // Lead with a diverse selection even when every suite is visible.
+    var ordered = featuredIds.map(function (id) { return byFile[id]; }).concat(
+      CLIPS.filter(function (t) { return featuredIds.indexOf(t.f) < 0; }));
+    grid.innerHTML = ordered.map(card).join('') + CATALOG.filter(function (r) {
+      return !clipsByScene[r[1].toLowerCase()];
+    }).map(function (r) {
+      return '<article class="task-tile task-unavailable" data-suite="' + r[0].toLowerCase() +
+        '"><div class="task-tile-image"><span>Video forthcoming</span></div>' +
+        '<div class="task-tile-copy"><strong>' + esc(missingNames[r[1]] || r[1]) +
+        '</strong><small>' + esc(suiteNames[r[0].toLowerCase()]) + '</small></div></article>';
     }).join('');
+    var tiles = explorer.querySelectorAll('button[data-task]');
 
-    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    function toggle(shot) {
-      var v = shot.querySelector('video');
-      if (v.paused) {
-        gallery.querySelectorAll('video').forEach(function (o) {
-          if (o !== v && !o.paused) { o.pause(); o.parentElement.classList.remove('playing'); }
+    function positionPlayer() {
+      if (mobile.matches && activeCard && grid.contains(activeCard) && !activeCard.hidden) {
+        // Insert after the selected two-column row, keeping both thumbnails together.
+        var visible = Array.prototype.filter.call(grid.children, function (el) {
+          return el.classList.contains('task-tile') && !el.hidden;
         });
-        v.play().then(function () { shot.classList.add('playing'); }).catch(function () {});
+        var index = visible.indexOf(activeCard);
+        var endOfRow = visible[Math.min(index - index % 2 + 1, visible.length - 1)];
+        endOfRow.after(player);
       } else {
-        v.pause();
-        shot.classList.remove('playing');
+        home.appendChild(player);
       }
     }
 
-    gallery.querySelectorAll('.shot').forEach(function (shot) {
-      var v = shot.querySelector('video');
-      shot.addEventListener('click', function () { toggle(shot); });
-      shot.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(shot); }
-      });
-      if (fine) {
-        shot.addEventListener('mouseenter', function () {
-          v.play().then(function () { shot.classList.add('playing'); }).catch(function () {});
-        });
-        shot.addEventListener('mouseleave', function () {
-          v.pause(); v.currentTime = 0; shot.classList.remove('playing');
-        });
+    function selectTask(t, trigger) {
+      activeCard = trigger || null;
+      video.pause();
+      positionPlayer();
+      if (selected !== t.f) {
+        selected = t.f;
+        error.hidden = true;
+        video.poster = 'assets/img/poster/' + t.f + '.jpg';
+        video.src = 'assets/video/' + t.f + '.mp4';
+        video.setAttribute('aria-label', t.name + ' rollout');
+        document.getElementById('task-title').textContent = t.name;
+        document.getElementById('task-suite').textContent = suiteNames[t.suite];
+        document.getElementById('task-objective').textContent = t.desc;
+        document.getElementById('task-robot').textContent = t.emb.split(' · ')[0];
+        document.getElementById('task-difficulty').textContent = t.diff;
+        document.getElementById('task-challenge').textContent = taskChallenges[t.f] || challenges[t.suite];
+        document.getElementById('task-scene').textContent = t.scene;
+        document.getElementById('task-embodiments').textContent = t.emb;
+        document.getElementById('task-clip-note').textContent = 'Edited excerpt' + (t.sp > 1 ? ' · ' + t.sp + '× speed' : '');
+        document.getElementById('task-video-link').href = video.src;
+        player.querySelector('.task-specs').open = false;
       }
+      tiles.forEach(function (tile) { tile.setAttribute('aria-pressed', String(tile.dataset.task === t.f)); });
+      if (trigger) {
+        announcement.textContent = t.name + ' selected. ' + t.desc;
+        // Keep the player in view and keyboard controls immediately reachable.
+        video.focus({preventScroll:true});
+        var bounds = player.getBoundingClientRect();
+        if (bounds.top < 60 || bounds.bottom > window.innerHeight) {
+          player.scrollIntoView({behavior:'instant', block:'start'});
+        }
+        video.play().catch(function () { /* Native controls remain available if autoplay is denied. */ });
+      }
+    }
+    tiles.forEach(function (tile) {
+      tile.addEventListener('click', function () { selectTask(byFile[tile.dataset.task], tile); });
     });
+    video.addEventListener('error', function () { error.hidden = false; });
+    video.addEventListener('loadeddata', function () { error.hidden = true; });
 
-    /* suite filter */
-    var buttons = document.querySelectorAll('.filters button');
-    buttons.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var want = b.dataset.suite;
-        buttons.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
-        gallery.querySelectorAll('.card').forEach(function (c) {
-          var show = want === 'all' || c.dataset.suite === want;
-          c.hidden = !show;
-          if (!show) {
-            var v = c.querySelector('video');
-            v.pause(); c.querySelector('.shot').classList.remove('playing');
-          }
+    var filters = explorer.querySelectorAll('.filters button');
+    filters.forEach(function (button) {
+      var suite = button.dataset.suite;
+      var count = CATALOG.filter(function (r) { return suite === 'all' || r[0].toLowerCase() === suite; }).length;
+      button.innerHTML += ' <span class="task-filter-count">' + count + '</span>';
+      button.addEventListener('click', function () {
+        video.pause();
+        activeCard = null;
+        positionPlayer();
+        filters.forEach(function (other) { other.setAttribute('aria-pressed', String(other === button)); });
+        var taskCount = 0, videoCount = 0;
+        grid.querySelectorAll('.task-tile').forEach(function (tile) {
+          tile.hidden = suite !== 'all' && tile.dataset.suite !== suite;
+          if (!tile.hidden) { taskCount++; if (tile.dataset.task) videoCount++; }
         });
+        document.getElementById('task-results').textContent = videoCount + (videoCount === 1 ? ' video' : ' videos') +
+          ' · ' + taskCount + (taskCount === 1 ? ' task' : ' tasks');
       });
     });
+    mobile.addEventListener('change', function () { video.pause(); positionPlayer(); });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) video.pause(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) { if (!entry.isIntersecting) video.pause(); });
+      }, {threshold:0}).observe(video);
+    }
+    selectTask(byFile.ikea_table);
+    document.getElementById('task-browser').hidden = false;
   }
 
   /* ---------- catalog table ---------- */
   var body = document.getElementById('catalog-body');
   if (body) {
+    body.closest('details').hidden = false;
     body.innerHTML = CATALOG.map(function (r) {
-      return '<tr><td>' + esc(r[0]) + '</td><td><code>' + esc(r[1]) + '</code></td>' +
+      var clip = clipsByScene[r[1].toLowerCase()];
+      var name = clip ? clip.name : missingNames[r[1]] || r[1];
+      return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(name) + '<br><code>' + esc(r[1]) + '</code></td>' +
         '<td class="wrap-ok">' + esc(r[2]) + '</td><td>' + esc(r[3]) + '</td>' +
-        '<td><span class="tag d-' + r[4].toLowerCase() + '">' + r[4] + '</span></td></tr>';
+        '<td><span class="tag d-' + r[4].toLowerCase() + '">' + r[4] + '</span></td>' +
+        '<td>' + (clip ? '<a href="assets/video/' + clip.f + '.mp4" target="_blank" rel="noopener" aria-label="Watch ' +
+          esc(name) + '">Watch ↗</a>' : 'Forthcoming') + '</td></tr>';
     }).join('');
   }
 
@@ -209,7 +302,7 @@
 
     /* 2 - tag what reveals. Group children stagger against each other; solo
            elements just fade up on their own. */
-    var GROUPS = ['.lanes', '.grid2', '.grid3', '.stats', '.ladder', '.gallery', '.fm-row'];
+    var GROUPS = ['.lanes', '.grid2', '.grid3', '.stats', '.ladder', '.fm-row'];
     var SOLO = ['.sec-head', 'h3.sub', 'hr.rule', '.note', '.cap', '.bib', '.tbl-scroll',
                 'details.catalog', '.filters', '.wrap > p', '.wrap > figure.fig',
                 '[data-chart]'];   /* [data-chart] also catches chart cards that
@@ -218,7 +311,7 @@
 
     /* The stagger is applied by scheduling when .rv-in lands, NOT by an inline
        transition-delay: that would stay on the element afterwards and delay
-       every later transition on it too (the gallery cards' hover, for one). */
+       every later transition on it too, including hover effects. */
     GROUPS.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (g) {
         Array.prototype.forEach.call(g.children, function (child, i) {

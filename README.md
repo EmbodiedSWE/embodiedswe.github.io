@@ -11,7 +11,7 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-Open it through a server rather than `file://` — the gallery videos and the
+Open it through a server rather than `file://` — the task videos and the
 scroll-spy nav both need real HTTP.
 
 ## Layout
@@ -19,16 +19,16 @@ scroll-spy nav both need real HTTP.
 ```
 index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
-assets/js/site.js       task gallery, catalog table, filters, nav, theme
+assets/js/site.js       video task explorer, catalog table, filters, nav, theme
 assets/js/hero.js       full-screen particle animation and pause control
 assets/js/diversification.js  five-level walkthrough: looping clips (or stills) from the original renders
-assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
+assets/js/task-timeline.js  archived still-frame viewer; no longer loaded by the page
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
 assets/js/charts.js     the three animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification, 4 failure modes)
-assets/img/poster/      one poster frame per gallery clip
-assets/video/           15 task rollouts, 1280px, silent, looping
+assets/img/poster/      one poster frame per task clip
+assets/video/           26 task rollouts, 1280px, silent, looping
 assets/video/diversification/  12 tile clips for the diversification player, 720 × 480, silent,
                         looping, + first-frame WebP posters (sources: assets/img/diversification/SOURCES.md)
 ```
@@ -134,7 +134,7 @@ animations:
   via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
-  `.stats`, `.ladder`, `.gallery` and `.fm-row` — 70 ms apart;
+  `.stats`, `.ladder` and `.fm-row` — 70 ms apart;
 - the **project introduction** reveals on scroll below the full-screen opening,
   with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;
@@ -146,7 +146,7 @@ Two implementation notes worth keeping:
 
 **The stagger schedules when `.rv-in` is added, not an inline
 `transition-delay`.** A lingering `transition-delay` applies to *every* later
-transition on that element, which would have delayed the gallery cards' hover
+transition on that element, which would have delayed later hover interactions
 by up to a second.
 
 **The hidden state is gated on `html.reveal`, which only JS adds** — and it is
@@ -211,22 +211,33 @@ Level buttons and Next pause automatic advancement for inspection. Play resumes;
 the timer suspends offscreen and in hidden tabs. Reduced motion starts paused and
 removes frame transitions. Without JavaScript, the original montage stays visible.
 
-## Long-horizon task timeline
+## Video task explorer
 
-`#task-timeline` replaces the dense twelve-task filmstrip with one large 1080p
-frame, a task sidebar (a select menu on mobile), and five clickable thumbnails.
-Play steps through the five recorded samples every 2.4 seconds; it is not
-real-time video. Task and frame selection pause playback for inspection.
-Playback pauses offscreen, while an image decodes, and when the tab is hidden.
-Reduced motion starts paused and disables frame fades. The original montage is
-linked below the viewer and remains visible when JavaScript is unavailable.
+`#tasks` now uses one shared video player, with six featured tasks followed by a
+compact grid of the full benchmark. Table assembly is selected initially; the
+other featured clips show T-shirt folding, latte pouring, banana slicing,
+syringe dosing, and wheel carry. Suite filters count all 28 catalog scenes;
+26 have clips, while shoelace tying and dicing show “Video forthcoming.”
 
-Assets in `assets/img/task-timeline/` include sixty original-resolution WebP
-frames and sixty 320 × 180 thumbnails. They load as needed for the selected task,
-with only the next full-size frame prefetched during playback. Source picks,
-stage descriptions, and recorded times follow the figure2 source notes; partial
-outcomes are labeled rather than represented as complete solves. See that asset
-folder's `SOURCES.md` for provenance and frame indices.
+Selecting a thumbnail loads and plays its clip with native seeking, fullscreen,
+and playback controls. The player presents the objective, robot shown,
+difficulty, interaction challenge, and encoded speedup where supplied by the
+existing clip metadata. Supported embodiments and the scene ID are expandable.
+The videos are edited excerpts, not claims of complete successful rollouts.
+No chapter timestamps are inferred from the older still-frame recordings.
+
+Only the selected video has a source; other tasks use lazy-loaded poster images.
+The initial clip starts paused with `preload="none"`. Playback pauses when the
+video leaves the viewport, the tab is hidden, or the suite filter changes.
+On phones (≤700 px), selecting a grid task moves the same player below that
+thumbnail row. Selecting a featured task or changing filters returns it to the
+top. Desktop selections bring the main player into view. Buttons are keyboard
+accessible, and task changes are announced to assistive technology.
+
+The expandable catalog includes direct video links. Without JavaScript, the
+initial native player and a list of all 26 clip links remain usable. The previous
+montage, original frames, and `task-timeline.js` remain in the repository as
+archived assets; the page no longer displays or loads that viewer.
 
 ## Scene and research loop
 
