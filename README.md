@@ -47,7 +47,7 @@ holds only the three photographic figures.
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
-| `[data-chart="tokens"]`        | cumulative tokens and tokens per trajectory, one log axis |
+| `[data-chart="tokens"]`        | cumulative tokens (left, M) and tokens per trajectory (right, log) |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
 
@@ -97,9 +97,9 @@ the two-line token chart are the paper's data-scaling figure (Fig. 8), left and
 right as in the paper. The token values are read from the vector geometry of
 `data_scaling.pdf` via `plot_data_scaling_row.py` in `reference/cosigen_plotting`
 (cumulative 24.7 / 50.4 / 57.2 / 63.9 / 70.8 / 70.8 M; per trajectory 24.7M /
-9.85M / 2.83M / 1.27M / 344k / 118k). The paper draws them on two y-axes; the
-page puts both on one log token axis, so the lines share a start point and no
-value is read against the wrong scale.
+9.85M / 2.83M / 1.27M / 344k / 118k). As in the paper, cumulative tokens sit
+on a linear left axis and per-trajectory tokens on a log right axis; each axis
+and its labels are tinted to the matching line.
 
 The GPT-6 Astra series (`DATA.base.astra`, `DATA.spend.astra`, plus its
 `MODELS` entry) is not a PDF extraction: it was added to the paper after the

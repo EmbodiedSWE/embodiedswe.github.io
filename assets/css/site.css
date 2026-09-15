@@ -616,6 +616,7 @@ svg.chart .mult-label.animate{opacity:.85}
 /* Fig. 8 token lines: warm for the cumulative spend, cool for the per-trajectory cost,
    both distinct from the tan level bars beside them */
 .s-tok-cum{--c:var(--r-total)}     .s-tok-per{--c:var(--r-task)}
+svg.chart .t-cum{fill:var(--r-total)} svg.chart .t-per{fill:var(--r-task)}
 .s-rl-task{--c:var(--r-task)}       .s-rl-total{--c:var(--r-total)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}
