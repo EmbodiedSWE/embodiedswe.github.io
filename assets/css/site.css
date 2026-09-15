@@ -374,19 +374,7 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 .note b{font-weight:700}
 
 
-/* diversification ladder */
-.ladder{display:grid;gap:9px;margin:0 0 22px}
-.rung{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
-  padding:14px 18px;box-shadow:var(--shadow)}
-.rung .lv{font-family:var(--mono);font-size:12px;font-weight:750;color:var(--teach);
-  background:var(--teach-bg);padding:5px 10px;border-radius:7px;flex:none}
-.rung .txt strong{font-size:15px;font-weight:700}
-.rung .txt span{display:block;font-size:13.8px;color:var(--mut);margin-top:2px}
-.rung .mult{font-family:var(--mono);font-size:15px;font-weight:730;color:var(--teach);
-  font-variant-numeric:tabular-nums;flex:none}
-.rung .bar{height:5px;border-radius:999px;background:var(--teach);opacity:.5;
-  grid-column:1/-1;margin-top:2px}
+/* diversification player, notes and yield chart */
 
 /* Task timeline: full-resolution viewer with a compact, selectable filmstrip. */
 .task-timeline{padding:28px;--task-progress:0}
@@ -466,60 +454,57 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 }
 
 /* Five-level walkthrough: real render crops, animated within the page. */
-.gen-showcase{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:20px;
-  margin-top:30px;align-items:start}
-.diversification{--level-color:var(--solve);padding:24px;min-width:0}
+.diversification{--level-color:var(--solve);padding:24px;min-width:0;margin-top:26px}
+/* below the player: the two notes on the left, the yield chart on the right */
+.gen-notes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;
+  margin-top:24px;align-items:start}
+.gen-notes-text{max-width:60ch;color:var(--mut);padding-top:6px}
+.gen-notes-text p+p{margin-top:14px}
 .diversification [hidden]{display:none}
 .diversification-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .diversification-heading .eyebrow{font-size:9px;margin-bottom:8px;color:var(--faint)}
 .diversification-heading h3{font-size:22px;font-weight:500;letter-spacing:-.035em}
 .diversification button{font:12px var(--sans);color:var(--mut);cursor:pointer}
-.diversification-toggle{flex:none;border:1px solid var(--line);border-radius:22px;
-  padding:8px 12px;background:transparent;min-height:36px}
-.diversification-toggle:hover{border-color:var(--level-color);color:var(--ink)}
-.diversification-levels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;
-  margin:26px 0;border-bottom:1px solid var(--line)}
-.diversification-levels button{background:transparent;border:0;border-bottom:2px solid transparent;
-  padding:8px 2px 12px;line-height:1.5}
-.diversification-levels button span{display:block;font:9px var(--mono);margin-bottom:4px;color:var(--faint)}
-.diversification-levels button[aria-pressed="true"]{border-color:var(--level-color);color:var(--level-color)}
-.diversification-levels button:hover{color:var(--ink)}
+/* level tabs: each carries its own level colour; the active one fills with its tint */
+.diversification-levels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:26px 0}
+.diversification-levels button{display:flex;align-items:center;justify-content:center;gap:9px;
+  background:transparent;border:1px solid var(--line);border-radius:10px;padding:10px 8px;
+  font:600 13.5px/1.3 var(--sans);color:var(--mut);letter-spacing:-.01em;
+  transition:background .25s,border-color .25s,color .25s,transform .25s}
+.diversification-levels button span{display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:7px;flex:none;font:700 10.5px var(--mono);
+  background:var(--tab-bg);color:var(--tab-color);transition:background .25s,color .25s}
+.diversification-levels button:hover{border-color:var(--tab-color);color:var(--ink)}
+.diversification-levels button[aria-pressed="true"]{background:var(--tab-bg);border-color:var(--tab-color);
+  color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--tab-color) 22%,transparent)}
+.diversification-levels button[aria-pressed="true"] span{background:var(--tab-color);color:var(--bg)}
 .diversification-stage{min-height:365px}
-.diversification-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;
-  min-height:72px;margin-bottom:20px}
+.diversification-summary{margin-bottom:22px;max-width:78ch}
 .diversification-number{font:9px var(--mono);letter-spacing:.14em;color:var(--level-color)}
-.diversification-summary h4{font-size:21px;font-weight:450;letter-spacing:-.03em;margin-top:10px}
-.diversification-mult{flex:none;font-size:30px;letter-spacing:-.04em;color:var(--level-color);text-align:right;line-height:1.2}
-.diversification-mult span{display:block;font:9px var(--mono);letter-spacing:0;color:var(--faint);margin-top:5px}
+.diversification-summary h4{font-size:24px;font-weight:450;letter-spacing:-.03em;margin-top:10px;line-height:1.25}
+.diversification-summary h4 mark{background:none;color:var(--level-color);font-weight:650;
+  box-shadow:inset 0 -.38em 0 color-mix(in srgb,var(--level-color) 22%,transparent)}
 .diversification-frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .diversification-frame{min-width:0;animation:diversification-enter .7s both;animation-delay:var(--frame-delay)}
-.diversification-frame>svg{display:block;width:100%;aspect-ratio:1.5;border-radius:7px;
+.diversification-frame>svg,.diversification-frame>video{display:block;width:100%;aspect-ratio:1.5;border-radius:7px;
   overflow:hidden;background:var(--panel2);border:1px solid var(--line)}
+.diversification-frame>video{object-fit:cover}
 .diversification-frame figcaption{font-size:10px;line-height:1.45;margin-top:9px;min-height:30px}
-.diversification-description{font-size:14px;line-height:1.75;color:var(--mut);margin:18px 0 16px}
-.diversification-tags{display:flex;flex-wrap:wrap;gap:6px}
-.diversification-tags span{font:9px var(--mono);color:var(--level-color);padding:6px 8px;
-  border:1px solid var(--line);border-radius:5px}
+.diversification-caption{font-size:12.5px;line-height:1.6;color:var(--faint);margin:12px 0 0;max-width:90ch}
+.diversification-description b,.diversification-caption b{color:var(--ink);font-weight:600}
+.diversification-description{font-size:15px;line-height:1.7;color:var(--mut);margin:12px 0 0}
 .diversification-timeline{height:2px;background:var(--line);margin-top:22px;overflow:hidden}
 .diversification-timeline span{display:block;height:100%;background:var(--level-color);
   transform:scaleX(0);transform-origin:left}
-.diversification-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding-top:12px;color:var(--faint);font:10px var(--mono)}
-.diversification-next{background:transparent;border:0;padding:8px 0 8px 10px;flex:none}
-.diversification-next:hover{color:var(--level-color)}
-.diversification>figcaption{border-top:1px solid var(--line);padding-top:16px;font-size:12px;margin-top:16px}
-.diversification-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  clip-path:inset(50%);white-space:nowrap}
 .diversification-paused .diversification-frame{animation:none}
 @keyframes diversification-enter{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
-@media (max-width:1000px){.gen-showcase{grid-template-columns:1fr}.diversification-stage{min-height:0}}
+@media (max-width:1000px){.gen-notes{grid-template-columns:1fr}.diversification-stage{min-height:0}}
 @media (max-width:520px){
   .diversification{padding:18px 14px}.diversification-heading h3{font-size:20px}
-  .diversification-levels{gap:0}.diversification-levels button{font-size:11px}
-  .diversification-summary{gap:10px}.diversification-summary h4{font-size:19px}
-  .diversification-mult{font-size:26px}.diversification-mult span{font-size:8px}
+  .diversification-levels{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.diversification-levels button{flex-direction:column;gap:5px;padding:8px 2px;font-size:10.5px}.diversification-levels button span{width:20px;height:20px;font-size:9px}
+  .diversification-summary h4{font-size:20px}
   .diversification-frames{gap:6px}.diversification-frame figcaption{font-size:9px}
-  .diversification-bottom{font-size:9px}.diversification-description{font-size:13px}
+  .diversification-description{font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){.diversification-frame{animation:none}}
 

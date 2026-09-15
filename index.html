@@ -371,39 +371,29 @@
 <section id="teacher">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="sec-no">03</span> EmbodiedSWE-Gen — one solve, many trajectories</h2>
-      <p class="lede">A single coding-agent solve can cost hours of wall clock and substantial tokens, so it is far too expensive to be one demonstration. Purely scripted generation is cheap but its diversity saturates around a narrow regime. The data engine puts agent effort where diversity actually needs judgement, and scripts the rest.</p>
+      <h2><span class="sec-no">03</span> EmbodiedSWE-Gen</h2>
+      <p class="lede">A single coding-agent solve costs hours of wall clock and a substantial token budget, and in real deployment the latency and the risk of damage during iteration make that loop hard to afford. In this section we therefore consider how to use the coding agent as a teacher for a lower-level &ldquo;cerebellum&rdquo; policy such as a VLA. We propose a pipeline that systematically perturbs agent-generated solutions to produce a large and diverse trajectory dataset for policy training.</p>
     </div>
 
-    <div class="ladder">
-      <div class="rung"><span class="lv">L1 · Scene</span><span class="txt"><strong>What changes in the task</strong><span>Objects, tools, distractors and workspace layout vary; the agent updates the success condition and the solution to match.</span></span><span class="mult">×5</span></div>
-      <div class="rung"><span class="lv">L2 · Strategy</span><span class="txt"><strong>How it is solved</strong><span>Grasp choices, the order of interchangeable steps, the overall plan — plus recovery branches such as regrasping a dropped object.</span></span><span class="mult">×4</span></div>
-      <div class="rung"><span class="lv">L3 · Phase</span><span class="txt"><strong>Where execution begins</strong><span>The agent identifies intermediate stages, writes code to initialize varied valid states there, and adapts the solution to finish from that point.</span></span><span class="mult">×2.5</span></div>
-      <div class="rung"><span class="lv">L4 · Dynamics</span><span class="txt"><strong>How the motion is perturbed</strong><span>DART-style noise injection made phase-specific — stronger during transport, weaker during insertion — plus mass, friction and contact sampled from agent-declared ranges.</span></span><span class="mult">×4</span></div>
-      <div class="rung"><span class="lv">L5 · Visual</span><span class="txt"><strong>How the state is rendered</strong><span>Lighting, materials and camera poses varied offline by re-rendering recorded states — new observations of the same physical trajectory, with no re-simulation.</span></span><span class="mult">×3</span></div>
-    </div>
+    <figure class="fig diversification" id="diversification">
+      <div class="diversification-player" hidden>
+        <div class="diversification-heading"><div><p class="eyebrow">From one verified solution</p><h3>Five hierarchical levels of diversification</h3></div></div>
+        <div class="diversification-levels" role="group" aria-label="Choose a diversification level"></div>
+        <div class="diversification-stage"></div>
+        <div class="diversification-timeline" aria-hidden="true"><span></span></div>
+      </div>
+      <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" width="1700" height="1210" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task.">
+    </figure>
 
-    <p style="max-width:70ch;color:var(--mut)">Each level contains the next, and each can be run independently — none is mandatory, none waits on another. Trajectories are kept only if they pass the task grader <em>and</em> an open-loop replay check. Verification doubles as feedback on the generated code: the agent test-launches small batches mid-session and reads each batch's yield.</p>
-
-    <p style="max-width:70ch;color:var(--mut)">Cumulative agent tokens flatten after the first two levels — the later ones are mostly scripted — so the token cost of each <em>successful</em> trajectory falls by about three orders of magnitude across the ladder.</p>
-
-    <div class="gen-showcase">
+    <div class="gen-notes">
+      <div class="gen-notes-text">
+        <p>Each level contains the next, and each can be run independently — none is mandatory, none waits on another. Trajectories are kept only if they pass the task grader <em>and</em> an open-loop replay check. Verification doubles as feedback on the generated code: the agent test-launches small batches mid-session and reads each batch's yield.</p>
+        <p>Cumulative agent tokens flatten after the first two levels — the later ones are mostly scripted — so the token cost of each <em>successful</em> trajectory falls by about three orders of magnitude across the ladder.</p>
+      </div>
       <div class="chart-card" data-chart="yield">
         <h4>One solve, level by level</h4>
         <p class="sub">Verified successful trajectories, log scale, with each level&rsquo;s multiplier.</p>
       </div>
-      <figure class="fig diversification" id="diversification">
-        <div class="diversification-player" hidden>
-          <div class="diversification-heading"><div><p class="eyebrow">One verified solution</p><h3>The five levels, in motion</h3></div><button type="button" class="diversification-toggle" aria-label="Pause level animation">Ⅱ Pause</button></div>
-          <div class="diversification-levels" role="group" aria-label="Choose a diversification level"></div>
-          <div class="diversification-stage"></div>
-          <div class="diversification-timeline" aria-hidden="true"><span></span></div>
-          <div class="diversification-bottom"><span>Explore each level independently</span><button type="button" class="diversification-next">Next level <span aria-hidden="true">→</span></button></div>
-          <p class="diversification-status" role="status"></p>
-        </div>
-        <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" width="1700" height="1210" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task.">
-        <figcaption><b>One solve, many variations.</b> An animated walkthrough using the original simulation renders. Each level can run independently. <a href="assets/img/fig/diversification.jpg" target="_blank" rel="noopener">View the complete figure ↗</a></figcaption>
-      </figure>
     </div>
   </div>
 </section>

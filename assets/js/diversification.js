@@ -6,38 +6,40 @@
   var host = document.getElementById('diversification');
   if (!host) return;
   var levels = [
-    {name:'Scene', color:'var(--solve)', title:'Change the task.', mult:'×5',
-      description:'Vary objects, distractors, and object counts. The agent adapts the solution and success condition to the new scene.',
-      tags:['Object type', 'Distractors', 'Object count'],
+    {name:'Scene', color:'var(--solve)', title:'Change the task.', mult:'×5', clips:true,
+      caption:'Example of swapping the object: the agent swaps the food being cut from a banana to a carrot or a tomato.',
+      description:'This level edits the task itself. Typical edits <b>swap the object</b> being manipulated, change <b>the number of objects</b> the task involves, or add <b>task-irrelevant objects</b> to the workspace as distractors. Because the task has changed, the coding agent rewrites both the success condition and the solution code so that the new scene is solved and graded correctly.',
       frames:[['Banana · base','banana',900,620,850],['Carrot','carrot',900,620,850],['Tomato','tomato',900,620,850]]},
     {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4',
-      description:'Change the grasp, reorder interchangeable steps, or choose another plan. Recovery branches let the robot regrasp a dropped object and continue.',
-      tags:['Recovery', 'Step order', 'Grasp side', 'Task plan'],
+      description:'This level keeps the task fixed and finds other ways to solve it. The agent changes which side or part of the object is grasped, reorders steps that do not depend on one another, or chooses a different overall plan. It also writes recovery branches, so a trajectory can include dropping the object, regrasping it and finishing the insertion, which is behaviour a single nominal demonstration never shows.',
       frames:[['Nominal insertion · base','nominal',860,540,1100],['Drop → regrasp → insert','recovery',860,540,1100],['Alternate grasp side','grasp-right',1000,480,1100]]},
     {name:'Phase', color:'var(--learn)', title:'Start further into the task.', mult:'×2.5',
-      description:'Initialize a valid intermediate state and finish from there. Entry phases and object arrangements vary without replaying every earlier step.',
-      tags:['Entry phase', 'Intermediate state'],
+      description:'This level starts a rollout part way through a long task. The agent identifies the intermediate stages of its solution (for example bolts fastened, RAM seated, GPU installed), writes code that initializes a valid, randomized state at each stage, and adapts the solution to finish from that point. Later phases are therefore covered with many varied starts without replaying every earlier step.',
       frames:[['Start at bolting · base','bolting',900,380,1100],['Start at RAM · bolts done','ram',900,380,1100],['Start at GPU · RAM done','gpu',900,380,1100]]},
     {name:'Dynamics', color:'var(--teach)', title:'Vary the motion, keep the goal.', mult:'×4',
-      description:'Use stronger action noise in transport and weaker noise during insertion. Sample mass, friction, and contact from agent-declared ranges.',
-      tags:['Phase-specific action noise', 'Mass', 'Friction', 'Contact'],
+      description:'This level keeps the goal and perturbs how the motion unfolds. DART-style action noise is injected phase by phase, stronger while the arm transports the object and weaker during precise insertion, so the policy sees recoveries from realistic deviations. Physical parameters such as mass, friction and contact stiffness are also sampled from ranges the agent declares for the task.',
       frames:[['Transport · stronger noise','transport',900,630,1200],['Insertion · weaker noise','insertion',900,630,1200],['Sample physical parameters','params']]},
     {name:'Visual', color:'var(--learn)', title:'The same motion. New observations.', mult:'×3',
-      description:'Re-render recorded states with new backgrounds, lighting, and camera poses. The physical trajectory stays the same; no re-simulation is needed.',
-      tags:['Background', 'Lighting', 'Camera pose'],
+      description:'This level produces new observations of the same physical trajectory. Recorded simulator states are re-rendered offline with different backgrounds, lighting (daylight, warm indoor light), materials and camera poses. Nothing is re-simulated and the actions are unchanged, so visual variety is added at almost no cost in agent tokens or simulation time.',
       frames:[['Original · daylight','daylight',880,560,880],['Warm lighting','warm',880,560,880],['Side camera','side',1150,560,950]]}
   ];
   var player = host.querySelector('.diversification-player');
   var stage = host.querySelector('.diversification-stage');
   var tabs = host.querySelector('.diversification-levels');
-  var toggle = host.querySelector('.diversification-toggle');
   var progress = host.querySelector('.diversification-timeline span');
-  var status = host.querySelector('.diversification-status');
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var paused = motion.matches, visible = false, current = 0, elapsed = 0, previous = 0, raf = 0;
   var duration = 6500;
   var source = host.querySelector('.diversification-fallback');
   var assetRoot = 'assets/img/diversification/';
+  var clipRoot = 'assets/video/diversification/';
+
+  // Short looping rollout clips (720 x 480, the frame's own 3:2 ratio), muted and
+  // inline, with the matching WebP as poster. Autoplay only when motion is allowed.
+  function renderClip(frame) {
+    return '<video class="diversification-clip" src="' + clipRoot + frame[1] + '.mp4" poster="' + clipRoot + frame[1] +
+      '.webp" muted loop playsinline preload="metadata" aria-label="' + frame[0] + '"' + (motion.matches ? '' : ' autoplay') + '></video>';
+  }
 
   function renderFrame(frame) {
     var svg = '<svg viewBox="0 0 337.5 225" role="img" aria-label="' + frame[0] + '">';
@@ -85,16 +87,23 @@
     tabs.querySelectorAll('button').forEach(function (button, i) {
       button.setAttribute('aria-pressed', String(i === index));
     });
-    stage.innerHTML = '<div class="diversification-summary"><div><span class="diversification-number">LEVEL 0' + (index + 1) +
-      '</span><h4>' + level.title + '</h4></div><div class="diversification-mult">' + level.mult + '<span>level multiplier</span></div></div>' +
+    // Name first, in the level colour, then the explanation, then the renders.
+    stage.innerHTML = '<div class="diversification-summary"><span class="diversification-number">LEVEL 0' + (index + 1) +
+      '</span><h4><mark>' + level.name + '</mark></h4>' +
+      '<p class="diversification-description">' + level.description + '</p>' +
+      '</div>' +
       '<div class="diversification-frames">' + level.frames.map(function (frame, i) {
         return '<figure class="diversification-frame" style="--frame-delay:' + (i * 130) + 'ms">' +
-          renderFrame(frame) +
-          '<figcaption>' + frame[0] + '</figcaption></figure>';
-      }).join('') + '</div><p class="diversification-description">' + level.description + '</p>' +
-      '<div class="diversification-tags">' + level.tags.map(function (tag) { return '<span>' + tag + '</span>'; }).join('') + '</div>';
-    // Only manual changes announce, so auto-play does not interrupt reading.
-    if (announce) status.textContent = 'Level ' + (index + 1) + ': ' + level.name + '. ' + level.description;
+          (level.clips ? renderClip(frame) : renderFrame(frame)) +
+          (level.caption ? '' : '<figcaption>' + frame[0] + '</figcaption>') + '</figure>';
+      }).join('') + '</div>' +
+      (level.caption ? '<p class="diversification-caption">' + level.caption + '</p>' : '');
+    if (level.clips && !motion.matches) {
+      stage.querySelectorAll('video').forEach(function (video) {
+        var attempt = video.play();
+        if (attempt && attempt.catch) attempt.catch(function () {});
+      });
+    }
   }
 
   function tick(now) {
@@ -112,22 +121,16 @@
     raf = 0;
     previous = 0;
     host.classList.toggle('diversification-paused', paused);
-    toggle.textContent = paused ? '▷ Play' : 'Ⅱ Pause';
-    toggle.setAttribute('aria-label', paused ? 'Play level animation' : 'Pause level animation');
-    toggle.setAttribute('aria-pressed', String(paused));
     if (!paused && visible && !document.hidden) raf = requestAnimationFrame(tick);
   }
 
   tabs.innerHTML = levels.map(function (level, i) {
-    return '<button type="button" aria-pressed="false"><span>0' + (i + 1) + '</span> ' + level.name + '</button>';
+    return '<button type="button" aria-pressed="false" style="--tab-color:' + level.color + ';--tab-bg:' +
+      level.color.replace(')', '-bg)') + '"><span>0' + (i + 1) + '</span>' + level.name + '</button>';
   }).join('');
   tabs.querySelectorAll('button').forEach(function (button, index) {
     button.addEventListener('click', function () { paused = true; show(index, true); sync(); });
   });
-  host.querySelector('.diversification-next').addEventListener('click', function () {
-    paused = true; show((current + 1) % levels.length, true); sync();
-  });
-  toggle.addEventListener('click', function () { paused = !paused; sync(); });
   motion.addEventListener('change', function (event) { paused = event.matches; sync(); });
   document.addEventListener('visibilitychange', sync);
 

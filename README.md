@@ -145,7 +145,7 @@ animations:
   via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
-  `.stats`, `.ladder`, and `.gallery` — 70 ms apart;
+  `.stats`, `.gen-notes`, and `.gallery` — 70 ms apart;
 - the **project introduction** reveals on scroll below the full-screen opening,
   with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;
@@ -216,17 +216,24 @@ An optional light reading theme is available; an explicit saved choice is kept.
 
 ## Animated diversification figure
 
-The data-engine section replaces the static five-level montage with a viewer
-that cycles through Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds.
-Each level presents three original render crops, its multiplier, an explanation,
-and variation categories. Individual 1920 × 1080 WebP renders in
+The data-engine section leads with a full-width viewer ("Five hierarchical levels
+of diversification") that cycles through
+Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds; it is the only
+description of the five levels (the earlier L1–L5 text ladder duplicated it and
+was removed). Each level leads with its name in the level colour and a short tagline,
+then the explanation, then three tiles. The Scene level's tiles are short
+looping muted clips from `assets/video/diversification/` (WebP posters beside
+them) under a single row caption instead of per-tile labels; the other levels
+show original render crops with per-tile labels; there is no multiplier readout or pause button. The two notes on verification
+and token cost sit below the viewer beside the yield chart (`.gen-notes`). Individual 1920 × 1080 WebP renders in
 `assets/img/diversification/` replace the tiny crops from the combined JPEG.
 SVG viewBoxes preserve the original figure's framing; dynamics noise bands and
-parameter ranges are SVG annotations. The complete source figure remains linked
-below the viewer and serves as the no-JavaScript fallback.
+parameter ranges are SVG annotations. The complete source figure is no longer
+linked or captioned; it serves only as the no-JavaScript fallback.
 
-Level buttons and Next pause automatic advancement for inspection. Play resumes;
-the timer suspends offscreen and in hidden tabs. Reduced motion starts paused and
+Level buttons pause automatic advancement for inspection (there is no Next
+button, footer row or live-region status line); the timer suspends offscreen
+and in hidden tabs. Reduced motion starts paused and
 removes frame transitions. Without JavaScript, the original montage stays visible.
 
 ## Long-horizon task timeline
