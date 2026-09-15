@@ -364,8 +364,8 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 @media (max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
   padding:26px;box-shadow:var(--shadow)}
-.box h4{font-size:18px;font-weight:500;margin:0 0 14px;display:flex;gap:9px;align-items:baseline}
-.box h4 .idx{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:650;
+.box h3,.box h4{font-size:18px;font-weight:500;margin:0 0 14px;display:flex;gap:9px;align-items:baseline}
+.box h3 .idx,.box h4 .idx{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:650;
   flex:none}
 .box p{font-size:15px;color:var(--mut);margin:0}
 .box p+p{margin-top:9px}
@@ -541,7 +541,7 @@ footer .frow{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-betw
 
 .chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
   padding:24px 24px 16px;box-shadow:var(--shadow)}
-.chart-card h4{font-size:18px;font-weight:500;margin:0 0 8px}
+.chart-card h3,.chart-card h4{font-size:18px;font-weight:500;margin:0 0 8px}
 .chart-card .sub{font-size:14px;color:var(--faint);margin:0 0 8px}
 /* side-by-side cards stretch to one height; the shorter chart centres in the spare room */
 .chart-pair .chart-card{display:flex;flex-direction:column}

@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://embodiedswe.github.io/">
 <meta property="og:image" content="https://embodiedswe.github.io/assets/img/fig/overview.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/css/site.css?v=202609151815">
+<link rel="stylesheet" href="assets/css/site.css?v=202609151900">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B6B70'/><text y='71' x='50' text-anchor='middle' font-size='62' font-family='ui-monospace,monospace' fill='%23fff'>&#123;&#125;</text></svg>">
 </head>
 <body>
@@ -327,16 +327,16 @@
 
     <div id="results-charts" style="margin-top:26px">
       <div class="chart-card" data-chart="line">
-        <h4>Best-so-far score against wall-clock budget</h4>
+        <h3>Best-so-far score against wall-clock budget</h3>
         <p class="sub">Mean over tasks of the highest score reached by each time. GPT-6 Astra passes 0.9 inside two hours; every other curve flattens well below ceiling.</p>
       </div>
       <div class="grid2 chart-pair" style="margin-top:16px">
         <div class="chart-card" data-chart="bars">
-          <h4>Share of the benchmark solved</h4>
+          <h3>Share of the benchmark solved</h3>
           <p class="sub">Fraction of tasks reaching a successful solution within the 4-hour budget.</p>
         </div>
         <div class="chart-card" data-chart="spend">
-          <h4>Best-so-far score against spend</h4>
+          <h3>Best-so-far score against spend</h3>
           <p class="sub">API cost per task, log scale. The paper also reports these curves against generated tokens.</p>
         </div>
       </div>
@@ -393,11 +393,11 @@
 
     <div class="grid2 chart-pair gen-charts">
       <div class="chart-card" data-chart="yield">
-        <h4>Verified successful trajectories</h4>
+        <h3>Verified successful trajectories</h3>
         <p class="sub">Composing diversification levels rapidly increases the number of successful trajectories.</p>
       </div>
       <div class="chart-card" data-chart="tokens">
-        <h4>Agent token cost</h4>
+        <h3>Agent token cost</h3>
         <p class="sub">Token cost per trajectory drops sharply as diversification scales, while cumulative agent cost grows slowly.</p>
       </div>
     </div>
@@ -406,10 +406,10 @@
 
     <div class="grid2 chart-pair" style="margin-top:16px">
       <div class="chart-card" data-chart="vla-rate">
-        <h4>Success rate</h4>
+        <h3>Success rate</h3>
       </div>
       <div class="chart-card" data-chart="vla-score">
-        <h4>Score</h4>
+        <h3>Score</h3>
       </div>
     </div>
     <p class="cap" style="margin-top:12px">SmolVLA trained for 100k steps at each dataset size, three runs per setting, each evaluated over 32 trials per task.</p>
@@ -427,15 +427,15 @@
 
     <div class="grid3">
       <div class="box">
-        <h4><span class="idx">01</span> Seed and mutate</h4>
+        <h3><span class="idx">01</span> Seed and mutate</h3>
         <p>A seed task is sampled from a deduplicated pool of <b>194</b> manipulation tasks in RoboVerse. An agent mutates it and constructs a new task from scratch in the benchmark's format — the seed defines semantics to move away from, not code to inherit.</p>
       </div>
       <div class="box">
-        <h4><span class="idx">02</span> Prove it, then score it</h4>
+        <h3><span class="idx">02</span> Prove it, then score it</h3>
         <p>To establish physical feasibility the agent first writes a simplified "teleport" solution that validates contact dynamics without the real robot. Only then does it build the scoring rubric, write tests that confirm the rubric penalizes incorrect states, and draft the task description.</p>
       </div>
       <div class="box">
-        <h4><span class="idx">03</span> Validate and judge</h4>
+        <h3><span class="idx">03</span> Validate and judge</h3>
         <p>Six validation steps check simulation stability, scoring accuracy, and robust success of the teleport solution. An LLM judge then rates novelty against the seed, solution legitimacy, and description clarity, and rejects the task if any of the three fail.</p>
       </div>
     </div>
@@ -444,10 +444,10 @@
 
     <div class="grid2" style="margin-top:16px;align-items:start">
       <div class="chart-card" data-chart="rl-reward">
-        <h4>Reward</h4>
+        <h3>Reward</h3>
       </div>
       <div class="chart-card" data-chart="rl-rate">
-        <h4>Success and non-zero rate</h4>
+        <h3>Success and non-zero rate</h3>
       </div>
     </div>
   </div>
