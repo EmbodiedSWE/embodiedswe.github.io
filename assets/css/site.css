@@ -111,7 +111,7 @@ section{padding:88px 0 12px;scroll-margin-top:36px}
 .side-menu{display:none}
 @media (min-width:1500px){
   /* .wrap is max-width 1160px incl. 32px side padding, centred: its content edge is at 50% + 548px */
-  .side-menu{display:block;position:fixed;left:calc(50% + 548px + 48px);top:50%;transform:translateY(-50%) translateX(8px);z-index:30;
+  .side-menu{display:block;position:fixed;left:min(calc(50% + 548px + 48px),calc(100% - 184px));top:50%;   /* min(): the longer Acknowledgements label would run off a 1500px viewport */transform:translateY(-50%) translateX(8px);z-index:30;
     opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
     padding:14px 14px 10px;border:1px solid color-mix(in srgb,var(--acc) 38%,var(--line));border-radius:12px;
     background:radial-gradient(120% 90% at 0 0,color-mix(in srgb,var(--acc) 12%,transparent),transparent 60%),color-mix(in srgb,var(--panel) 94%,transparent);
@@ -141,11 +141,12 @@ section{padding:88px 0 12px;scroll-margin-top:36px}
     50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--acc) 14%,transparent),0 0 18px var(--acc)}}
   @media (prefers-reduced-motion:reduce){.side-menu li a.on::before{animation:none}.side-menu ul::after{transition:none}}
   .side-menu-cite{display:flex;align-items:center;gap:9px;margin-top:8px;padding:12px 4px 4px 0;border-top:1px solid var(--line);font:12.5px var(--sans)}
+  .side-menu-cite + .side-menu-cite{margin-top:0;border-top:0;padding-top:6px}   /* only the first footer link carries the divider */
   .side-menu-cite svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round;flex:none;margin-left:-3px}
 }
 #overview{padding-top:36px}                                      /* follows the title page closely */
 #overview .sec-head h2{font-size:clamp(38px,5vw,58px)}                    /* the opening section heading, a step larger */
-#overview .sec-head p.lede{max-width:none}                       /* full column, not the 68ch measure */
+#overview .sec-head p.lede,#acknowledgements .sec-head p.lede{max-width:none}   /* full column, not the 68ch measure */
 #overview .sec-head p.lede b{color:var(--ink);font-weight:550}
 .sec-head{margin-bottom:34px}
 .sec-head h2{font-size:clamp(29px,3.8vw,44px);font-weight:500;letter-spacing:-.04em}
