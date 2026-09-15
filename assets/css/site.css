@@ -20,7 +20,7 @@
 :root[data-theme="light"] {
   color-scheme:light;
   --bg:#F0F5F3; --panel:#FFFFFFED; --panel2:#E5EEEB;
-  --ink:#172B30; --mut:#465F63; --faint:#536A6E; --line:#CADBD7;
+  --ink:#172B30; --mut:#34474B; --faint:#465A5E; --line:#CADBD7;
   --acc:#286D6A; --acc-ink:#245F5D; --acc-bg:#DEEEEA; --on-acc:#FFFFFF;
   --solve:#286D6A; --solve-bg:#DEEEEA;
   --teach:#7F5A36; --teach-bg:#F2E9DB;
@@ -663,6 +663,10 @@ header.hero:not(.is-live){height:auto}
 header.hero:not(.is-live) .title-sticky{position:relative}
 .site-universe{position:fixed;inset:var(--nav-h) 0 0 0;z-index:-1;overflow:hidden;pointer-events:none;
   background:#060e12;opacity:var(--universe-opacity,1)}
+/* Light theme: the night sky belongs to the bulb and title pages only. hero.js fades it to .32 as the title page
+   scrolls off (a faint field under the dark research sections); here that .32 is remapped to 0, so the research
+   sits on the real light background instead of a grey-tinted one. */
+:root[data-theme="light"] .site-universe{opacity:calc((var(--universe-opacity,1) - .32) / .68)}
 .hero-atmosphere{position:absolute;inset:0;z-index:-2;pointer-events:none;
   background:radial-gradient(ellipse at 25% 52%,#0b343e66,transparent 55%),
     radial-gradient(ellipse at 80% 48%,#593d242f,transparent 50%)}
