@@ -192,11 +192,11 @@
       tickfmt: String,
       values: [
         { v: 1,   to: 1,   suffix: '' },
-        { v: 5,   to: 5,   suffix: '', mult: '×5'   },
-        { v: 20,  to: 20,  suffix: '', mult: '×4'   },
-        { v: 50,  to: 50,  suffix: '', mult: '×2.5' },
-        { v: 200, to: 200, suffix: '', mult: '×4'   },
-        { v: 600, to: 600, suffix: '', mult: '×3'   }
+        { v: 5,   to: 5,   suffix: '' },
+        { v: 20,  to: 20,  suffix: '' },
+        { v: 50,  to: 50,  suffix: '' },
+        { v: 200, to: 200, suffix: '' },
+        { v: 600, to: 600, suffix: '' }
       ]
     }
   };
@@ -231,8 +231,6 @@
       svg.appendChild(g);
       svg.appendChild(el('text', { x: cx, y: B + 17, class: 'cat-label',
         'text-anchor': 'middle' }, LEVEL_LABELS[i]));
-      if (d.mult) svg.appendChild(el('text', { x: cx - slot / 2, y: B - 12,
-        class: 'mult-label', 'text-anchor': 'middle' }, d.mult));
     });
     svg.appendChild(el('line', { x1: L, y1: B, x2: R, y2: B, class: 'axis' }));
     return svg;
@@ -417,7 +415,7 @@
 
   function run(root) {
     if (reduce) {
-      root.querySelectorAll('.series, .bar, .vbar, .value-label, .mult-label')
+      root.querySelectorAll('.series, .bar, .vbar, .value-label')
         .forEach(function (n) { n.classList.add('animate'); });
       return;
     }
@@ -430,9 +428,6 @@
     });
     root.querySelectorAll('.bar, .vbar').forEach(function (b, i) {
       setTimeout(function () { b.classList.add('animate'); }, i * 100);
-    });
-    root.querySelectorAll('.mult-label').forEach(function (t, i) {
-      setTimeout(function () { t.classList.add('animate'); }, i * 100 + 500);
     });
     root.querySelectorAll('.value-label').forEach(function (t, i) {
       setTimeout(function () {

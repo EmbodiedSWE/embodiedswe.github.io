@@ -593,12 +593,8 @@ svg.chart .vbar{fill:var(--teach);transform-box:fill-box;transform-origin:bottom
   transform:scaleY(0);transition:transform .8s cubic-bezier(.4,0,.2,1)}
 svg.chart .vbar.animate{transform:scaleY(1)}
 svg.chart .cat-label{fill:var(--mut);font-family:var(--sans);font-size:11.5px;font-weight:600}
-svg.chart .mult-label{fill:var(--teach);font-family:var(--mono);font-size:12px;font-weight:700;
-  opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1)}
-svg.chart .mult-label.animate{opacity:.85}
 @media (prefers-reduced-motion: reduce){
   svg.chart .vbar{transform:scaleY(1);transition:none}
-  svg.chart .mult-label{opacity:.85;transition:none}
 }
 
 /* ---- additional series colours: transfer, RL ---- */
