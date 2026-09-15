@@ -26,3 +26,7 @@ Crop centers and heights follow `figure7/make_fig7_flow.py`'s TILES manifest.
 Recovery images are the source figure's multiple-exposure composites, not single
 frames. Dynamics noise paths and physical-parameter ranges are illustrative SVG
 annotations based on that figure builder, not additional measured trajectories.
+
+`human_egg_1..3.webp` are the Phase level's tiles: three initial and intermediate
+states of the humanoid egg-carton task (eggs in different slots and table layouts),
+exported from 1920 x 1080 PNG renders supplied on 2026-09-15 with the same FFmpeg settings.
