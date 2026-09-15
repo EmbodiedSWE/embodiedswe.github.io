@@ -202,7 +202,7 @@
   };
   function mkVBars(key) {
     var cfg = LEVEL_PANELS[key];
-    var W = 600, H = 258, L = 52, R = 586, T = 22, B = 206;
+    var W = 600, H = 300, L = 52, R = 586, T = 26, B = 250;
     var f = cfg.log ? Math.log10 : function (v) { return v; };
     var lo = f(cfg.dom[0]), hi = f(cfg.dom[1]);
     var sy = function (v) { return B - (f(v) - lo) / (hi - lo) * (B - T); };
