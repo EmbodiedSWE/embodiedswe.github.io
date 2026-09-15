@@ -294,13 +294,12 @@ The π path preserves the official SVG geometry and inherits the same color.
 These are recolored research-figure illustrations, not claims of endorsement;
 the respective marks belong to NVIDIA and Physical Intelligence.
 
-## Search indexing is off
+## Search indexing is on
 
-`index.html` carries `<meta name="robots" content="noindex, nofollow">` and
-`robots.txt` disallows all crawlers, because the paper is under review. The page
-is fully live and shareable by link — it just will not appear in search results.
-
-To allow indexing, delete `robots.txt` and that one meta tag, then push.
+`index.html` carries `<meta name="robots" content="index, follow">`, a canonical
+link, and absolute `og:url` / `og:image` tags; `robots.txt` allows all crawlers
+and points at `sitemap.xml`. To hide the page from search again, switch the
+robots meta tag to `noindex, nofollow` and make `robots.txt` `Disallow: /`.
 
 ## Before going public
 

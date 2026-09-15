@@ -1,5 +1,4 @@
-# The paper is under review; this page is shareable by link but should not be
-# indexed. To allow indexing, delete this file and the robots meta tag in
-# index.html.
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://embodiedswe.github.io/sitemap.xml
