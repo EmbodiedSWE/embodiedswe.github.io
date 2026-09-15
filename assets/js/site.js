@@ -100,6 +100,7 @@
             '<img class="thumb" data-src="assets/img/poster/' + t.f + '.jpg" alt="" decoding="async">' +
             '<video data-src="assets/video/' + t.f + '.mp4" muted loop playsinline preload="none"></video>' +
             '<span class="play">▶ play</span>' +
+            '<span class="spin" aria-hidden="true"></span>' +
           '</div>' +
           '<div class="meta">' +
             '<h4><span>' + esc(t.name) + '</span><span class="tag d-' + t.diff.toLowerCase() + '">' + t.diff + '</span></h4>' +
@@ -139,7 +140,7 @@
     function stop(shot, rewind) {
       var v = shot.querySelector('video');
       v.pause(); if (rewind && v.getAttribute('src')) v.currentTime = 0;
-      shot.classList.remove('playing', 'live');
+      shot.classList.remove('playing', 'live', 'buffering');
     }
     function toggle(shot) {
       var v = shot.querySelector('video');
@@ -151,7 +152,14 @@
 
     gallery.querySelectorAll('.shot').forEach(function (shot) {
       var v = shot.querySelector('video');
-      v.addEventListener('playing', function () { shot.classList.add('live'); });   // frames are on screen
+      /* A spinner covers the tile while the clip is still fetching (.playing without .live) and whenever
+         playback stalls on the network mid-clip (.buffering); it clears as soon as frames are on screen. */
+      v.addEventListener('playing', function () { shot.classList.add('live'); shot.classList.remove('buffering'); });
+      ['waiting', 'stalled'].forEach(function (ev) {
+        v.addEventListener(ev, function () { if (shot.classList.contains('playing')) shot.classList.add('buffering'); });
+      });
+      v.addEventListener('timeupdate', function () { if (!v.paused && v.readyState > 2) shot.classList.remove('buffering'); });
+      v.addEventListener('error', function () { shot.classList.remove('playing', 'buffering'); });
       shot.addEventListener('click', function () { toggle(shot); });
       shot.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(shot); }
