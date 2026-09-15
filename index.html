@@ -387,8 +387,8 @@
     </figure>
 
     <div class="gen-notes-text">
-      <p>The five levels compose with one another. Starting from a single verified solve file, each level multiplies the trajectories produced by the levels before it, so both the number and the diversity of trajectories grow quickly. Trajectories are kept only if they pass the task grader <em>and</em> an open-loop replay check.</p>
-      <p>As more trajectories are generated, the agent token cost per trajectory falls dramatically. Cumulative agent tokens flatten after the first two levels, since the later levels are mostly scripted with one short agent session each, so the cost of each <em>successful</em> trajectory drops by about three orders of magnitude.</p>
+      <p>The diversification levels compose multiplicatively, rapidly expanding both the number and diversity of trajectories from a single solved task.</p>
+      <p>As more trajectories are generated, the agent cost is increasingly amortized, causing the token cost per trajectory to drop sharply.</p>
     </div>
 
     <div class="grid2 chart-pair gen-charts">
