@@ -35,7 +35,7 @@ assets/video/           15 task rollouts, 1280px, silent, looping
 
 ## The animated charts
 
-Eight charts are inline SVG built in `assets/js/charts.js` — no chart library.
+Ten charts are inline SVG built in `assets/js/charts.js` — no chart library.
 They replaced every plot that used to ship as a JPEG, so `assets/img/fig/` now
 holds only the three photographic figures.
 
@@ -47,6 +47,8 @@ holds only the three photographic figures.
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
+| `[data-chart="tokens-cum"]`    | cumulative agent tokens per level (M) |
+| `[data-chart="tokens-per"]`    | agent tokens per successful trajectory, log axis |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
 
@@ -91,7 +93,12 @@ published value to ~0.001.
 | Gen3 / xArm7 | 0.740 / 0.660 | 0.74 / 0.66 | `G1_settings.tex` |
 | RL task-reward trend slope | +0.049 / 100 steps | +0.049 / 100 steps | figure annotation |
 
-Bar and yield values are the published numbers verbatim.
+Bar and yield values are the published numbers verbatim. The two token panels
+are the paper's data-scaling figure (Fig. 8) split into single-axis charts: the
+cumulative and per-trajectory token values are read from the vector geometry of
+`data_scaling.pdf` via `plot_data_scaling_row.py` in `reference/cosigen_plotting`
+(24.7 / 50.4 / 57.2 / 63.9 / 70.8 / 70.8 M cumulative; 24.7M / 9.85M / 2.83M /
+1.27M / 344k / 118k per trajectory) and shown rounded to two significant figures.
 
 The GPT-6 Astra series (`DATA.base.astra`, `DATA.spend.astra`, plus its
 `MODELS` entry) is not a PDF extraction: it was added to the paper after the

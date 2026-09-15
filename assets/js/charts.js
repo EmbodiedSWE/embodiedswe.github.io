@@ -174,42 +174,87 @@
     return svg;
   }
 
-  /* ------------------------------------------- data-engine yield, log scale */
-  var LEVELS = [
-    { label:'Agent solution', v:1,   mult:null  },
-    { label:'+ Scene',             v:5,   mult:'×5'   },
-    { label:'+ Strategy',          v:20,  mult:'×4'   },
-    { label:'+ Phase',             v:50,  mult:'×2.5' },
-    { label:'+ Dynamics',          v:200, mult:'×4'   },
-    { label:'+ Visual',            v:600, mult:'×3'   }
-  ];
-  function mkVBars() {
+  /* ------------------------------------------- data engine, one panel per measure
+   * Figure 8 of the paper: verified trajectories per level, cumulative agent
+   * tokens, and tokens per successful trajectory. The token values are read
+   * from the vector geometry of data_scaling.pdf (plot_data_scaling_row.py in
+   * reference/cosigen_plotting): cumulative 24.7 / 50.4 / 57.2 / 63.9 / 70.8 /
+   * 70.8 M; per trajectory 24.7M / 9.85M / 2.83M / 1.27M / 344k / 118k. The
+   * paper draws the two token measures on one dual-axis panel; here each gets
+   * its own axis so neither scale is read against the wrong ticks. */
+  var LEVEL_LABELS = ['Agent solution', '+ Scene', '+ Strategy', '+ Phase', '+ Dynamics', '+ Visual'];
+  var LEVEL_PANELS = {
+    yield: {
+      aria: 'Verified successful trajectories, log scale', ylabel: 'verified trajectories',
+      log: true, dom: [0.72, 1500], ticks: [1, 10, 100, 1000],
+      tickfmt: String,
+      values: [
+        { v: 1,   to: 1,   suffix: '' },
+        { v: 5,   to: 5,   suffix: '', mult: '×5'   },
+        { v: 20,  to: 20,  suffix: '', mult: '×4'   },
+        { v: 50,  to: 50,  suffix: '', mult: '×2.5' },
+        { v: 200, to: 200, suffix: '', mult: '×4'   },
+        { v: 600, to: 600, suffix: '', mult: '×3'   }
+      ]
+    },
+    'tokens-cum': {
+      aria: 'Cumulative agent tokens in millions', ylabel: 'cumulative agent tokens',
+      log: false, dom: [0, 92], ticks: [0, 25, 50, 75],
+      tickfmt: function (v) { return v + 'M'; },
+      values: [
+        { v: 24.7, to: 25, suffix: 'M' },
+        { v: 50.4, to: 50, suffix: 'M' },
+        { v: 57.2, to: 57, suffix: 'M' },
+        { v: 63.9, to: 64, suffix: 'M' },
+        { v: 70.8, to: 71, suffix: 'M' },
+        { v: 70.8, to: 71, suffix: 'M' }
+      ]
+    },
+    'tokens-per': {
+      aria: 'Agent tokens per successful trajectory, log scale', ylabel: 'tokens per trajectory',
+      log: true, dom: [40000, 120000000], ticks: [100000, 1000000, 10000000, 100000000],
+      tickfmt: function (v) { return v >= 1e6 ? (v / 1e6) + 'M' : (v / 1e3) + 'k'; },
+      values: [
+        { v: 24700000, to: 25,  suffix: 'M' },
+        { v: 9850000,  to: 9.9, suffix: 'M', dec: 1 },
+        { v: 2830000,  to: 2.8, suffix: 'M', dec: 1 },
+        { v: 1270000,  to: 1.3, suffix: 'M', dec: 1 },
+        { v: 344000,   to: 340, suffix: 'k' },
+        { v: 118000,   to: 120, suffix: 'k' }
+      ]
+    }
+  };
+  function mkVBars(key) {
+    var cfg = LEVEL_PANELS[key];
     var W = 600, H = 258, L = 52, R = 586, T = 22, B = 206;
-    var lo = Math.log10(0.72), hi = Math.log10(1500);
-    var sy = function (v) { return B - (Math.log10(v) - lo) / (hi - lo) * (B - T); };
-    var n = LEVELS.length, slot = (R - L) / n, bw = Math.min(slot * 0.52, 52);
+    var f = cfg.log ? Math.log10 : function (v) { return v; };
+    var lo = f(cfg.dom[0]), hi = f(cfg.dom[1]);
+    var sy = function (v) { return B - (f(v) - lo) / (hi - lo) * (B - T); };
+    var n = cfg.values.length, slot = (R - L) / n, bw = Math.min(slot * 0.52, 52);
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img',
-      'aria-label': 'Verified successful trajectories, log scale: ' +
-        LEVELS.map(function (d) { return d.label.replace(/ /g, ' ') + ' ' + d.v; })
-        .join(', ') + '.' });
-    [1, 10, 100, 1000].forEach(function (v) {
+      'aria-label': cfg.aria + ': ' + cfg.values.map(function (d, i) {
+        return LEVEL_LABELS[i] + ' ' + d.to + d.suffix; }).join(', ') + '.' });
+    cfg.ticks.forEach(function (v) {
       svg.appendChild(el('line', { x1: L, y1: sy(v), x2: R, y2: sy(v), class: 'grid' }));
       svg.appendChild(el('text', { x: L - 9, y: sy(v) + 4, class: 'tick',
-        'text-anchor': 'end' }, String(v)));
+        'text-anchor': 'end' }, cfg.tickfmt(v)));
     });
     svg.appendChild(el('text', { x: 13, y: (T + B) / 2, class: 'axis-title',
       'text-anchor': 'middle', transform: 'rotate(-90 13 ' + ((T + B) / 2) + ')' },
-      'verified trajectories'));
-    LEVELS.forEach(function (d, i) {
+      cfg.ylabel));
+    cfg.values.forEach(function (d, i) {
       var cx = L + slot * (i + 0.5), y = sy(d.v);
       var g = el('g');
       g.appendChild(el('rect', { x: cx - bw / 2, y: y, width: bw,
         height: Math.max(B - y, 0.5), rx: 3, class: 'vbar' }));
-      g.appendChild(el('text', { x: cx, y: y - 7, class: 'value-label',
-        'text-anchor': 'middle', 'data-to': d.v, 'data-suffix': '' }, String(d.v)));
+      var label = el('text', { x: cx, y: y - 7, class: 'value-label',
+        'text-anchor': 'middle', 'data-to': d.to, 'data-suffix': d.suffix },
+        d.to + d.suffix);
+      if (d.dec) label.setAttribute('data-decimals', d.dec);
+      g.appendChild(label);
       svg.appendChild(g);
       svg.appendChild(el('text', { x: cx, y: B + 17, class: 'cat-label',
-        'text-anchor': 'middle' }, d.label));
+        'text-anchor': 'middle' }, LEVEL_LABELS[i]));
       if (d.mult) svg.appendChild(el('text', { x: cx - slot / 2, y: B - 12,
         class: 'mult-label', 'text-anchor': 'middle' }, d.mult));
     });
@@ -236,7 +281,9 @@
         }) }));
     },
     bars: mkHBars,
-    yield: mkVBars,
+    yield: function () { return mkVBars('yield'); },
+    'tokens-cum': function () { return mkVBars('tokens-cum'); },
+    'tokens-per': function () { return mkVBars('tokens-per'); },
 
     'transfer-task': function () {
       return mkLine(hours({ group: 'xtask', h: 300,
@@ -351,14 +398,15 @@
 
   function countUp(node, to) {
     var suffix = node.dataset.suffix != null ? node.dataset.suffix : '%';
+    var dec = +node.dataset.decimals || 0;
     var dur = 800, t0 = null;
     function step(ts) {
       if (t0 === null) t0 = ts;
       var k = Math.min((ts - t0) / dur, 1);
-      node.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suffix;
+      node.textContent = (to * (1 - Math.pow(1 - k, 3))).toFixed(dec) + suffix;
       if (k < 1) requestAnimationFrame(step);
     }
-    node.textContent = '0' + suffix;
+    node.textContent = (0).toFixed(dec) + suffix;
     requestAnimationFrame(step);
   }
 
