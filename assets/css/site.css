@@ -338,7 +338,7 @@ td.wrap-ok{white-space:normal;min-width:270px;color:var(--mut)}
 .best{color:var(--acc-ink);font-weight:730}
 .mark{color:var(--good);font-weight:700}
 
-details.catalog{margin-top:16px;border:1px solid var(--line);border-radius:var(--rad);
+details.catalog{margin-top:36px;border:1px solid var(--line);border-radius:var(--rad);
   background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
 details.catalog>summary{cursor:pointer;padding:14px 18px;font-weight:650;font-size:15px;
   list-style:none;display:flex;align-items:center;gap:9px}
@@ -547,11 +547,11 @@ footer .frow{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-betw
 /* Keep the paper's series identities, with enough contrast for the night sky. */
 :root{
   --m-fable51:#D6A17E; --m-opus5:#CF796B; --m-opus48:#E4CBA4;
-  --m-sol:#83A7CF; --m-terra:#B5CDE3;
+  --m-sol:#83A7CF; --m-terra:#B5CDE3; --m-astra:#7CC4C9;
 }
 :root[data-theme="light"]{
   --m-fable51:#A05F3F; --m-opus5:#8C2D1C; --m-opus48:#986824;
-  --m-sol:#2B4C7E; --m-terra:#577DA9;
+  --m-sol:#2B4C7E; --m-terra:#577DA9; --m-astra:#1F6E78;
 }
 
 .chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);
@@ -569,7 +569,7 @@ svg.chart .legend-t{fill:var(--mut);font-family:var(--sans);font-size:11.5px;fon
 
 .s-fable51{--c:var(--m-fable51)} .s-opus5{--c:var(--m-opus5)}
 .s-opus48{--c:var(--m-opus48)}   .s-sol{--c:var(--m-sol)}
-.s-terra{--c:var(--m-terra)}
+.s-terra{--c:var(--m-terra)}   .s-astra{--c:var(--m-astra)}
 .legend-i .series-stroke{stroke-width:2.4;stroke-linecap:round}
 svg.chart .series-stroke{stroke:var(--c);fill:none}
 svg.chart .series-line{stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round;
@@ -584,7 +584,7 @@ svg.chart .series.animate .series-end{opacity:1;transform:translateY(0)}
 
 .s-fill-fable51{fill:var(--m-fable51)} .s-fill-opus5{fill:var(--m-opus5)}
 .s-fill-opus48{fill:var(--m-opus48)}   .s-fill-sol{fill:var(--m-sol)}
-.s-fill-terra{fill:var(--m-terra)}
+.s-fill-terra{fill:var(--m-terra)}   .s-fill-astra{fill:var(--m-astra)}
 svg.chart .bar{transform-box:fill-box;transform-origin:left center;transform:scaleX(0);transition:transform .8s cubic-bezier(.4,0,.2,1)}
 svg.chart .bar.animate{transform:scaleX(1)}
 svg.chart .value-label{fill:var(--ink);font-family:var(--mono);font-size:12.5px;font-weight:700;

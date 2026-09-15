@@ -41,7 +41,7 @@ holds only the three photographic figures.
 
 | host | shows |
 |---|---|
-| `[data-chart="line"]`          | best-so-far score vs. wall-clock, five models |
+| `[data-chart="line"]`          | best-so-far score vs. wall-clock, six models |
 | `[data-chart="bars"]`          | share of the benchmark solved |
 | `[data-chart="spend"]`         | score vs. spend per task, log axis |
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
@@ -87,6 +87,7 @@ published value to ~0.001.
 | series | extracted | published | source |
 |---|---|---|---|
 | Fable 5.1 / Opus 5 / Opus 4.8 / Sol / Terra | 0.749 / 0.661 / 0.521 / 0.440 / 0.260 | 0.75 / 0.66 / 0.52 / 0.44 / 0.26 | `T2_per_model.tex` |
+| GPT-6 Astra (rebuilt from raw grades, see below) | 0.941 | 0.94 | `T2_per_model.tex` |
 | similar / dissimilar / no hint | 0.599 / 0.514 / 0.520 | 0.60 / 0.51 / 0.52 | `G1_settings.tex` |
 | Gen3 / xArm7 | 0.740 / 0.660 | 0.74 / 0.66 | `G1_settings.tex` |
 | Opus 5, Sol (tool experiment, base) | 0.661 / 0.440 | 0.66 / 0.44 | `T8_tools_per_task.tex` |
@@ -94,20 +95,32 @@ published value to ~0.001.
 
 Bar and yield values are the published numbers verbatim.
 
+The GPT-6 Astra series (`DATA.base.astra`, `DATA.spend.astra`, plus its
+`MODELS` entry) is not a PDF extraction: it was added to the paper after the
+five-model figures were drawn, so it is rebuilt from the raw replay grades and
+token logs in `reference/cosigen_plotting.zip` (`data/astra/`,
+`data/scores_astra_*.json`) with the same procedure as the paper's
+`plot_base_main6.py` / `overlay_base_cost.py`: per run, best score so far on a
+481-point wall-clock grid (or a 400-point log-spend grid at Astra list prices,
+$10 / $1 / $50 per M uncached / cached / output tokens), averaged over the 28
+tasks, then compressed to its change points. Rebuilding reproduces T2 exactly
+(0.94 ± 0.03, 82 % solved, 154 min, median 39 min to solve).
+
 ### Source drift to watch (checked against the 2026-09-09 23:13 draft)
 
 The draft is mid-update, and the site currently mirrors its **prose**. Three
 things to know before editing copy:
 
-1. **A sixth model, `Astra` (Codex), is in the tables and figures but not the
-   prose.** `T2_per_model.tex` gives it mean 0.94 ± 0.03, success **82%**, hack
-   rate **0%**; `base_main.pdf` and `base_cost.pdf` were redrawn with six
-   series. But `code_as_solver.tex` still says "We evaluate five frontier
-   models" and "none approaches saturation", and the abstract still says the
-   benchmark "remains far from saturated". **The site shows the five-model
-   story.** Adding Astra means re-extracting `base_main`/`base_cost` and
-   rewriting the "Frontier agents remain unsaturated" section — a narrative
-   call, not a mechanical one.
+1. **A sixth model, `GPT-6 Astra` (Codex), is now on the site** (2026-09-14):
+   table row, wall-clock and spend series, and the solved-share bar, from
+   `T2_per_model.tex` (0.94 ± 0.03, **82%** solved, hack rate **0%**) and the
+   raw grades in `reference/cosigen_plotting.zip`. Prose drift remains in the
+   paper: `code_as_solver.tex` lists six models but still says "We evaluate
+   five frontier models" and "none approaches saturation", and the abstract
+   still says the benchmark "remains far from saturated". The section-02 copy
+   keeps the "gap is discovery" framing and adds one sentence on Astra. Note
+   also that `make_tables_astra.py`'s docstring says the Astra runs were *not*
+   hack-audited even though the tables print 0%.
 2. **Model names shortened.** The tables now say `Sol`, `Terra`, `Astra`; the
    site still says "GPT-5.6 Sol" / "GPT-5.6 Terra", matching the prose.
 3. **Tool runs: figure and table still disagree.** `tools_main.pdf` ends at

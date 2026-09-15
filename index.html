@@ -285,7 +285,7 @@
     <div class="gallery" id="gallery"></div>
 
     <details class="catalog">
-      <summary>Full task catalog — all 28 scenes, with evaluated embodiments and difficulty</summary>
+      <summary>Full task catalog</summary>
       <div class="tbl-scroll">
         <table>
           <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Evaluated on</th><th>Difficulty</th></tr></thead>
@@ -301,8 +301,8 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="sec-no">02</span> Frontier agents remain unsaturated</h2>
-      <p class="lede">Five frontier coding models, each in its own standard coding harness, one NVIDIA RTX 4090 per run and a 4-hour wall-clock budget. Every submission is graded offline against the hidden rubric to a score in [0, 1]; scores below are hack-adjusted, and a run audited as a reward hack scores zero.</p>
+      <h2><span class="sec-no">02</span> Frontier agents evaluation</h2>
+      <p class="lede">Six frontier coding models, each in its own standard coding harness, one NVIDIA RTX 4090 per run and a 4-hour wall-clock budget. Every submission is graded offline against the hidden rubric to a score in [0, 1]; scores below are hack-adjusted, and a run audited as a reward hack scores zero.</p>
     </div>
 
     <div class="tbl-scroll">
@@ -315,7 +315,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><b>Fable 5.1</b></td><td>Claude Code</td><td class="num best">0.75 ± 0.07</td><td class="num best">61%</td><td class="num">4%</td><td class="num">151</td><td class="num">73</td></tr>
+          <tr><td><b>GPT-6 Astra</b></td><td>Codex</td><td class="num best">0.94 ± 0.03</td><td class="num best">82%</td><td class="num">0%</td><td class="num">154</td><td class="num">39</td></tr>
+          <tr><td><b>Fable 5.1</b></td><td>Claude Code</td><td class="num">0.75 ± 0.07</td><td class="num">61%</td><td class="num">4%</td><td class="num">151</td><td class="num">73</td></tr>
           <tr><td><b>Opus 5</b></td><td>Claude Code</td><td class="num">0.66 ± 0.08</td><td class="num">50%</td><td class="num">7%</td><td class="num">211</td><td class="num">103</td></tr>
           <tr><td><b>Opus 4.8</b></td><td>Claude Code</td><td class="num">0.52 ± 0.08</td><td class="num">25%</td><td class="num">11%</td><td class="num">191</td><td class="num">98</td></tr>
           <tr><td><b>GPT-5.6 Sol</b></td><td>Codex</td><td class="num">0.44 ± 0.08</td><td class="num">18%</td><td class="num">43%</td><td class="num">117</td><td class="num">58</td></tr>
@@ -328,7 +329,7 @@
     <div id="results-charts" style="margin-top:26px">
       <div class="chart-card" data-chart="line">
         <h4>Best-so-far score against wall-clock budget</h4>
-        <p class="sub">Mean over tasks of the highest score reached by each time. Every curve flattens well below ceiling.</p>
+        <p class="sub">Mean over tasks of the highest score reached by each time. GPT-6 Astra passes 0.9 inside two hours; every other curve flattens well below ceiling.</p>
       </div>
       <div class="grid2" style="margin-top:16px;align-items:start">
         <div class="chart-card" data-chart="bars">
@@ -343,7 +344,7 @@
     </div>
 
     <div class="note" style="margin-top:26px">
-      <b>The gap is discovery, not feasibility.</b> Every evaluated task is verified to admit at least one successful solution by a domain expert working with a coding model. What the remaining headroom measures is the difficulty of <em>autonomously</em> finding a working program.
+      <b>The gap is discovery, not feasibility.</b> Every evaluated task is verified to admit at least one successful solution by a domain expert working with a coding model. What the remaining headroom measures is the difficulty of <em>autonomously</em> finding a working program. The newest agent, GPT-6 Astra, closes most of it: 23 of 28 tasks solved outright, with no reward hacks found among its runs.
     </div>
   </div>
 </section>
