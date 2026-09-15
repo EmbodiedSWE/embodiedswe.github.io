@@ -617,6 +617,9 @@ svg.chart .t-cum{fill:var(--r-total)} svg.chart .t-per{fill:var(--r-task)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}
 .s-rl-success{--c:var(--r-success)}
+.s-vla-task{--c:var(--faint)}     .s-vla-mean{--c:var(--teach)}
+svg.chart .series.s-vla-task .series-line{stroke-width:1.2;opacity:.45}
+svg.chart .series.s-vla-mean .series-line{stroke-width:2.8}
 svg.chart .zero{stroke:var(--mut);stroke-width:1;opacity:.55}
 svg.chart .series.s-rl-trend .series-line{stroke-width:1.4}
 svg.chart .series.s-rl-pen .series-line,
