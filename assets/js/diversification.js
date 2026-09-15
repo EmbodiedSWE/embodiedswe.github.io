@@ -22,9 +22,10 @@
       caption:'Examples: stronger action noise while transporting the bulb, weaker noise during insertion, and mass, friction and contact sampled from agent-declared ranges.',
       description:'This level focuses on local perturbations to the trajectory dynamics. We randomize <b>physical parameters</b> such as mass, friction, and contact properties, while injecting <b>DART-style action noise</b> during execution. The noise can be <b>adapted across phases</b> of the task \u2014 for example, stronger during transport and weaker during precise manipulation \u2014 so that the resulting trajectories capture realistic deviations and recovery behaviors while improving robustness and local state coverage.',
       frames:[['Transport · stronger noise','transport',900,630,1200],['Insertion · weaker noise','insertion',900,630,1200],['Sample physical parameters','params']]},
-    {name:'Visual', color:'var(--learn)', title:'The same motion. New observations.', mult:'×3',
+    {name:'Visual', color:'var(--learn)', title:'The same motion. New observations.', mult:'×3', clips:true,
+      caption:'Examples: the same recorded trajectory re-rendered in the original daylight, under warm lighting, and from a side camera.',
       description:'This level produces new observations of the same physical trajectory. Recorded simulator states are re-rendered offline with different backgrounds, lighting (daylight, warm indoor light), materials and camera poses. Nothing is re-simulated and the actions are unchanged, so visual variety is added at almost no cost in agent tokens or simulation time.',
-      frames:[['Original · daylight','daylight',880,560,880],['Warm lighting','warm',880,560,880],['Side camera','side',1150,560,950]]}
+      frames:[['Original daylight','daylight'],['Warm lighting','warm'],['Side camera','side']]}
   ];
   var player = host.querySelector('.diversification-player');
   var stage = host.querySelector('.diversification-stage');

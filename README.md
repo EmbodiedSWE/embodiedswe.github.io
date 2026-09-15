@@ -221,10 +221,10 @@ of diversification") that cycles through
 Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds; it is the only
 description of the five levels (the earlier L1–L5 text ladder duplicated it and
 was removed). Each level leads with its name in the level colour and a short tagline,
-then the explanation, then three tiles. The Scene level's tiles are short
-looping muted clips from `assets/video/diversification/` (WebP posters beside
-them) under a single row caption instead of per-tile labels; the other levels
-show original render crops with per-tile labels; there is no multiplier readout or pause button. The two notes on verification
+then the explanation, then two or three tiles under a single row caption.
+Scene, Strategy and Visual tiles are short looping muted clips from
+`assets/video/diversification/` (WebP posters beside them); Phase shows
+egg-carton renders and Dynamics the annotated stills and parameter schematic; there is no multiplier readout or pause button. The two notes on verification
 and token cost sit below the viewer beside the yield chart (`.gen-notes`). Individual 1920 × 1080 WebP renders in
 `assets/img/diversification/` replace the tiny crops from the combined JPEG.
 SVG viewBoxes preserve the original figure's framing; dynamics noise bands and
