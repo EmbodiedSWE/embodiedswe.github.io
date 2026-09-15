@@ -48,7 +48,7 @@ holds only the three photographic figures.
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
 | `[data-chart="tokens"]`        | cumulative tokens (left, M) and tokens per trajectory (right, log) |
-| `[data-chart="vla-rate"]`, `"vla-score"` | SmolVLA success rate / score vs. demonstrations per task (log x); eight task lines + mean, from `reference/Experiment List - Sheet1.csv` |
+| `[data-chart="vla-rate"]`, `"vla-score"` | SmolVLA success rate / score per task, grouped bars shaded by dataset size (10–400 demos), from `reference/Experiment List - Sheet1.csv` |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
 

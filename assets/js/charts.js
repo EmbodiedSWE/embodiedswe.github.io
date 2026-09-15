@@ -339,18 +339,43 @@
     return svg;
   }
 
-  /* SmolVLA scaling: eight faint per-task lines and one bold mean, x log-scaled. */
-  function mkVLA(group, ylabel, yfmt) {
-    var tasks = ['coffee', 'gpu', 'organic', 'pen', 'packing', 'bulb', 'nut', 'banana'];
-    return mkLine({ group: group, h: 300, L: 50, legend: false,
-      aria: 'SmolVLA ' + ylabel + ' against demonstrations per task; thin lines are the eight tasks, the bold line their mean.',
-      xdom: [0.9, 2.7], xticks: [1, 1.699, 2, 2.301, 2.602],
-      xfmt: function (v) { return String(Math.round(Math.pow(10, v))); },
-      xlabel: 'demonstrations per task (log scale)',
-      ydom: [0, 1], yticks: [0, 0.25, 0.5, 0.75, 1], yfmt: yfmt, ylabel: ylabel,
-      series: tasks.map(function (k) {
-        return { k: k, label: k, cls: 's-vla-task', end: false };
-      }).concat([{ k: 'mean', label: 'Mean over tasks', cls: 's-vla-mean' }]) });
+  /* SmolVLA scaling as grouped bars: one group per task, one bar per dataset size. */
+  var VLA_TASKS = ['Coffee', 'GPU', 'Organic', 'Pens', 'Packing', 'Bulb', 'Nut', 'Banana'];
+  var VLA_KEYS = ['coffee', 'gpu', 'organic', 'pen', 'packing', 'bulb', 'nut', 'banana'];
+  var VLA_SIZES = [10, 50, 100, 200, 400];
+  function mkVLABars(group, ylabel, yfmt) {
+    var W = 600, H = 300, L = 50, R = 586, T = 40, B = 250;
+    var sy = function (v) { return B - v * (B - T); };
+    var n = VLA_TASKS.length, slot = (R - L) / n, bw = 8.5, gap = 1.5;
+    var gw = VLA_SIZES.length * bw + (VLA_SIZES.length - 1) * gap;
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img',
+      'aria-label': 'SmolVLA ' + ylabel + ' per task for 10, 50, 100, 200 and 400 demonstrations. ' +
+        'Mean over tasks: ' + DATA[group].mean.map(function (p) { return yfmt(p[1]); }).join(', ') + '.' });
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+      svg.appendChild(el('line', { x1: L, y1: sy(v), x2: R, y2: sy(v), class: 'grid' }));
+      svg.appendChild(el('text', { x: L - 9, y: sy(v) + 4, class: 'tick', 'text-anchor': 'end' }, yfmt(v)));
+    });
+    svg.appendChild(el('text', { x: 13, y: (T + B) / 2, class: 'axis-title', 'text-anchor': 'middle',
+      transform: 'rotate(-90 13 ' + ((T + B) / 2) + ')' }, ylabel));
+    /* legend: dataset sizes */
+    var lx = L, ly = 14;
+    VLA_SIZES.forEach(function (sz, j) {
+      svg.appendChild(el('rect', { x: lx, y: ly - 5, width: 10, height: 10, rx: 2, class: 'vla-b vla-b' + j }));
+      var t = String(sz) + (j === VLA_SIZES.length - 1 ? ' demos' : '');
+      svg.appendChild(el('text', { x: lx + 15, y: ly + 4, class: 'legend-t' }, t));
+      lx += 15 + t.length * 6.4 + 12;
+    });
+    VLA_KEYS.forEach(function (k, i) {
+      var cx = L + slot * (i + 0.5), x0 = cx - gw / 2;
+      DATA[group][k].forEach(function (pt, j) {
+        var y = sy(pt[1]);
+        svg.appendChild(el('rect', { x: x0 + j * (bw + gap), y: y, width: bw,
+          height: Math.max(B - y, 0.5), rx: 1.5, class: 'vbar vla-b vla-b' + j }));
+      });
+      svg.appendChild(el('text', { x: cx, y: B + 17, class: 'cat-label', 'text-anchor': 'middle' }, VLA_TASKS[i]));
+    });
+    svg.appendChild(el('line', { x1: L, y1: B, x2: R, y2: B, class: 'axis' }));
+    return svg;
   }
 
   var CHARTS = {
@@ -398,10 +423,10 @@
         }) });
     },
     'vla-rate': function () {
-      return mkVLA('vla_rate', 'success rate', function (v) { return Math.round(v * 100) + '%'; });
+      return mkVLABars('vla_rate', 'success rate', function (v) { return Math.round(v * 100) + '%'; });
     },
     'vla-score': function () {
-      return mkVLA('vla_score', 'mean score', function (v) { return v.toFixed(2); });
+      return mkVLABars('vla_score', 'mean score', function (v) { return v.toFixed(2); });
     },
     'rl-reward': function () {
       return mkLine({ group: 'rl_reward', h: 300, L: 46,
