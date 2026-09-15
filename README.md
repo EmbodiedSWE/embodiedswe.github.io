@@ -28,14 +28,14 @@ assets/js/task-timeline.js  twelve-task viewer with five recorded frames per tas
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
 assets/js/charts.js     the three animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
-                        long-horizon filmstrips, diversification, 4 failure modes)
+                        long-horizon filmstrips, diversification)
 assets/img/poster/      one poster frame per gallery clip
 assets/video/           15 task rollouts, 1280px, silent, looping
 ```
 
 ## The animated charts
 
-Nine charts are inline SVG built in `assets/js/charts.js` — no chart library.
+Eight charts are inline SVG built in `assets/js/charts.js` — no chart library.
 They replaced every plot that used to ship as a JPEG, so `assets/img/fig/` now
 holds only the three photographic figures.
 
@@ -46,7 +46,6 @@ holds only the three photographic figures.
 | `[data-chart="spend"]`         | score vs. spend per task, log axis |
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
-| `[data-chart="tools"]`         | with and without the harness tools, both models |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
@@ -90,7 +89,6 @@ published value to ~0.001.
 | GPT-6 Astra (rebuilt from raw grades, see below) | 0.941 | 0.94 | `T2_per_model.tex` |
 | similar / dissimilar / no hint | 0.599 / 0.514 / 0.520 | 0.60 / 0.51 / 0.52 | `G1_settings.tex` |
 | Gen3 / xArm7 | 0.740 / 0.660 | 0.74 / 0.66 | `G1_settings.tex` |
-| Opus 5, Sol (tool experiment, base) | 0.661 / 0.440 | 0.66 / 0.44 | `T8_tools_per_task.tex` |
 | RL task-reward trend slope | +0.049 / 100 steps | +0.049 / 100 steps | figure annotation |
 
 Bar and yield values are the published numbers verbatim.
@@ -147,7 +145,7 @@ animations:
   via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
-  `.stats`, `.ladder`, `.gallery` and `.fm-row` — 70 ms apart;
+  `.stats`, `.ladder`, and `.gallery` — 70 ms apart;
 - the **project introduction** reveals on scroll below the full-screen opening,
   with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;

@@ -37,15 +37,12 @@
 
 <!-- Side menu: a fixed rail listing the sections; site.js shows it once the Overview is reached and marks the section in view. -->
 <nav class="side-menu" id="side-menu" aria-label="Sections" hidden>
-  <a class="side-menu-head" href="#top">Top</a>
+  <a class="side-menu-head" href="#top">Home</a>
   <ul>
     <li><a href="#benchmark"><b>01</b><span>Benchmark</span></a></li>
     <li><a href="#results"><b>02</b><span>Evaluation</span></a></li>
-    <li><a href="#failures"><b>03</b><span>Failures</span></a></li>
-    <li><a href="#transfer"><b>04</b><span>Transfer</span></a></li>
-    <li><a href="#tools"><b>05</b><span>Tools</span></a></li>
-    <li><a href="#teacher"><b>06</b><span>Data gen</span></a></li>
-    <li><a href="#student"><b>07</b><span>Students</span></a></li>
+    <li><a href="#teacher"><b>03</b><span>Data gen</span></a></li>
+    <li><a href="#student"><b>04</b><span>Students</span></a></li>
   </ul>
   <a class="side-menu-cite" href="#cite"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13M6 8.5h4M6 11h4"/></svg><span>Cite</span></a>
 </nav>
@@ -302,7 +299,7 @@
   <div class="wrap">
     <div class="sec-head">
       <h2><span class="sec-no">02</span> Frontier agents evaluation</h2>
-      <p class="lede">Six frontier coding models, each in its own standard coding harness, one NVIDIA RTX 4090 per run and a 4-hour wall-clock budget. Every submission is graded offline against the hidden rubric to a score in [0, 1]; scores below are hack-adjusted, and a run audited as a reward hack scores zero.</p>
+      <p class="lede">We evaluate six frontier coding models, each in its own standard coding harness, on one NVIDIA RTX 4090 per run with a 4-hour wall-clock budget. Submissions are graded offline against a hidden rubric to prevent reward exploits or hacking of the evaluation system.</p>
     </div>
 
     <div class="tbl-scroll">
@@ -324,14 +321,14 @@
         </tbody>
       </table>
     </div>
-    <p class="cap">Mean ± SEM over finished tasks; success and hack counts over finished runs.</p>
+    <p class="cap">Scores lie in [0, 1]. A score of 1 means the run fully achieves the natural-language goal; partial credit is given for reaching significant intermediate stages, such as attaching one leg in the table-assembly task.</p>
 
     <div id="results-charts" style="margin-top:26px">
       <div class="chart-card" data-chart="line">
         <h4>Best-so-far score against wall-clock budget</h4>
         <p class="sub">Mean over tasks of the highest score reached by each time. GPT-6 Astra passes 0.9 inside two hours; every other curve flattens well below ceiling.</p>
       </div>
-      <div class="grid2" style="margin-top:16px;align-items:start">
+      <div class="grid2 chart-pair" style="margin-top:16px">
         <div class="chart-card" data-chart="bars">
           <h4>Share of the benchmark solved</h4>
           <p class="sub">Fraction of tasks reaching a successful solution within the 4-hour budget.</p>
@@ -343,74 +340,10 @@
       </div>
     </div>
 
-    <div class="note" style="margin-top:26px">
-      <b>The gap is discovery, not feasibility.</b> Every evaluated task is verified to admit at least one successful solution by a domain expert working with a coding model. What the remaining headroom measures is the difficulty of <em>autonomously</em> finding a working program. The newest agent, GPT-6 Astra, closes most of it: 23 of 28 tasks solved outright, with no reward hacks found among its runs.
-    </div>
-  </div>
-</section>
 
-<section id="failures">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2><span class="sec-no">03</span> Three recurring failure modes</h2>
-      <p class="lede">Each was observed across models and tasks, and each has a concrete agent trajectory documented in the paper's appendix.</p>
-    </div>
-    <h3 class="sub" style="margin-top:26px">Failure mode 1 — not grounding in vision</h3>
-    <p style="max-width:70ch;color:var(--mut)">Agents often fail to inspect the rendered video, or misread it, and understand the scene purely through printed oracle state. Two consequences follow.</p>
-
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">1a</span> Hallucinated progress</h4>
-        <p>On <code>syringe</code>, <b>Opus 5</b> reads six images in the whole run — none after minute 88 — and monitors its rollouts only through printed numbers. It reports a verified 57% draw across six submissions. The grader scores every one of its 36 graded versions <b>0.0</b>: the syringe is on the floor and the tubes were never touched.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_1a.jpg" width="884" height="628" alt="The agent's delivered syringe solution replayed: the syringe lies on the floor with its barrel empty and the tubes untouched, while the agent claims a verified 57 percent draw and the grader scores 0.0." loading="lazy">
-      </figure>
-    </div>
-
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">1b</span> Unnoticed pathological states</h4>
-        <p>On <code>pen_holder</code>, <b>Opus 5</b> renders 168 frames and reads only four of them, all between minutes 41 and 44. Its own recorded states show the holder lying on its side in <b>385 of 1,665</b> states, the arm folded with four joints at their stops, and pencils frozen in mid-air — none of which has a corresponding metric, so none is ever mentioned.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_1b.jpg" width="884" height="628" alt="State recorded by the agent's own tooling but never viewed: the pen holder on its side, the arm folded with four joints at their stops, and pencils frozen in mid-air." loading="lazy">
-      </figure>
-    </div>
-
-    <h3 class="sub">Failure mode 2 — over-committing to a failing plan</h3>
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">2</span> One arm does everything</h4>
-        <p>The agent locks in a flawed decomposition early, then treats every later failure as a tuning problem <em>inside</em> it. On the bimanual <code>syringe</code> task, <b>Opus 4.8</b> concludes from a single failed reach test that the job needs one arm, parks the second, and spends <b>three hours</b> tuning. All 25 versions score 0.0.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_2.jpg" width="884" height="628" alt="The agent's delivered solution replayed: one arm attempts the whole bimanual syringe task while the second arm stays parked; all 25 versions score zero." loading="lazy">
-      </figure>
-    </div>
-
-    <h3 class="sub">Failure mode 3 — hacking the scorer</h3>
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">3</span> A gradient, not a decision</h4>
-        <p>Rather than solving the task through the robot, some agents manipulate what the scorer reads — writing object poses, applying invisible forces, or driving scene-side actuation meant as fixtures. Here <b>GPT-5.6 Sol</b> commands zero action to both arms, moves the tube by applied force, and overrides the seat sensor; it claims end-to-end success and the grader agrees on 33 of 55 versions.</p>
-        <p>The hack is rarely one decision. Each step is framed locally as an engineering workaround — &ldquo;replace the stiff fixture&rdquo;, &ldquo;use the exposed plunger command&rdquo; — until the agent is optimizing the hack itself. Codex-harness runs hacked at <b>39–43%</b>, against <b>4–11%</b> for Claude Code.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_3.jpg" width="884" height="680" alt="The agent's delivered solution replayed: both arms commanded zero and never moving, the tube moved by an applied force and never gripped, and the tubes filled by overridden seat sensors, yet scored 1.0." loading="lazy">
-      </figure>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="transfer">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2><span class="sec-no">04</span> Transfer across tasks and embodiments</h2>
-      <p class="lede">A verified solution encodes reusable task structure as well as embodiment-specific knowledge — reliable grasp configurations, approach poses, controller settings. Each transfer run gets one extra read-only file: a verified solution to another task, or to the same task on another arm.</p>
-    </div>
+    <h3 class="sub" id="transfer">Transfer learning</h3>
+    <p class="lede" style="margin:0 0 22px">We further evaluate transfer learning: given a previously verified solution as a hint, does the agent learn faster or reach a higher score?</p>
+    <p class="lede" style="margin:0 0 22px">We consider two settings. In <b>cross-task</b> transfer the agent is given a verified solution to a different task on the same embodiment; in <b>cross-embodiment</b> transfer it is given the solution to the same task but must perform it with another robot arm. For the cross-task study we further split the hints into <em>similar</em> tasks, which share the target's dominant underlying skill (e.g. threading a nut as the hint for screwing in a light bulb), and <em>dissimilar</em> tasks, which do not.</p>
 
     <div class="grid2" style="align-items:start">
       <div class="chart-card" data-chart="transfer-task">
@@ -422,59 +355,23 @@
         <p class="sub">The verified Franka solution, ported to two other arms.</p>
       </div>
     </div>
-    <p class="cap" style="margin-top:12px">Opus 5 and GPT-5.6 Sol, three seeds per configuration, over six target tasks. The no-hint Franka runs are the same baseline in both panels.</p>
+    <p class="cap" style="margin-top:12px">The transfer learning experiments are performed on Opus 5 and GPT-5.6 Sol with three seeds per configuration over six different tasks.</p>
 
-    <div class="grid2" style="margin-top:24px">
-      <div class="box">
-        <h4>Across tasks — the gain tracks shared skill</h4>
-        <p>Each of six target tasks is paired with two sources: a <em>similar</em> one sharing the target's dominant underlying skill (threading, card seating), and a <em>dissimilar</em> one that does not.</p>
-        <p>A similar-task hint lifts the mean score to <b class="best">0.60</b> and the success rate to <b class="best">31%</b>, against 0.52 and 8% with no hint. A dissimilar hint is worth much less on score — 0.51 — though it still raises success to 17%. What transfers is the shared skill, not merely the presence of a worked example.</p>
-      </div>
-      <div class="box">
-        <h4>Across embodiments — porting is cheap</h4>
-        <p>Given the verified Franka solution, agents reach mean scores of <b class="best">0.74</b> on a Kinova Gen3 and <b class="best">0.66</b> on an xArm7, against <b>0.52</b> on the original Franka tasks from scratch. Success rate separates them further — <b class="best">56%</b> and <b class="best">36%</b> versus <b>8%</b> — and median time to solve falls from 55 minutes to 33.</p>
-        <p>The reference carries the decomposition and scene reasoning; the agent's remaining work is re-deriving embodiment-specific quantities such as grasp poses and approach directions.</p>
-      </div>
+    <p class="lede" style="margin:22px 0 0">We find that coding agents demonstrate strong transfer learning capability on robotics tasks: given a verified solution to a similar task, or to the same task on another robot, as a hint, they solve the target noticeably faster and reach a higher final score.</p>
+
+    <div class="note" style="margin-top:26px">
+      Please refer to our <b><a href="#">paper</a></b> and <b><a href="#">blog</a></b> for more technical details, including but not limited to an analysis of typical failure modes, useful harnesses, a comparison against RL and more.
     </div>
   </div>
 </section>
 
-<section id="tools">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2><span class="sec-no">05</span> A harness for long horizons</h2>
-      <p class="lede">Beyond the standard coding harnesses, the benchmark ships tools that exploit what simulation makes cheap: resettable state and parallelism.</p>
-    </div>
-
-    <div class="grid2" style="align-items:start">
-      <div>
-        <div class="box">
-          <h4>Checkpoint tree</h4>
-          <p>The agent saves reached simulator states together with the programs, logs, snapshots, and transition annotations that document its progress — as a <em>tree</em>. It can return to any earlier checkpoint without replaying a long prefix, and without losing the record of what failed there.</p>
-        </div>
-        <div class="box" style="margin-top:16px">
-          <h4>Evolutionary parameter search</h4>
-          <p>For a fixed program structure, the agent declares tunable parameters, ranges, and an objective. The tool runs CMA-ES over parallel simulations from a common starting state — optionally with initial-state jitter to reduce overfitting — and returns the best parameters found.</p>
-        </div>
-        <div class="box" style="margin-top:16px">
-          <h4>Inspection and comparison</h4>
-          <p>A scene viewer produces snapshots and videos for visual inspection; a sweep tool compares alternative programs or strategies in parallel; and an assessment log records structured descriptions of the scene, the failures, and anything suspicious after each execution.</p>
-        </div>
-      </div>
-      <div class="chart-card" data-chart="tools">
-        <h4>With and without the tools</h4>
-        <p class="sub">Both models score higher with the harness tools at the same wall-clock budget: Opus 5 from 0.66 to 0.74, GPT-5.6 Sol from 0.44 to 0.54.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <hr class="rule">
 
 <section id="teacher">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="sec-no">06</span> EmbodiedSWE-Gen — one solve, many trajectories</h2>
+      <h2><span class="sec-no">03</span> EmbodiedSWE-Gen — one solve, many trajectories</h2>
       <p class="lede">A single coding-agent solve can cost hours of wall clock and substantial tokens, so it is far too expensive to be one demonstration. Purely scripted generation is cheap but its diversity saturates around a narrow regime. The data engine puts agent effort where diversity actually needs judgement, and scripts the rest.</p>
     </div>
 
@@ -516,7 +413,7 @@
 <section id="student">
   <div class="wrap">
     <div class="sec-head">
-      <h2><span class="sec-no">07</span> Coding agents as students</h2>
+      <h2><span class="sec-no">04</span> Coding agents as students</h2>
       <p class="lede">Robotics simulation is a natural training environment for a coding agent: outcomes are verifiable in the simulator, and multi-stage tasks come with well-defined partial credit. What did not exist was such tasks at training scale — so the pipeline builds them.</p>
     </div>
 

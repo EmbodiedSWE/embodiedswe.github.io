@@ -150,7 +150,7 @@ section{padding:88px 0 12px;scroll-margin-top:36px}
 .sec-head{margin-bottom:34px}
 .sec-head h2{font-size:clamp(29px,3.8vw,44px);font-weight:500;letter-spacing:-.04em}
 .sec-head h2 .sec-no{color:var(--acc);font-variant-numeric:tabular-nums;margin-right:.15em}   /* section number */
-.sec-head p.lede{color:var(--mut);margin:22px 0 0;font-size:17px;max-width:68ch;line-height:1.85}
+.sec-head p.lede, p.lede{color:var(--mut);margin:22px 0 0;font-size:17px;max-width:68ch;line-height:1.85}   /* also the lede under an h3.sub */
 h3.sub{font-size:22px;font-weight:500;margin:46px 0 18px;letter-spacing:-.025em}
 p{margin:0 0 16px}
 hr.rule{border:0;border-top:1px solid var(--line);margin:76px auto 0;max-width:1096px}
@@ -365,13 +365,6 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
   padding:14px 18px;font-size:14.6px;color:var(--ink)}
 .note b{font-weight:700}
 
-/* failure-mode evidence rows: analysis beside the paper's figure */
-.fm-row{display:grid;grid-template-columns:1fr 1.12fr;gap:18px;align-items:start;
-  margin:0 0 18px}
-@media (max-width:900px){.fm-row{grid-template-columns:1fr}}
-.fm-row .box h4 .idx{font-size:11px;letter-spacing:.06em}
-.fm-row .fig{padding:8px}
-.fm-row .fig img{border-radius:5px}
 
 /* diversification ladder */
 .ladder{display:grid;gap:9px;margin:0 0 22px}
@@ -558,6 +551,9 @@ footer .frow{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-betw
   padding:24px 24px 16px;box-shadow:var(--shadow)}
 .chart-card h4{font-size:18px;font-weight:500;margin:0 0 8px}
 .chart-card .sub{font-size:13.2px;color:var(--faint);margin:0 0 8px}
+/* side-by-side cards stretch to one height; the shorter chart centres in the spare room */
+.chart-pair .chart-card{display:flex;flex-direction:column}
+.chart-pair .chart-card svg{margin:auto 0}
 svg.chart{width:100%;height:auto;display:block;overflow:visible}
 
 svg.chart .grid{stroke:var(--line);stroke-width:1}
@@ -613,19 +609,18 @@ svg.chart .mult-label.animate{opacity:.85}
   svg.chart .mult-label{opacity:.85;transition:none}
 }
 
-/* ---- additional series colours: transfer, tools, RL ---- */
+/* ---- additional series colours: transfer, RL ---- */
 :root{
-  --m-nohint:#94A7AB; --m-opus5-t:#DBB58F; --m-sol-t:#A8C4EA;
+  --m-nohint:#94A7AB;
   --r-task:#86B8D7; --r-total:#DD8C86; --r-pen:#97A5AD;
   --r-nonzero:#DFB47C; --r-partial:#CECD8C; --r-success:#99C9A4;
 }
 :root[data-theme="light"]{
-  --m-nohint:#687A7E; --m-opus5-t:#A46F43; --m-sol-t:#577DA9;
+  --m-nohint:#687A7E;
   --r-task:#1F77B4; --r-total:#BC4646; --r-pen:#687A7E;
   --r-nonzero:#A9671B; --r-partial:#7A791D; --r-success:#35783D;
 }
 .s-nohint{--c:var(--m-nohint)}
-.s-opus5-t{--c:var(--m-opus5-t)} .s-sol-t{--c:var(--m-sol-t)}
 .s-rl-task{--c:var(--r-task)}       .s-rl-total{--c:var(--r-total)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}
@@ -746,7 +741,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
   nav.top .gallery-cta .cta-long{display:none}nav.top .gallery-cta .cta-short{display:inline}nav.top .nav-tools{gap:6px}
   nav.top .lnk{font-size:12.5px;padding:8px 6px}button.theme{width:30px;height:30px;font-size:13px}
   .box{padding:22px}.chart-card{padding:18px 14px 12px}
-  .sec-head p.lede{font-size:16px}
+  .sec-head p.lede, p.lede{font-size:16px}
   header.hero{--title-track:170vh}
   .title-copy{padding:80px 18px}
   .title-mark{font-size:clamp(44px,13vw,64px)}.title-line{font-size:clamp(19px,5.4vw,26px);white-space:normal;max-width:20ch;text-wrap:balance}

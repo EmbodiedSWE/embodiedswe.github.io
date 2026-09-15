@@ -10,7 +10,7 @@
       description:'A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, packing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.',
       href:'#benchmark', link:'Explore the benchmark'},
     {role:'Solver', title:'Agent Evaluation', color:'var(--learn)',
-      description:'Five frontier coding models are evaluated on every task in their own standard coding harnesses, each run on one RTX 4090 with a 4-hour budget. Submissions are graded offline against a hidden rubric and audited for reward hacking. Beyond raw scores, the evaluation probes transfer across tasks and embodiments and the effect of purpose-built tools.',
+      description:'Six frontier coding models are evaluated on every task in their own standard coding harnesses, each run on one RTX 4090 with a 4-hour budget. Submissions are graded offline against a hidden rubric and audited for reward hacking. Beyond raw scores, the evaluation probes transfer across tasks and embodiments and the effect of purpose-built tools.',
       href:'#results', link:'Explore agent results'},
     {role:'Teacher', title:'Data Generation + VLA', color:'var(--teach)',
       description:'EmbodiedSWE-Gen expands one verified solution along five nested levels of variation: scene, strategy, phase, dynamics, and visual. Every generated trajectory must pass the grader and a replay check before it counts. The result is a large verified dataset used to train a generalist VLA policy that acts without the coding agent in the loop.',
