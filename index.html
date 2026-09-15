@@ -439,7 +439,9 @@
       </div>
     </div>
 
-    <div class="grid2" style="margin-top:24px;align-items:start">
+    <p class="lede" style="margin:26px 0 0">We evaluate the learnability of the generated tasks by training <code>Seed-2.1-Lite</code> with turn-level PPO on 400 environments. Mean task reward increases from 0.09 to 0.18, while success rate rises from 2.7% to 7.5%.</p>
+
+    <div class="grid2" style="margin-top:16px;align-items:start">
       <div class="chart-card" data-chart="rl-reward">
         <h4>Reward</h4>
         <p class="sub">Task reward, task + penalty, and the penalty itself, with the fitted task-reward trend.</p>
@@ -447,19 +449,6 @@
       <div class="chart-card" data-chart="rl-rate">
         <h4>Success and non-zero rate</h4>
         <p class="sub">Fraction of the 128 rollouts per step that score 1, above 0, and strictly between.</p>
-      </div>
-    </div>
-    <p class="cap" style="margin-top:12px"><code>Seed-2.1-Lite</code>, turn-level PPO on 400 generated environments, 512 H20 GPUs, 128 episodes per step.</p>
-
-    <h3 class="sub">The gains arrive in two phases</h3>
-    <div class="grid2">
-      <div class="box">
-        <h4>First housekeeping, then capability</h4>
-        <p>Over the first 100 steps task reward is nearly flat while the format penalty shrinks from −0.14 to −0.06: the agent learns to finish episodes cleanly and reason more briefly. Task reward begins to rise only after step 120, once penalties are mostly gone; over the same period the average episode shortens from 61 to 39 turns.</p>
-      </div>
-      <div class="box">
-        <h4>The signal is learnable, and not exhausted</h4>
-        <p>Mean task reward roughly doubles, <b>0.09 → 0.18</b>, and success rate rises <b>2.7% → 7.5%</b>. Comparing steps 1–60 against 121–180, <b>31</b> environments improve by more than 10 points of success rate. Reward standard deviation across episodes <em>grows</em> from 0.20 to 0.29, so the learning signal is not saturating at the cutoff.</p>
       </div>
     </div>
   </div>
