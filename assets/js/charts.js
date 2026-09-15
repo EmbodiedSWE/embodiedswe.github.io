@@ -244,7 +244,7 @@
         series: [
           { k: 'similar',    label: 'Similar-task hint',    cls: 's-opus5'  },
           { k: 'dissimilar', label: 'Dissimilar-task hint', cls: 's-opus48' },
-          { k: 'nohint',     label: 'No hint (Franka)',     cls: 's-nohint', dash: '5 2.5' }
+          { k: 'nohint',     label: 'No hint',              cls: 's-nohint', dash: '5 2.5' }
         ] }));
     },
     'transfer-emb': function () {
@@ -253,7 +253,7 @@
         series: [
           { k: 'gen3',   label: 'Kinova Gen3 + hint', cls: 's-sol'   },
           { k: 'xarm7',  label: 'xArm7 + hint',       cls: 's-terra' },
-          { k: 'nohint', label: 'No hint (Franka)',   cls: 's-nohint', dash: '5 2.5' }
+          { k: 'nohint', label: 'No hint',            cls: 's-nohint', dash: '5 2.5' }
         ] }));
     },
     spend: function () {

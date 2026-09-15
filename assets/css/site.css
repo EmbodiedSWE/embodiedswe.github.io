@@ -484,13 +484,13 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 .diversification-summary h4{font-size:24px;font-weight:450;letter-spacing:-.03em;margin-top:10px;line-height:1.25}
 .diversification-summary h4 mark{background:none;color:var(--level-color);font-weight:650;
   box-shadow:inset 0 -.38em 0 color-mix(in srgb,var(--level-color) 22%,transparent)}
-.diversification-frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.diversification-frames{display:grid;grid-template-columns:repeat(var(--tiles,3),minmax(0,1fr));gap:10px}
 .diversification-frame{min-width:0;animation:diversification-enter .7s both;animation-delay:var(--frame-delay)}
 .diversification-frame>svg,.diversification-frame>video{display:block;width:100%;aspect-ratio:1.5;border-radius:7px;
   overflow:hidden;background:var(--panel2);border:1px solid var(--line)}
 .diversification-frame>video{object-fit:cover}
 .diversification-frame figcaption{font-size:10px;line-height:1.45;margin-top:9px;min-height:30px}
-.diversification-caption{font-size:12.5px;line-height:1.6;color:var(--faint);margin:12px 0 0;max-width:90ch}
+.diversification-caption{font-size:12.5px;line-height:1.6;color:var(--faint);margin:12px 0 0}
 .diversification-description b,.diversification-caption b{color:var(--ink);font-weight:600}
 .diversification-description{font-size:15px;line-height:1.7;color:var(--mut);margin:12px 0 0}
 .diversification-timeline{height:2px;background:var(--line);margin-top:22px;overflow:hidden}

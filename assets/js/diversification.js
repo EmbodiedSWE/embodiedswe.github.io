@@ -10,9 +10,10 @@
       caption:'Example of swapping the object: the agent swaps the food being cut from a banana to a carrot or a tomato.',
       description:'This level edits the task itself. Typical edits <b>swap the object</b> being manipulated, change <b>the number of objects</b> the task involves, or add <b>task-irrelevant objects</b> to the workspace as distractors. Because the task has changed, the coding agent rewrites both the success condition and the solution code so that the new scene is solved and graded correctly.',
       frames:[['Banana · base','banana',900,620,850],['Carrot','carrot',900,620,850],['Tomato','tomato',900,620,850]]},
-    {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4',
-      description:'This level keeps the task fixed and finds other ways to solve it. The agent changes which side or part of the object is grasped, reorders steps that do not depend on one another, or chooses a different overall plan. It also writes recovery branches, so a trajectory can include dropping the object, regrasping it and finishing the insertion, which is behaviour a single nominal demonstration never shows.',
-      frames:[['Nominal insertion · base','nominal',860,540,1100],['Drop → regrasp → insert','recovery',860,540,1100],['Alternate grasp side','grasp-right',1000,480,1100]]},
+    {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4', clips:true,
+      caption:'Examples: a recovery phase that regrasps a dropped light bulb and finishes screwing it in, and a different grasp site for folding the T-shirt.',
+      description:'This level modifies the verified solution strategy directly. The agent changes the <b>order of interchangeable steps</b>, for example which screw to fasten first; changes a <b>preference</b> such as the grasp site; changes <b>execution parameters</b> such as force or speed; and adds a <b>recovery phase</b> for when a solve fails because of noise or GPU nondeterminism.',
+      frames:[['Drop, regrasp, screw in','recovery'],['Grasp the shirt from another side','grasp-side']]},
     {name:'Phase', color:'var(--learn)', title:'Start further into the task.', mult:'×2.5',
       description:'This level starts a rollout part way through a long task. The agent identifies the intermediate stages of its solution (for example bolts fastened, RAM seated, GPU installed), writes code that initializes a valid, randomized state at each stage, and adapts the solution to finish from that point. Later phases are therefore covered with many varied starts without replaying every earlier step.',
       frames:[['Start at bolting · base','bolting',900,380,1100],['Start at RAM · bolts done','ram',900,380,1100],['Start at GPU · RAM done','gpu',900,380,1100]]},
@@ -92,7 +93,7 @@
       '</span><h4><mark>' + level.name + '</mark></h4>' +
       '<p class="diversification-description">' + level.description + '</p>' +
       '</div>' +
-      '<div class="diversification-frames">' + level.frames.map(function (frame, i) {
+      '<div class="diversification-frames" style="--tiles:' + level.frames.length + '">' + level.frames.map(function (frame, i) {
         return '<figure class="diversification-frame" style="--frame-delay:' + (i * 130) + 'ms">' +
           (level.clips ? renderClip(frame) : renderFrame(frame)) +
           (level.caption ? '' : '<figcaption>' + frame[0] + '</figcaption>') + '</figure>';
