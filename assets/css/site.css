@@ -617,7 +617,7 @@ svg.chart .t-cum{fill:var(--r-total)} svg.chart .t-per{fill:var(--r-task)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}
 .s-rl-success{--c:var(--r-success)}
-svg.chart .vla-b{fill:var(--m-astra)}
+svg.chart .vla-b{fill:var(--m-fable51)}
 svg.chart .vla-b0{opacity:.22} svg.chart .vla-b1{opacity:.4} svg.chart .vla-b2{opacity:.58}
 svg.chart .vla-b3{opacity:.78} svg.chart .vla-b4{opacity:1}
 svg.chart .zero{stroke:var(--mut);stroke-width:1;opacity:.55}
