@@ -1,65 +1,49 @@
 /* Animate the original figure's real renders without generating synthetic data.
- * Individual 1920 × 1080 sources keep the crops sharp on high-density screens. Tiles with a clip loop a
- * short mp4 cut from the same simulation run (experiments/snapshots/figure7/tools/make_web_clips.py,
- * sources in assets/img/diversification/SOURCES.md); the others keep the still.
+ * Individual 1920 × 1080 sources keep the crops sharp on high-density screens.
  */
 (function () {
   'use strict';
   var host = document.getElementById('diversification');
   if (!host) return;
   var levels = [
-    {name:'Scene', color:'var(--solve)', title:'Change the task.', mult:'×5',
-      description:'Vary objects, distractors, and object counts. The agent adapts the solution and success condition to the new scene.',
-      tags:['Object type', 'Distractors', 'Object count'],
+    {name:'Scene', color:'var(--solve)', title:'Change the task.', mult:'×5', clips:true,
+      caption:'Example of swapping the object: the agent swaps the food being cut from a banana to a carrot or a tomato.',
+      description:'This level edits the task itself. Typical edits <b>swap the object</b> being manipulated, change <b>the number of objects</b> the task involves, or add <b>task-irrelevant objects</b> to the workspace as distractors. Because the task has changed, the coding agent rewrites both the success condition and the solution code so that the new scene is solved and graded correctly.',
       frames:[['Banana · base','banana',900,620,850],['Carrot','carrot',900,620,850],['Tomato','tomato',900,620,850]]},
-    {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4',
-      description:'Change the grasp, reorder interchangeable steps, or choose another plan. Recovery branches let the robot regrasp a dropped object and continue.',
-      tags:['Recovery', 'Step order', 'Grasp side', 'Task plan'],
-      frames:[['Nominal insertion · base','nominal',860,540,1100],['Drop → regrasp → insert','recovery',860,540,1100],['First grasp: left sleeve, then right sleeve','grasp-right',1000,480,1100]]},
+    {name:'Strategy', color:'var(--teach)', title:'Find another way to solve it.', mult:'×4', clips:true,
+      caption:'Examples: a recovery phase that regrasps a dropped light bulb and finishes screwing it in, and a different grasp site for folding the T-shirt.',
+      description:'This level modifies the verified solution strategy directly. The agent changes the <b>order of interchangeable steps</b>, for example which screw to fasten first; changes a <b>preference</b> such as the grasp site; changes <b>execution parameters</b> such as force or speed; and adds a <b>recovery phase</b> for when a solve fails because of noise or GPU nondeterminism.',
+      frames:[['Drop, regrasp, screw in','recovery'],['Grasp the shirt from another side','grasp-side']]},
     {name:'Phase', color:'var(--learn)', title:'Start further into the task.', mult:'×2.5',
-      description:'Initialize a valid intermediate state and finish from there. Entry phases and object arrangements vary without replaying every earlier step.',
-      tags:['Entry phase', 'Intermediate state'],
-      frames:[['Start at bolting · base','bolting',900,380,1100],['Start at RAM · bolts done','ram',900,380,1100],['Start at GPU · RAM done','gpu',900,380,1100]]},
+      caption:'Example on the humanoid egg-carton task: rollouts start from scratch or from intermediate stages, where some eggs already sit in different slots and the rest lie in arbitrary layouts on the table.',
+      description:'This level targets state-space coverage. The agent perturbs <b>task initializations</b>, such as object and robot poses, which are difficult to engineer comprehensively at scale. For long-horizon tasks, trajectory distributions can further narrow at intermediate stages. We therefore allow the agent to identify <b>underrepresented intermediate states</b> and use them as new starting points, improving coverage of otherwise rarely visited regions of the task.',
+      frames:[['Eggs on the table, carton empty','human_egg_1',900,600,1150],['Eggs spread across the table, one seated','human_egg_2',1000,580,1150],['Eggs in other slots, another layout','human_egg_3',1080,600,1150]]},
     {name:'Dynamics', color:'var(--teach)', title:'Vary the motion, keep the goal.', mult:'×4',
-      description:'Use stronger action noise in transport and weaker noise during insertion. Sample mass, friction, and contact from agent-declared ranges.',
-      tags:['Phase-specific action noise', 'Mass', 'Friction', 'Contact'],
+      description:'This level keeps the goal and perturbs how the motion unfolds. DART-style action noise is injected phase by phase, stronger while the arm transports the object and weaker during precise insertion, so the policy sees recoveries from realistic deviations. Physical parameters such as mass, friction and contact stiffness are also sampled from ranges the agent declares for the task.',
       frames:[['Transport · stronger noise','transport',900,630,1200],['Insertion · weaker noise','insertion',900,630,1200],['Sample physical parameters','params']]},
     {name:'Visual', color:'var(--learn)', title:'The same motion. New observations.', mult:'×3',
-      description:'Re-render recorded states with new backgrounds, lighting, and camera poses. The physical trajectory stays the same; no re-simulation is needed.',
-      tags:['Background', 'Lighting', 'Camera pose'],
+      description:'This level produces new observations of the same physical trajectory. Recorded simulator states are re-rendered offline with different backgrounds, lighting (daylight, warm indoor light), materials and camera poses. Nothing is re-simulated and the actions are unchanged, so visual variety is added at almost no cost in agent tokens or simulation time.',
       frames:[['Original · daylight','daylight',880,560,880],['Warm lighting','warm',880,560,880],['Side camera','side',1150,560,950]]}
   ];
   var player = host.querySelector('.diversification-player');
   var stage = host.querySelector('.diversification-stage');
   var tabs = host.querySelector('.diversification-levels');
-  var toggle = host.querySelector('.diversification-toggle');
   var progress = host.querySelector('.diversification-timeline span');
-  var status = host.querySelector('.diversification-status');
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var paused = motion.matches, visible = false, current = 0, elapsed = 0, previous = 0, raf = 0;
-  var frozen = motion.matches; // the explicit Pause (or reduced motion): stops the level clock AND the clips
-  // Level dwell: at least `minDwell` (reading time, the only dwell for a stills-only level), stretched to
-  // the next loop boundary of the level's longest clip so auto-advance never cuts a clip mid-motion.
-  var minDwell = 6500, duration = minDwell;
+  var duration = 6500;
   var source = host.querySelector('.diversification-fallback');
   var assetRoot = 'assets/img/diversification/';
   var clipRoot = 'assets/video/diversification/';
-  // Frame key -> clip file stem (720 × 480, same crop as the still). Dynamics keeps its annotated stills; the
-  // grasp-side clip plays the left-sleeve-first and right-sleeve-first grasps back to back.
-  var clips = {banana:'banana', carrot:'carrot', tomato:'tomato', nominal:'nominal', recovery:'recovery',
-    'grasp-right':'grasp-side', bolting:'bolting', ram:'ram', gpu:'gpu', daylight:'daylight', warm:'warm', side:'side'};
 
-  function renderFrame(frame) {
-    if (clips[frame[1]]) {
-      // The poster is the clip's first frame; playback is driven by syncClips (never while hidden or frozen).
-      return '<div class="diversification-media"><video muted loop playsinline preload="none"' +
-        ' poster="' + clipRoot + clips[frame[1]] + '.webp" src="' + clipRoot + clips[frame[1]] + '.mp4"' +
-        ' aria-label="' + frame[0] + '"></video></div>';
-    }
-    return renderStill(frame);
+  // Short looping rollout clips (720 x 480, the frame's own 3:2 ratio), muted and
+  // inline, with the matching WebP as poster. Autoplay only when motion is allowed.
+  function renderClip(frame) {
+    return '<video class="diversification-clip" src="' + clipRoot + frame[1] + '.mp4" poster="' + clipRoot + frame[1] +
+      '.webp" muted loop playsinline preload="metadata" aria-label="' + frame[0] + '"' + (motion.matches ? '' : ' autoplay') + '></video>';
   }
 
-  function renderStill(frame) {
+  function renderFrame(frame) {
     var svg = '<svg viewBox="0 0 337.5 225" role="img" aria-label="' + frame[0] + '">';
     if (frame[1] === 'params') {
       // Same schematic ranges as the source figure, expressed as crisp vectors.
@@ -99,33 +83,29 @@
   function show(index, announce) {
     current = index;
     elapsed = 0;
-    duration = minDwell;
     progress.style.transform = 'scaleX(0)';
     var level = levels[index];
     host.style.setProperty('--level-color', level.color);
     tabs.querySelectorAll('button').forEach(function (button, i) {
       button.setAttribute('aria-pressed', String(i === index));
     });
-    stage.innerHTML = '<div class="diversification-summary"><div><span class="diversification-number">LEVEL 0' + (index + 1) +
-      '</span><h4>' + level.title + '</h4></div><div class="diversification-mult">' + level.mult + '<span>level multiplier</span></div></div>' +
-      '<div class="diversification-frames">' + level.frames.map(function (frame, i) {
-        return '<figure class="diversification-frame" data-frame="' + i + '" style="--frame-delay:' + (i * 130) + 'ms">' +
-          renderFrame(frame) +
-          '<figcaption>' + frame[0] + '</figcaption></figure>';
-      }).join('') + '</div><p class="diversification-description">' + level.description + '</p>' +
-      '<div class="diversification-tags">' + level.tags.map(function (tag) { return '<span>' + tag + '</span>'; }).join('') + '</div>';
-    stage.querySelectorAll('.diversification-frame video').forEach(function (video) {
-      video.addEventListener('error', function () { // missing or unplayable clip: fall back to the still
-        var i = +video.closest('.diversification-frame').getAttribute('data-frame');
-        video.parentNode.outerHTML = renderStill(level.frames[i]);
-        fitDwell();
-      }, {once:true});
-      video.addEventListener('loadedmetadata', fitDwell);
-    });
-    fitDwell();
-    syncClips();
-    // Only manual changes announce, so auto-play does not interrupt reading.
-    if (announce) status.textContent = 'Level ' + (index + 1) + ': ' + level.name + '. ' + level.description;
+    // Name first, in the level colour, then the explanation, then the renders.
+    stage.innerHTML = '<div class="diversification-summary"><span class="diversification-number">LEVEL 0' + (index + 1) +
+      '</span><h4><mark>' + level.name + '</mark></h4>' +
+      '<p class="diversification-description">' + level.description + '</p>' +
+      '</div>' +
+      '<div class="diversification-frames" style="--tiles:' + level.frames.length + '">' + level.frames.map(function (frame, i) {
+        return '<figure class="diversification-frame" style="--frame-delay:' + (i * 130) + 'ms">' +
+          (level.clips ? renderClip(frame) : renderFrame(frame)) +
+          (level.caption ? '' : '<figcaption>' + frame[0] + '</figcaption>') + '</figure>';
+      }).join('') + '</div>' +
+      (level.caption ? '<p class="diversification-caption">' + level.caption + '</p>' : '');
+    if (level.clips && !motion.matches) {
+      stage.querySelectorAll('video').forEach(function (video) {
+        var attempt = video.play();
+        if (attempt && attempt.catch) attempt.catch(function () {});
+      });
+    }
   }
 
   function tick(now) {
@@ -143,43 +123,17 @@
     raf = 0;
     previous = 0;
     host.classList.toggle('diversification-paused', paused);
-    toggle.textContent = paused ? '▷ Play' : 'Ⅱ Pause';
-    toggle.setAttribute('aria-label', paused ? 'Play level animation' : 'Pause level animation');
-    toggle.setAttribute('aria-pressed', String(paused));
     if (!paused && visible && !document.hidden) raf = requestAnimationFrame(tick);
-    syncClips();
-  }
-
-  function fitDwell() {
-    var longest = 0;
-    stage.querySelectorAll('video').forEach(function (video) {
-      if (video.duration && isFinite(video.duration)) longest = Math.max(longest, video.duration * 1000);
-    });
-    duration = longest ? Math.ceil(minDwell / longest) * longest : minDwell;
-  }
-
-  function syncClips() {
-    // Clips run whenever the player is on screen and not explicitly paused; picking a level by hand
-    // stops the level clock but keeps the clips moving.
-    var play = visible && !document.hidden && !frozen;
-    stage.querySelectorAll('video').forEach(function (video) {
-      if (!play) { video.pause(); return; }
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
-    });
   }
 
   tabs.innerHTML = levels.map(function (level, i) {
-    return '<button type="button" aria-pressed="false"><span>0' + (i + 1) + '</span> ' + level.name + '</button>';
+    return '<button type="button" aria-pressed="false" style="--tab-color:' + level.color + ';--tab-bg:' +
+      level.color.replace(')', '-bg)') + '"><span>0' + (i + 1) + '</span>' + level.name + '</button>';
   }).join('');
   tabs.querySelectorAll('button').forEach(function (button, index) {
     button.addEventListener('click', function () { paused = true; show(index, true); sync(); });
   });
-  host.querySelector('.diversification-next').addEventListener('click', function () {
-    paused = true; show((current + 1) % levels.length, true); sync();
-  });
-  toggle.addEventListener('click', function () { paused = !paused; frozen = paused; sync(); });
-  motion.addEventListener('change', function (event) { paused = frozen = event.matches; sync(); });
+  motion.addEventListener('change', function (event) { paused = event.matches; sync(); });
   document.addEventListener('visibilitychange', sync);
 
   function start() {

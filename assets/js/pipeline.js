@@ -6,25 +6,24 @@
   var host = document.getElementById('pipeline');
   if (!host) return;
   var stages = [
-    {role:'Benchmark', title:'Benchmark Tasks', color:'var(--solve)',
-      description:'An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.',
-      result:'One task combines a scene, a robot, and a controller.', href:'#benchmark', link:'Explore the benchmark'},
-    {role:'Solver', title:'Coding Agent Solves Tasks', color:'var(--learn)',
-      description:'The coding agent writes solution code (solve.py), executes and evaluates it in the simulator, and uses simulation feedback to revise the solution. This inner feedback loop turns physical task outcomes into the next code revision.',
-      result:'Agent → solution code → simulator → simulation feedback → agent.', href:'#results', link:'Explore agent results'},
+    {role:'Benchmark', title:'EmbodiedSWE-Bench', color:'var(--solve)',
+      description:'A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, packing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.',
+      href:'#benchmark', link:'Explore the benchmark'},
+    {role:'Solver', title:'Agent Evaluation', color:'var(--learn)',
+      description:'Six frontier coding models are evaluated on every task in their own standard coding harnesses, each run on one RTX 4090 with a 4-hour budget. Submissions are graded offline against a hidden rubric and audited for reward hacking. Beyond raw scores, the evaluation probes transfer across tasks and embodiments and the effect of purpose-built tools.',
+      href:'#results', link:'Explore agent results'},
     {role:'Teacher', title:'Data Generation + VLA', color:'var(--teach)',
-      description:'EmbodiedSWE-Gen expands a verified solve across scene, strategy, phase, dynamics, and visual variation. Trajectories passing the grader and replay check become supervision for a generalist robot policy that acts without the coding agent in the loop.',
-      result:'One solution → Scene × Strategy × Phase × Dynamics × Visual → large dataset → VLA.', href:'#teacher', link:'Explore EmbodiedSWE-Gen'},
+      description:'EmbodiedSWE-Gen expands one verified solution along five nested levels of variation: scene, strategy, phase, dynamics, and visual. Every generated trajectory must pass the grader and a replay check before it counts. The result is a large verified dataset used to train a generalist VLA policy that acts without the coding agent in the loop.',
+      href:'#teacher', link:'Explore EmbodiedSWE-Gen'},
     {role:'Student', title:'Agent Improvement', color:'var(--solve)',
-      description:'Task generation expands a seed task into new simulation tasks. Verified outcomes provide the reinforcement-learning signal for the coding agent. The improved agent becomes the solver in stage 02, closing the proposed feedback loop. The full pipeline has not yet been run end to end.',
-      result:'Seed task → task generation → new tasks → verified outcomes → RL → improved coding agent.', href:'#student', link:'Explore coding-agent training'}
+      description:'Robotics simulation is a natural training ground for coding agents: outcomes are verifiable, and multi-stage tasks give well-defined partial credit. A seed-and-mutate pipeline generates new tasks at training scale, and the coding agent is post-trained with reinforcement learning on their verified rubric scores. The improved agent then becomes the solver in stage 02, closing the loop.',
+      href:'#student', link:'Explore coding-agent training'}
   ];
   var cards = Array.prototype.slice.call(host.querySelectorAll('.pipeline-card'));
   var map = host.querySelector('.pipeline-map');
   var svg = host.querySelector('.pipeline-connections');
   var pathsGroup = host.querySelector('.pipeline-paths');
   var particlesGroup = host.querySelector('.pipeline-particles');
-  var toggle = host.querySelector('.pipeline-toggle');
   var next = host.querySelector('.pipeline-next');
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var paused = motion.matches, visible = false, current = 0, elapsed = 0, previous = 0, raf = 0;
@@ -114,7 +113,6 @@
     host.querySelector('.pipeline-detail-kicker').textContent = '0' + (index + 1) + ' / ' + stage.role;
     host.querySelector('.pipeline-detail h4').textContent = stage.title;
     host.querySelector('.pipeline-detail-description').textContent = stage.description;
-    host.querySelector('.pipeline-detail-result').textContent = stage.result;
     var link = host.querySelector('.pipeline-detail-link');
     link.href = stage.href;
     link.textContent = stage.link + ' ↗';
@@ -136,9 +134,6 @@
     previous = 0;
     var running = !paused && visible && !document.hidden;
     host.classList.toggle('pipeline-running', running);
-    toggle.textContent = paused ? '▷ Play' : 'Ⅱ Pause';
-    toggle.setAttribute('aria-label', paused ? 'Play pipeline animation' : 'Pause pipeline animation');
-    toggle.setAttribute('aria-pressed', String(paused));
     if (running) raf = requestAnimationFrame(tick);
   }
 
@@ -150,9 +145,7 @@
     card.setAttribute('aria-controls', 'pipeline-detail');
     card.addEventListener('click', function () { inspect(index); });
   });
-  toggle.hidden = false;
   next.hidden = false;
-  toggle.addEventListener('click', function () { paused = !paused; sync(); });
   next.addEventListener('click', function () { inspect((current + 1) % 4); });
   motion.addEventListener('change', function (event) { paused = event.matches; sync(); });
   document.addEventListener('visibilitychange', sync);

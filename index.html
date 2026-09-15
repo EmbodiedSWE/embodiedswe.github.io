@@ -13,105 +13,116 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/img/fig/overview.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css?v=202609141304">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B6B70'/><text y='71' x='50' text-anchor='middle' font-size='62' font-family='ui-monospace,monospace' fill='%23fff'>&#123;&#125;</text></svg>">
 </head>
 <body>
+
+<!-- Top bar: fixed and opaque; the page (including the bulb and title stages) starts beneath it. -->
+<nav class="top" aria-label="Site">
+  <div class="wrap row">
+    <a class="brand" href="#top">Embodied<b>SWE</b></a>
+    <div class="nav-links" aria-label="Paper, code and blog">
+      <span class="lnk soon" aria-disabled="true">Paper<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true">arXiv<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true">Blog<small>soon</small></span>
+      <span class="lnk soon" aria-disabled="true">Code<small>soon</small></span>
+    </div>
+    <div class="nav-tools">
+      <a class="gallery-cta" href="#benchmark"><span class="ic" aria-hidden="true">▶</span><span class="cta-long">Task gallery</span><span class="cta-short">Gallery</span></a>
+      <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Side menu: a fixed rail listing the sections; site.js shows it once the Overview is reached and marks the section in view. -->
+<nav class="side-menu" id="side-menu" aria-label="Sections" hidden>
+  <a class="side-menu-head" href="#top">Home</a>
+  <ul>
+    <li><a href="#benchmark"><b>01</b><span>Benchmark</span></a></li>
+    <li><a href="#results"><b>02</b><span>Evaluation</span></a></li>
+    <li><a href="#teacher"><b>03</b><span>Data gen</span></a></li>
+    <li><a href="#student"><b>04</b><span>Agent RL</span></a></li>
+  </ul>
+  <a class="side-menu-cite" href="#cite"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13M6 8.5h4M6 11h4"/></svg><span>Cite</span></a>
+</nav>
 
 <div class="site-universe" aria-hidden="true">
   <div class="hero-atmosphere" aria-hidden="true"></div>
   <canvas class="hero-canvas" aria-hidden="true"></canvas>
 </div>
-<header class="hero" id="top" aria-labelledby="hero-title">
-  <div class="hero-topline">
-    <a class="hero-brand" href="#top"><span aria-hidden="true">{ }</span> EmbodiedSWE</a>
-    <a class="hero-index" href="#project">Explore the research <span aria-hidden="true">↗</span></a>
+<div class="bulb-stage" aria-hidden="true">
+  <div class="bulb-sticky">
+    <canvas></canvas>
+    <div class="bulb-hint"><span>Scroll to screw in the bulb</span><span>↓</span></div>
   </div>
-  <div class="hero-copy">
-    <p class="hero-kicker">From code to the physical world</p>
-    <h1 id="hero-title">Embodied<span>SWE</span></h1>
-    <p class="hero-subtitle">Coding agents for long-horizon<br>dexterous robotics.</p>
-  </div>
-  <div class="hero-bottomline">
-    <div class="hero-cycle" aria-label="Solvers, teachers, and students">
-      <span>01 <b>Solve</b></span><i aria-hidden="true"></i>
-      <span>02 <b>Teach</b></span><i aria-hidden="true"></i>
-      <span>03 <b>Learn</b></span>
+</div>
+<!-- Title stage: a sticky full page that begins while the lit bulb is still dissolving. Words, authors and
+     organizations pop in as you scroll (assets/js/title.js drives --t on every [data-pop]); the whole page then
+     holds until the research begins.
+     TODO before publishing: replace the placeholder authors / institutions below and add links. -->
+<header class="hero title-stage" id="top" aria-labelledby="hero-title">
+  <div class="title-sticky">
+    <div class="title-copy">
+      <h1 id="hero-title">
+        <span class="title-mark"><span class="w" data-pop data-group="mark" style="--pop-y:64px;--pop-blur:16px">Embodied<b>SWE</b></span></span>
+        <span class="title-line"><span class="w" data-pop data-group="title">Coding</span> <span class="w" data-pop data-group="title">Agents</span> <span class="w" data-pop data-group="title">for</span> <span class="w" data-pop data-group="title">Long-Horizon</span> <span class="w" data-pop data-group="title">Dexterous</span> <span class="w" data-pop data-group="title">Robotics</span></span>
+      </h1>
+      <!-- Three tiers, revealed in order: project leads, contributors, advisors. Advisor links still to add. -->
+      <div class="title-people">
+        <div class="title-tier" role="list" aria-label="Project leads and core contributors">
+          <span class="tier-label" data-pop data-group="leads">Project leads <span aria-hidden="true">·</span> Core contributors</span>
+          <span class="au" role="listitem" data-pop data-group="leads"><a href="https://x.com/Zeyu_Shen_yo" target="_blank" rel="noopener">Zeyu Shen</a><sup>1,3*</sup></span>
+          <span class="au" role="listitem" data-pop data-group="leads"><a href="https://haoxiangyou.github.io/" target="_blank" rel="noopener">Haoxiang You</a><sup>2*</sup></span>
+          <span class="au" role="listitem" data-pop data-group="leads"><a href="https://yilangliu.github.io/" target="_blank" rel="noopener">Yilang Liu</a><sup>2*</sup></span>
+        </div>
+        <div class="title-tier wide" role="list" aria-label="Contributors">
+          <span class="tier-label" data-pop data-group="contrib">Contributors</span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://zzcnewly.github.io/" target="_blank" rel="noopener">Zhicheng Zheng</a><sup>3</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://lihzha.github.io/" target="_blank" rel="noopener">Lihan Zha</a><sup>3</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://kashu7100.github.io/" target="_blank" rel="noopener">Kashu Yamazaki</a><sup>4</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://robo-alex.github.io/" target="_blank" rel="noopener">Mingtong Zhang</a><sup>3</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://suninghuang19.github.io/" target="_blank" rel="noopener">Suning Huang</a><sup>5</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://web.stanford.edu/~jksun/" target="_blank" rel="noopener">Jiankai Sun</a><sup>5</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://qianzhong-chen.github.io/" target="_blank" rel="noopener">Qianzhong Chen</a><sup>5</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://lumos23.github.io/" target="_blank" rel="noopener">Lucy He</a><sup>3</sup></span>
+          <span class="au" role="listitem" data-pop data-group="contrib"><a href="https://www.linkedin.com/in/haoran-chang-62049b246/" target="_blank" rel="noopener">Haoran Chang</a><sup>6</sup></span>
+        </div>
+        <div class="title-tier" role="list" aria-label="Advisors">
+          <span class="tier-label" data-pop data-group="advisors">Advisors</span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Dhruv Shah</a><sup>3</sup></span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Mac Schwager</a><sup>5</sup></span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Katerina Fragkiadaki</a><sup>4</sup></span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Peter Henderson</a><sup>3†</sup></span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Ian Abraham</a><sup>2†</sup></span>
+          <span class="au" role="listitem" data-pop data-group="advisors"><a href="#">Canwen Xu</a><sup>1†</sup></span>
+        </div>
+      </div>
+      <p class="title-notes" data-pop data-group="orgs"><sup>*</sup>Project leads with equal contribution and leadership; order may differ across versions <span aria-hidden="true">·</span> <sup>†</sup>Equal advising</p>
+      <div class="title-orgs" aria-label="Organizations">
+        <span class="org" data-pop data-group="orgs"><sup>1</sup><img src="assets/img/orgs/bytedance-seed.png" alt="ByteDance Seed" width="443" height="60"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>2</sup><img src="assets/img/orgs/yale.svg" alt="Yale"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>3</sup><img src="assets/img/orgs/princeton.svg" alt="Princeton"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>4</sup><img src="assets/img/orgs/cmu.svg" alt="CMU"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>5</sup><img src="assets/img/orgs/stanford.svg" alt="Stanford"></span><i aria-hidden="true" data-pop data-group="orgs"></i>
+        <span class="org" data-pop data-group="orgs"><sup>6</sup><img src="assets/img/orgs/ucla.svg" alt="UCLA"></span>
+      </div>
+      <div class="hero-bottomline" data-pop data-group="foot">
+        <a class="hero-scroll" href="#overview"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
+      </div>
     </div>
-    <a class="hero-scroll" href="#project"><span>Scroll to explore</span><span class="hero-scroll-arrow" aria-hidden="true">↓</span></a>
-    <button class="hero-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden>
-      <span class="hero-pause-icon" aria-hidden="true">Ⅱ</span><span class="hero-pause-label">Pause</span>
-    </button>
   </div>
 </header>
 
-<nav class="top">
-  <div class="wrap row">
-    <a class="brand" href="#top">EmbodiedSWE</a>
-    <div class="nav-links" aria-label="Research sections">
-    <a class="lnk" href="#abstract">Abstract</a>
-    <a class="lnk" href="#loop">The loop</a>
-    <a class="lnk" href="#benchmark">Benchmark</a>
-    <a class="lnk" href="#tasks">Tasks</a>
-    <a class="lnk" href="#results">Results</a>
-    <a class="lnk" href="#failures">Failure modes</a>
-    <a class="lnk" href="#transfer">Transfer</a>
-    <a class="lnk" href="#tools">Harness</a>
-    <a class="lnk" href="#teacher">Data engine</a>
-    <a class="lnk" href="#student">Agent training</a>
-    <a class="lnk" href="#cite">Cite</a>
-    </div>
-    <button class="universe-pause" data-animation-toggle type="button" aria-label="Pause animation" aria-pressed="false" hidden title="Pause animation"><span class="hero-pause-icon" aria-hidden="true">Ⅱ</span></button>
-    <button class="theme" id="theme" type="button" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
-  </div>
-</nav>
-
-<section class="project-intro" id="project" aria-labelledby="project-title">
-  <div class="wrap">
-    <p class="eyebrow">Agent-native robotics benchmark &amp; data engine</p>
-    <h2 id="project-title">EmbodiedSWE</h2>
-    <p class="tagline">Coding Agents for Long-Horizon Dexterous Robotics</p>
-
-    <div class="authors">
-      <span class="pending">Author list withheld — anonymous submission</span>
-    </div>
-
-    <div class="badges">
-      <span class="badge primary soon"><span class="ic">📄</span> Paper <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">🗂</span> arXiv <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">📝</span> Blog <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <span class="badge soon"><span class="ic">⌨</span> Code <span style="opacity:.75;font-weight:500">(soon)</span></span>
-      <a class="badge" href="#tasks"><span class="ic">▶</span> Explore tasks</a>
-    </div>
-  </div>
-</section>
-
-<div class="wrap" style="margin-top:44px">
-  <figure class="fig hero-fig">
-    <img src="assets/img/fig/scene.webp" width="2150" height="926" alt="Robots share a kitchen workspace, with close-ups of deformable-object manipulation, contact-intensive assembly, long-horizon tasks, and humanoid manipulation." loading="eager">
-    <figcaption><b>A world of dexterous tasks.</b> Long-horizon manipulation across objects, physical interactions, and robot embodiments. <a href="#loop">Explore the learning loop ↓</a></figcaption>
-  </figure>
-</div>
-
-<section id="abstract">
-  <div class="wrap narrow">
-    <div class="sec-head"><h2>Abstract</h2></div>
-    <p>We study coding agents for long-horizon, dexterous robotics and ask whether their solutions can provide scalable supervision for general robot policies. We introduce <b>EmbodiedSWE-Bench</b>, an agent-native simulation benchmark spanning contact-rich manipulation, deformable objects, liquids, cutting, and tasks requiring up to half an hour of continuous interaction to solve.</p>
-    <p>We evaluate frontier coding agents and find that, with careful system and harness design, they demonstrate strong capability on complex long-horizon tasks and transfer prior solutions across tasks and robot embodiments. At the same time, the benchmark remains far from saturated, with the hardest tasks still unsolved by the agent autonomously.</p>
-    <p>We then propose <b>EmbodiedSWE-Gen</b>, a scalable pipeline that converts verified solutions into diverse trajectories for training a generalist policy. Finally, we propose a pipeline that automatically generates diverse simulation environments with verifiable outcomes, and show that it provides a verifiable, learnable training signal for reinforcement learning on <code>Seed-2.1-Lite</code>. Together, our framework casts coding agents as <b>solvers</b>, <b>teachers</b>, and <b>students</b> in a scalable robot-learning loop.</p>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="loop">
+<!-- Overview: the first section after the title page. -->
+<section id="overview">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Coding agents as solvers, teachers, and students</h2>
-      <p class="lede">Solving tasks with programs is not the goal. A generalist robot cannot rely on an ever-growing collection of task-specific programs — that would rebuild a brittle expert system. So the agent's verified programs become supervision for a policy that acts without the agent in the loop, and the tasks it generates become training signal for the agent itself.</p>
+      <h2>Overview</h2>
+      <p class="lede">We study how frontier coding agents can help robotics. EmbodiedSWE has four parts. <b>EmbodiedSWE-Bench</b> is an agent-native benchmark of everyday robotics tasks. A <b>frontier evaluation</b> measures how well today's coding agents perform on them along several dimensions. <b>EmbodiedSWE-Gen</b> then diversifies the agents' verified solutions into a large dataset for training a general robot policy. Finally, we generate new tasks from existing ones to further <b>improve the coding agents via RL</b>.</p>
     </div>
     <div class="pipeline" id="pipeline" aria-label="Four contributions of EmbodiedSWE">
-      <div class="pipeline-heading"><div><p class="eyebrow">From physical tasks to learning agents</p><h3>The EmbodiedSWE loop</h3></div><button class="pipeline-toggle" type="button" aria-label="Pause pipeline animation" hidden>Ⅱ Pause</button></div>
+      <div class="pipeline-heading"><div><p class="eyebrow">From coding agents to the physical world</p><h3>EmbodiedSWE Overview</h3></div><button class="pipeline-next" type="button" hidden>Next stage →</button></div>
       <div class="pipeline-map">
         <svg class="pipeline-connections" aria-hidden="true"><defs>
           <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--mut)" stroke-width="1.5"/></marker>
@@ -123,7 +134,7 @@
         <div class="pipeline-stages" role="group" aria-label="Explore a contribution">
           <button class="pipeline-card" type="button" aria-pressed="true" data-stage="0" disabled>
             <span class="pipeline-card-top"><span>01</span><span>Benchmark</span></span>
-            <span class="pipeline-card-title">Benchmark Tasks</span>
+            <span class="pipeline-card-title">New Benchmark</span>
             <span class="pipeline-visual pipeline-benchmark" aria-hidden="true">
               <span><img src="assets/img/poster/bulb.jpg" alt="" loading="lazy"><span>Light bulb</span></span>
               <span><img src="assets/img/poster/ikea_table.jpg" alt="" loading="lazy"><span>IKEA assembly</span></span>
@@ -133,12 +144,12 @@
               <span><img src="assets/img/poster/box_to_bin.jpg" alt="" loading="lazy"><span>Warehouse picking</span></span>
               <span class="pipeline-scan"></span>
             </span>
-            <span class="pipeline-card-copy">EmbodiedSWE-Bench<br>Agent-native, long-horizon dexterous daily-life tasks.</span>
-            <span class="pipeline-card-foot">28 tasks · 6 suites <span aria-hidden="true">↗</span></span>
+            <span class="pipeline-card-copy">Agent-native, long-horizon dexterous daily-life tasks.</span>
+            <span class="pipeline-card-foot">6 suites · 28 tasks · 17 embodiments <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="1" disabled>
             <span class="pipeline-card-top"><span>02</span><span>Solver</span></span>
-            <span class="pipeline-card-title">Coding Agent Solves Tasks</span>
+            <span class="pipeline-card-title">Agent Evaluation</span>
             <span class="pipeline-visual" aria-hidden="true">
               <svg viewBox="0 0 240 170" preserveAspectRatio="xMidYMid meet">
                 <path class="pipeline-flow" data-flow d="M49 75H79"/><path class="pipeline-flow" data-flow d="M151 75H181"/>
@@ -149,11 +160,11 @@
                 <text class="pipeline-svg-label" x="88" y="63">solve.py</text><g class="pipeline-code-lines"><path d="M89 74h45"/><path d="M94 84h29"/><path d="M94 94h40"/></g>
                 <text class="pipeline-svg-label" x="208" y="34" text-anchor="middle">Simulator</text><rect class="pipeline-shape" x="181" y="48" width="56" height="57" rx="7"/>
                 <path class="pipeline-arm" d="M192 94h29m-16 0V82l15-14-10-12"/><circle class="pipeline-joint" cx="205" cy="82" r="3"/><circle class="pipeline-joint" cx="220" cy="68" r="3"/>
-                <text class="pipeline-svg-label" x="120" y="125" text-anchor="middle">execute + evaluate</text><text class="pipeline-svg-label" x="120" y="159" text-anchor="middle">Simulation feedback</text>
+                <text class="pipeline-svg-label" x="120" y="159" text-anchor="middle">Feedback</text>
               </svg>
             </span>
-            <span class="pipeline-card-copy">Write. Execute. Inspect.<br>Revise until verified.</span>
-            <span class="pipeline-card-foot">A verified program <span aria-hidden="true">↗</span></span>
+            <span class="pipeline-card-copy">A rigorous evaluation protocol.<br>Agent capability measured along several dimensions.</span>
+            <span class="pipeline-card-foot">Large-scale eval of frontier agents <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="2" disabled>
             <span class="pipeline-card-top"><span>03</span><span>Teacher</span></span>
@@ -182,8 +193,8 @@
                 </g><text class="pipeline-svg-label" x="5" y="121">Training</text>
               </svg>
             </span>
-            <span class="pipeline-card-copy">Scene × Strategy × Phase × Dynamics × Visual.<br>Train a generalist VLA policy.</span>
-            <span class="pipeline-card-foot">One solve → ~600 trajectories <span aria-hidden="true">↗</span></span>
+            <span class="pipeline-card-copy">Systematically turn one solution into a large trajectory dataset for a downstream generalist policy.</span>
+            <span class="pipeline-card-foot">One solve → large dataset <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="3" disabled>
             <span class="pipeline-card-top"><span>04</span><span>Student</span></span>
@@ -202,38 +213,14 @@
             <span class="pipeline-card-foot">Improve the coding agent <span aria-hidden="true">↗</span></span>
           </button>
         </div>
-        <p class="pipeline-return-label">↶ Improved agent becomes the solver · 04 → 02</p>
+        <p class="pipeline-return-label">Improved agent becomes the solver</p>
       </div>
       <div class="pipeline-detail" id="pipeline-detail">
-        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>Benchmark Tasks</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
-        <div><p class="pipeline-detail-description">An agent-native benchmark of 28 long-horizon dexterous tasks across six suites. Coding agents interact with the simulator; offline graders evaluate physical task progress.</p><p class="pipeline-detail-result">One task combines a scene, a robot, and a controller.</p></div>
+        <div><span class="pipeline-detail-kicker">01 / Benchmark</span><h4>EmbodiedSWE-Bench</h4><a class="pipeline-detail-link" href="#benchmark">Explore the benchmark ↗</a></div>
+        <div><p class="pipeline-detail-description">A new agent-native benchmark covering a variety of everyday tasks, with horizons up to half an hour. Twenty-eight tasks across six suites span assembly, organizing, puzzles, deformables, cutting, and loco-manipulation, on seventeen embodiments from single arms to humanoids. Coding agents interact with the simulator directly, and hidden graders score physical task progress offline.</p></div>
       </div>
-      <div class="pipeline-bottom"><span>Continuous flow · Select a stage to explore</span><button type="button" class="pipeline-next" hidden>Next stage →</button></div>
-      <p class="pipeline-caveat">The full loop has not yet been run end to end. Generalist robot-policy training belongs to <b>Teachers</b>; <b>Students</b> trains the coding agent itself.</p>
       <p class="pipeline-status" role="status"></p>
     </div>
-    <details class="pipeline-notes"><summary>More about solving, teaching, and learning</summary>
-    <div class="lanes">
-      <div class="lane solve">
-        <span class="role">Solver</span>
-        <h3>Write the program</h3>
-        <p>The agent inspects the environment, executes candidate solutions, diagnoses failures, and revises its code — optimizing a program rather than the parameters of a learned policy. It writes directly against the simulator with full state access, so what is measured is physical reasoning and coding, not the designer's choice of primitives.</p>
-        <div class="kpi">Best agent solves <b>61%</b> of tasks in a 4-hour budget — the benchmark is far from saturated</div>
-      </div>
-      <div class="lane teach">
-        <span class="role">Teacher</span>
-        <h3>Multiply the solution</h3>
-        <p>A hierarchical data engine expands one verified solve along five nested levels — scene, strategy, phase, dynamics, and appearance — and keeps only trajectories that pass the task grader and an open-loop replay check. Agent effort is spent once; the rest is scripted.</p>
-        <div class="kpi">One verified solve &rarr; <b>~600</b> verified trajectories, at a falling token cost each</div>
-      </div>
-      <div class="lane learn">
-        <span class="role">Student</span>
-        <h3>Learn from outcomes</h3>
-        <p>Robotics tasks are a natural training ground for coding agents: outcomes are verifiable in the simulator and multi-stage tasks come with well-defined partial credit. A seed-and-mutate pipeline builds new environments at training scale, and the agent is post-trained on their rubric scores.</p>
-        <div class="kpi">Turn-level PPO on <b>400</b> generated environments — reward <b>0.09 &rarr; 0.18</b></div>
-      </div>
-    </div>
-    </details>
   </div>
 </section>
 
@@ -242,137 +229,63 @@
 <section id="benchmark">
   <div class="wrap">
     <div class="sec-head">
-      <h2>EmbodiedSWE-Bench</h2>
-      <p class="lede">A simulation benchmark built to be <b>diverse</b>, <b>long-horizon</b>, and <b>physically realistic</b>, on three principles: modularity, standardization, and agent-native access. Physics runs on PhysX through Isaac Lab at a 10 ms step; threaded-assembly scenes model explicit thread engagement with signed-distance-field collision meshes.</p>
+      <h2><span class="sec-no">01</span> EmbodiedSWE-Bench</h2>
+      <p class="lede">An agent-native robotics benchmark powered by Isaac Sim and Newton. The tasks are <b>long-horizon</b>, <b>precise</b>, and <b>dexterous</b>, drawn from everyday scenarios that include liquids, deformables, cutting, and contact-rich assembly.</p>
     </div>
 
     <div class="stats">
-      <div class="stat"><div class="n">28</div><div class="l">registered scenes, each one task</div></div>
-      <div class="stat"><div class="n">6</div><div class="l">suites</div></div>
-      <div class="stat"><div class="n">5</div><div class="l">embodiments, arm to humanoid</div></div>
-      <div class="stat"><div class="n">5</div><div class="l">generic controllers</div></div>
-      <div class="stat"><div class="n">~30<span style="font-size:.6em"> min</span></div><div class="l">of continuous interaction, longest tasks</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">task suites</div></div>
+      <div class="stat"><div class="n">28</div><div class="l">new scenes</div></div>
+      <div class="stat"><div class="n">17</div><div class="l">robot embodiments</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">high-quality controllers</div></div>
+      <div class="stat"><div class="n">~30<span style="font-size:.6em"> min</span></div><div class="l">task horizon</div></div>
     </div>
 
-    <h3 class="sub">One equation</h3>
-    <p style="max-width:70ch;color:var(--mut)">Every environment is a <b style="color:var(--ink)">scene</b> plus a <b style="color:var(--ink)">robot</b>, with a controller chosen by the robot and a grader used only at evaluation time. The three are defined independently and composed by injection, so a new embodiment on an existing task is a new pairing rather than a rewrite — and each pairing ships pre-verified.</p>
+    <figure class="fig task-film">
+      <video src="assets/video/task_overview.mp4" poster="assets/img/poster/task_overview.jpg" controls muted loop playsinline preload="none" width="1920" height="1080" data-autoplay-in-view></video>
+    </figure>
 
+    <h3 class="sub">Design principles</h3>
     <div class="grid3" style="margin-top:18px">
       <div class="box">
-        <h4><span class="idx">01</span> Scene</h4>
-        <p>The workspace and everything in it except the robot, plus a natural-language statement of the objective. A scene <em>is</em> the task: there is no separate task layer, and a variant task is a new scene.</p>
+        <h4><span class="idx">01</span> Modularity</h4>
+        <p>Every environment decomposes into a <b>scene</b>, a <b>robot</b>, and a <b>controller</b>, each defined independently. A new scene or embodiment composes with everything already there, so the task set grows quickly. We ship 28 scenes and 17 embodiments, each with its own variants, such as object types or supported end-effectors, to widen the range further.</p>
       </div>
       <div class="box">
-        <h4><span class="idx">02</span> Robot</h4>
-        <p>The embodiment and the control interfaces available. Franka, UFACTORY xArm7 and Kinova Gen3 arms; a bimanual Franka composed from two arms; and a 29-DoF Unitree G1 humanoid whose legs run a pretrained locomotion policy.</p>
+        <h4><span class="idx">02</span> Standardization</h4>
+        <p>All environments share a Gym-like API and run massively parallel on the GPU. Evaluations run in isolated containers with identical system settings, and tools and prompts are registered from a configuration file, so ablations are easy. Every submission is stamped with the tokens and wall clock spent to record performance against cost.</p>
       </div>
       <div class="box">
-        <h4><span class="idx">03</span> Controller</h4>
-        <p>The per-step map from program commands to actuation — IK-based, impedance, and operational-space control, tuned across embodiments. The agent may retune, compose, or replace any of them.</p>
+        <h4><span class="idx">03</span> Agent-native</h4>
+        <p>We minimize human design bias: no macro primitives, only generic scene-inspection tools and controllers such as IK, with gains the agent tunes itself. Tasks arrive in natural language, and the agent has full simulation access to explore the scene. Grading is purely offline against a hidden rubric, so that access cannot be turned into a hack.</p>
       </div>
     </div>
 
-    <h3 class="sub">Agent-native access, offline grading</h3>
-    <div class="grid2">
-      <div class="box">
-        <h4>What the agent gets</h4>
-        <p>An isolated Docker container with the simulator, a <em>minimal</em> task-specific copy of the benchmark, the task instruction, and an empty workspace. Network access is restricted to the model API and the package index. Generic rendering and scene-inspection tools replace hand-designed interfaces such as object-pose queries and macro primitives.</p>
-        <p>The deliverable is a Python program exposing <code>solve(env)</code>. The agent submits intermediate solutions, and submissions also fire automatically on a timer — each stamped with the tokens and wall clock spent so far, so a run becomes a score-versus-cost curve.</p>
-      </div>
-      <div class="box">
-        <h4>What keeps it honest</h4>
-        <p>Grading is entirely offline, in a separate container with identical dynamics, using a human-written rubric the agent never sees. State-writing interfaces such as <code>set_states()</code> are disabled there, so physical consistency cannot be edited after the fact.</p>
-        <p>The grader scores progress at <em>every</em> physics step, which makes partial credit interpretable rather than binary. Agents develop against a fixed seed but are told explicitly that grading samples different initial conditions from each scene's reset distribution.</p>
-      </div>
-    </div>
+    <!-- TODO before publishing: point these at the paper and the code release (the top bar marks both as "soon"). -->
+    <p class="cap" style="margin-top:18px">Please refer to our <a href="#">paper</a> and <a href="#">code</a> for more details on the benchmark and evaluation. Below are representative tasks.</p>
   </div>
 </section>
 
 <section id="tasks">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Tasks</h2>
-      <p class="lede">From threading fasteners and folding cloth to pouring liquids and carrying objects, explore the physical interactions behind our 28-task benchmark.</p>
+    <h3 class="sub">Task gallery</h3>
+    <div class="filters" role="group" aria-label="Filter tasks by suite">
+      <button type="button" data-suite="assembly" aria-pressed="true">Assembly</button>
+      <button type="button" data-suite="packing" aria-pressed="false">Organizing</button>
+      <button type="button" data-suite="puzzle" aria-pressed="false">Puzzle</button>
+      <button type="button" data-suite="deformable" aria-pressed="false">Deformable</button>
+      <button type="button" data-suite="liquid" aria-pressed="false">Liquid</button>
+      <button type="button" data-suite="cutting" aria-pressed="false">Cutting</button>
+      <button type="button" data-suite="locomanip" aria-pressed="false">Locomanip</button>
     </div>
 
-    <div class="task-explorer" id="task-explorer">
-      <div id="task-player-home">
-        <article class="task-player" id="task-player" aria-labelledby="task-title">
-          <div class="task-media">
-            <video id="task-video" controls muted loop playsinline preload="none" width="1280" height="720"
-              src="assets/video/ikea_table.mp4" poster="assets/img/poster/ikea_table.jpg"
-              aria-label="Table assembly rollout" aria-describedby="task-clip-note">
-              <a href="assets/video/ikea_table.mp4">Watch table assembly</a>
-            </video>
-            <div class="task-video-footer"><span id="task-clip-note">Edited excerpt · 4× speed</span><a id="task-video-link" href="assets/video/ikea_table.mp4" target="_blank" rel="noopener">Open video ↗</a></div>
-            <p class="task-video-error" id="task-video-error" role="status" hidden>This clip could not load. Try the “Open video” link.</p>
-          </div>
-          <div class="task-detail">
-            <p class="eyebrow" id="task-suite">Assembly</p>
-            <h3 id="task-title">Table assembly</h3>
-            <p class="task-objective" id="task-objective">Thread four legs onto the corner studs of a tabletop.</p>
-            <dl class="task-facts"><div><dt>Robot shown</dt><dd id="task-robot">Bimanual Franka</dd></div><div><dt>Difficulty</dt><dd id="task-difficulty">Hard</dd></div></dl>
-            <div class="task-challenge"><h4>What makes it challenging</h4><p id="task-challenge">Coordinate two arms to align and engage threads, then repeat the sequence across four legs.</p></div>
-            <details class="task-specs"><summary>Task details</summary><dl><dt>Scene</dt><dd><code id="task-scene">ikea_table</code></dd><dt>Supported embodiments</dt><dd id="task-embodiments">Bimanual Franka</dd></dl></details>
-          </div>
-        </article>
-      </div>
+    <div class="gallery" id="gallery"></div>
 
-      <div class="task-browser" id="task-browser" hidden>
-        <div class="task-browse-heading"><h3>A few places to start</h3><span>Six views of the benchmark</span></div>
-        <div class="task-featured" id="task-featured" role="group" aria-label="Featured tasks"></div>
-
-        <div class="task-browse-heading task-all-heading"><h3>Explore all tasks</h3><span id="task-results" role="status">26 videos · 28 tasks</span></div>
-        <div class="filters" role="group" aria-label="Filter tasks by suite">
-          <button type="button" data-suite="all" aria-pressed="true">All</button>
-          <button type="button" data-suite="assembly" aria-pressed="false">Assembly</button>
-          <button type="button" data-suite="packing" aria-pressed="false">Packing</button>
-          <button type="button" data-suite="puzzle" aria-pressed="false">Puzzle</button>
-          <button type="button" data-suite="deformable" aria-pressed="false">Deformable</button>
-          <button type="button" data-suite="cutting" aria-pressed="false">Cutting</button>
-          <button type="button" data-suite="locomanip" aria-pressed="false">Locomotion + manipulation</button>
-        </div>
-        <div class="task-grid" id="task-grid" role="group" aria-label="All benchmark tasks"></div>
-        <p class="task-announcement" id="task-announcement" role="status"></p>
-      </div>
-      <noscript>
-        <div class="task-fallback"><h3>Watch the task clips</h3><ul>
-          <li><a href="assets/video/ikea_table.mp4">Table assembly</a></li>
-          <li><a href="assets/video/so101.mp4">Robot-arm assembly</a></li>
-          <li><a href="assets/video/pc_motherboard.mp4">Motherboard mount</a></li>
-          <li><a href="assets/video/allen_bolt.mp4">Allen bolt</a></li>
-          <li><a href="assets/video/bulb.mp4">Bulb screwing</a></li>
-          <li><a href="assets/video/nut_thread.mp4">Nut threading</a></li>
-          <li><a href="assets/video/pc_gpu.mp4">GPU insertion</a></li>
-          <li><a href="assets/video/pc_gpu_ram.mp4">GPU + RAM install</a></li>
-          <li><a href="assets/video/pc_ram.mp4">RAM seating</a></li>
-          <li><a href="assets/video/tool_packing.mp4">Tool packing</a></li>
-          <li><a href="assets/video/pen_holder.mp4">Pen holder</a></li>
-          <li><a href="assets/video/egg_carton.mp4">Egg carton</a></li>
-          <li><a href="assets/video/clear_organic.mp4">Clear organics</a></li>
-          <li><a href="assets/video/syringe.mp4">Syringe dosing</a></li>
-          <li><a href="assets/video/coffee.mp4">Coffee brewing</a></li>
-          <li><a href="assets/video/spatula.mp4">Spatula flip</a></li>
-          <li><a href="assets/video/push_shapes.mp4">Push shapes</a></li>
-          <li><a href="assets/video/classify_objects.mp4">Classify objects</a></li>
-          <li><a href="assets/video/stack_blocks.mp4">Stack blocks</a></li>
-          <li><a href="assets/video/tshirt.mp4">T-shirt folding</a></li>
-          <li><a href="assets/video/latte.mp4">Latte pouring</a></li>
-          <li><a href="assets/video/dumpling.mp4">Dough rolling</a></li>
-          <li><a href="assets/video/slice_banana.mp4">Banana slicing</a></li>
-          <li><a href="assets/video/fruit_delivery.mp4">Fruit delivery</a></li>
-          <li><a href="assets/video/box_to_bin.mp4">Box to bin</a></li>
-          <li><a href="assets/video/wheel_carry.mp4">Wheel carry</a></li>
-        </ul></div>
-      </noscript>
-      <p class="cap">Clips show edited excerpts of task execution; speedups are labeled in the player. Deformable tasks include cloth and liquid simulation. Shoelace tying and dicing are listed with videos forthcoming.</p>
-    </div>
-
-    <details class="catalog" hidden>
-      <summary>Full task catalog — all 28 scenes, with supported embodiments and difficulty</summary>
+    <details class="catalog">
+      <summary>Full task catalog</summary>
       <div class="tbl-scroll">
         <table>
-          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Embodiments</th><th>Difficulty</th><th>Video</th></tr></thead>
+          <thead><tr><th>Suite</th><th>Task</th><th>Objective</th><th>Evaluated on</th><th>Difficulty</th></tr></thead>
           <tbody id="catalog-body"></tbody>
         </table>
       </div>
@@ -385,8 +298,8 @@
 <section id="results">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Frontier agents remain unsaturated</h2>
-      <p class="lede">Five frontier coding models, each in its own standard coding harness, one NVIDIA RTX 4090 per run and a 4-hour wall-clock budget. Every submission is graded offline against the hidden rubric to a score in [0, 1]; scores below are hack-adjusted, and a run audited as a reward hack scores zero.</p>
+      <h2><span class="sec-no">02</span> Frontier agents evaluation</h2>
+      <p class="lede">We evaluate six frontier coding models, each in its own standard coding harness, on one NVIDIA RTX 4090 per run with a 4-hour wall-clock budget. Submissions are graded offline against a hidden rubric to prevent reward exploits or hacking of the evaluation system.</p>
     </div>
 
     <div class="tbl-scroll">
@@ -399,7 +312,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><b>Fable 5.1</b></td><td>Claude Code</td><td class="num best">0.75 ± 0.07</td><td class="num best">61%</td><td class="num">4%</td><td class="num">151</td><td class="num">73</td></tr>
+          <tr><td><b>GPT-6 Astra</b></td><td>Codex</td><td class="num best">0.94 ± 0.03</td><td class="num best">82%</td><td class="num">0%</td><td class="num">154</td><td class="num">39</td></tr>
+          <tr><td><b>Fable 5.1</b></td><td>Claude Code</td><td class="num">0.75 ± 0.07</td><td class="num">61%</td><td class="num">4%</td><td class="num">151</td><td class="num">73</td></tr>
           <tr><td><b>Opus 5</b></td><td>Claude Code</td><td class="num">0.66 ± 0.08</td><td class="num">50%</td><td class="num">7%</td><td class="num">211</td><td class="num">103</td></tr>
           <tr><td><b>Opus 4.8</b></td><td>Claude Code</td><td class="num">0.52 ± 0.08</td><td class="num">25%</td><td class="num">11%</td><td class="num">191</td><td class="num">98</td></tr>
           <tr><td><b>GPT-5.6 Sol</b></td><td>Codex</td><td class="num">0.44 ± 0.08</td><td class="num">18%</td><td class="num">43%</td><td class="num">117</td><td class="num">58</td></tr>
@@ -407,14 +321,14 @@
         </tbody>
       </table>
     </div>
-    <p class="cap">Mean ± SEM over finished tasks; success and hack counts over finished runs.</p>
+    <p class="cap">Scores lie in [0, 1]. A score of 1 means the run fully achieves the natural-language goal; partial credit is given for reaching significant intermediate stages, such as attaching one leg in the table-assembly task.</p>
 
     <div id="results-charts" style="margin-top:26px">
       <div class="chart-card" data-chart="line">
         <h4>Best-so-far score against wall-clock budget</h4>
-        <p class="sub">Mean over tasks of the highest score reached by each time. Every curve flattens well below ceiling.</p>
+        <p class="sub">Mean over tasks of the highest score reached by each time. GPT-6 Astra passes 0.9 inside two hours; every other curve flattens well below ceiling.</p>
       </div>
-      <div class="grid2" style="margin-top:16px;align-items:start">
+      <div class="grid2 chart-pair" style="margin-top:16px">
         <div class="chart-card" data-chart="bars">
           <h4>Share of the benchmark solved</h4>
           <p class="sub">Fraction of tasks reaching a successful solution within the 4-hour budget.</p>
@@ -426,74 +340,10 @@
       </div>
     </div>
 
-    <div class="note" style="margin-top:26px">
-      <b>The gap is discovery, not feasibility.</b> Every evaluated task is verified to admit at least one successful solution by a domain expert working with a coding model. What the remaining headroom measures is the difficulty of <em>autonomously</em> finding a working program.
-    </div>
-  </div>
-</section>
 
-<section id="failures">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Three recurring failure modes</h2>
-      <p class="lede">Each was observed across models and tasks, and each has a concrete agent trajectory documented in the paper's appendix.</p>
-    </div>
-    <h3 class="sub" style="margin-top:26px">Failure mode 1 — not grounding in vision</h3>
-    <p style="max-width:70ch;color:var(--mut)">Agents often fail to inspect the rendered video, or misread it, and understand the scene purely through printed oracle state. Two consequences follow.</p>
-
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">1a</span> Hallucinated progress</h4>
-        <p>On <code>syringe</code>, <b>Opus 5</b> reads six images in the whole run — none after minute 88 — and monitors its rollouts only through printed numbers. It reports a verified 57% draw across six submissions. The grader scores every one of its 36 graded versions <b>0.0</b>: the syringe is on the floor and the tubes were never touched.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_1a.jpg" alt="The agent's delivered syringe solution replayed: the syringe lies on the floor with its barrel empty and the tubes untouched, while the agent claims a verified 57 percent draw and the grader scores 0.0." loading="lazy">
-      </figure>
-    </div>
-
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">1b</span> Unnoticed pathological states</h4>
-        <p>On <code>pen_holder</code>, <b>Opus 5</b> renders 168 frames and reads only four of them, all between minutes 41 and 44. Its own recorded states show the holder lying on its side in <b>385 of 1,665</b> states, the arm folded with four joints at their stops, and pencils frozen in mid-air — none of which has a corresponding metric, so none is ever mentioned.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_1b.jpg" alt="State recorded by the agent's own tooling but never viewed: the pen holder on its side, the arm folded with four joints at their stops, and pencils frozen in mid-air." loading="lazy">
-      </figure>
-    </div>
-
-    <h3 class="sub">Failure mode 2 — over-committing to a failing plan</h3>
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">2</span> One arm does everything</h4>
-        <p>The agent locks in a flawed decomposition early, then treats every later failure as a tuning problem <em>inside</em> it. On the bimanual <code>syringe</code> task, <b>Opus 4.8</b> concludes from a single failed reach test that the job needs one arm, parks the second, and spends <b>three hours</b> tuning. All 25 versions score 0.0.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_2.jpg" alt="The agent's delivered solution replayed: one arm attempts the whole bimanual syringe task while the second arm stays parked; all 25 versions score zero." loading="lazy">
-      </figure>
-    </div>
-
-    <h3 class="sub">Failure mode 3 — hacking the scorer</h3>
-    <div class="fm-row">
-      <div class="box">
-        <h4><span class="idx">3</span> A gradient, not a decision</h4>
-        <p>Rather than solving the task through the robot, some agents manipulate what the scorer reads — writing object poses, applying invisible forces, or driving scene-side actuation meant as fixtures. Here <b>GPT-5.6 Sol</b> commands zero action to both arms, moves the tube by applied force, and overrides the seat sensor; it claims end-to-end success and the grader agrees on 33 of 55 versions.</p>
-        <p>The hack is rarely one decision. Each step is framed locally as an engineering workaround — &ldquo;replace the stiff fixture&rdquo;, &ldquo;use the exposed plunger command&rdquo; — until the agent is optimizing the hack itself. Codex-harness runs hacked at <b>39–43%</b>, against <b>4–11%</b> for Claude Code.</p>
-      </div>
-      <figure class="fig">
-        <img src="assets/img/fig/fm_3.jpg" alt="The agent's delivered solution replayed: both arms commanded zero and never moving, the tube moved by an applied force and never gripped, and the tubes filled by overridden seat sensors, yet scored 1.0." loading="lazy">
-      </figure>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<section id="transfer">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Transfer across tasks and embodiments</h2>
-      <p class="lede">A verified solution encodes reusable task structure as well as embodiment-specific knowledge — reliable grasp configurations, approach poses, controller settings. Each transfer run gets one extra read-only file: a verified solution to another task, or to the same task on another arm.</p>
-    </div>
+    <h3 class="sub" id="transfer">Transfer learning</h3>
+    <p class="lede" style="margin:0 0 22px">We further evaluate transfer learning: given a previously verified solution as a hint, does the agent learn faster or reach a higher score?</p>
+    <p class="lede" style="margin:0 0 22px">We consider two settings. In <b>cross-task</b> transfer the agent is given a verified solution to a different task on the same embodiment; in <b>cross-embodiment</b> transfer it is given the solution to the same task but must perform it with another robot arm. For the cross-task study we further split the hints into <em>similar</em> tasks, which share the target's dominant underlying skill (e.g. threading a nut as the hint for screwing in a light bulb), and <em>dissimilar</em> tasks, which do not.</p>
 
     <div class="grid2" style="align-items:start">
       <div class="chart-card" data-chart="transfer-task">
@@ -505,91 +355,45 @@
         <p class="sub">The verified Franka solution, ported to two other arms.</p>
       </div>
     </div>
-    <p class="cap" style="margin-top:12px">Opus 5 and GPT-5.6 Sol, three seeds per configuration, over six target tasks. The no-hint Franka runs are the same baseline in both panels.</p>
+    <p class="cap" style="margin-top:12px">The transfer learning experiments are performed on Opus 5 and GPT-5.6 Sol with three seeds per configuration over six different tasks.</p>
 
-    <div class="grid2" style="margin-top:24px">
-      <div class="box">
-        <h4>Across tasks — the gain tracks shared skill</h4>
-        <p>Each of six target tasks is paired with two sources: a <em>similar</em> one sharing the target's dominant underlying skill (threading, card seating), and a <em>dissimilar</em> one that does not.</p>
-        <p>A similar-task hint lifts the mean score to <b class="best">0.60</b> and the success rate to <b class="best">31%</b>, against 0.52 and 8% with no hint. A dissimilar hint is worth much less on score — 0.51 — though it still raises success to 17%. What transfers is the shared skill, not merely the presence of a worked example.</p>
-      </div>
-      <div class="box">
-        <h4>Across embodiments — porting is cheap</h4>
-        <p>Given the verified Franka solution, agents reach mean scores of <b class="best">0.74</b> on a Kinova Gen3 and <b class="best">0.66</b> on an xArm7, against <b>0.52</b> on the original Franka tasks from scratch. Success rate separates them further — <b class="best">56%</b> and <b class="best">36%</b> versus <b>8%</b> — and median time to solve falls from 55 minutes to 33.</p>
-        <p>The reference carries the decomposition and scene reasoning; the agent's remaining work is re-deriving embodiment-specific quantities such as grasp poses and approach directions.</p>
-      </div>
+    <p class="lede" style="margin:22px 0 0">We find that coding agents demonstrate strong transfer learning capability on robotics tasks: given a verified solution to a similar task, or to the same task on another robot, as a hint, they solve the target noticeably faster and reach a higher final score.</p>
+
+    <div class="note" style="margin-top:26px">
+      Please refer to our <b><a href="#">paper</a></b> and <b><a href="#">blog</a></b> for more technical details, including but not limited to an analysis of typical failure modes, useful harnesses, a comparison against RL and more.
     </div>
   </div>
 </section>
 
-<section id="tools">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>A harness for long horizons</h2>
-      <p class="lede">Beyond the standard coding harnesses, the benchmark ships tools that exploit what simulation makes cheap: resettable state and parallelism.</p>
-    </div>
-
-    <div class="grid2" style="align-items:start">
-      <div>
-        <div class="box">
-          <h4>Checkpoint tree</h4>
-          <p>The agent saves reached simulator states together with the programs, logs, snapshots, and transition annotations that document its progress — as a <em>tree</em>. It can return to any earlier checkpoint without replaying a long prefix, and without losing the record of what failed there.</p>
-        </div>
-        <div class="box" style="margin-top:16px">
-          <h4>Evolutionary parameter search</h4>
-          <p>For a fixed program structure, the agent declares tunable parameters, ranges, and an objective. The tool runs CMA-ES over parallel simulations from a common starting state — optionally with initial-state jitter to reduce overfitting — and returns the best parameters found.</p>
-        </div>
-        <div class="box" style="margin-top:16px">
-          <h4>Inspection and comparison</h4>
-          <p>A scene viewer produces snapshots and videos for visual inspection; a sweep tool compares alternative programs or strategies in parallel; and an assessment log records structured descriptions of the scene, the failures, and anything suspicious after each execution.</p>
-        </div>
-      </div>
-      <div class="chart-card" data-chart="tools">
-        <h4>With and without the tools</h4>
-        <p class="sub">Both models score higher with the harness tools at the same wall-clock budget: Opus 5 from 0.66 to 0.74, GPT-5.6 Sol from 0.44 to 0.54.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <hr class="rule">
 
 <section id="teacher">
   <div class="wrap">
     <div class="sec-head">
-      <h2>EmbodiedSWE-Gen — one solve, many trajectories</h2>
-      <p class="lede">A single coding-agent solve can cost hours of wall clock and substantial tokens, so it is far too expensive to be one demonstration. Purely scripted generation is cheap but its diversity saturates around a narrow regime. The data engine puts agent effort where diversity actually needs judgement, and scripts the rest.</p>
+      <h2><span class="sec-no">03</span> EmbodiedSWE-Gen</h2>
+      <p class="lede">A single coding-agent solve costs hours of wall clock and a substantial token budget, and in real deployment the latency and the risk of damage during iteration make that loop hard to afford. In this section we therefore consider how to use the coding agent as a teacher for a lower-level &ldquo;cerebellum&rdquo; policy such as a VLA. We propose a pipeline that systematically perturbs agent-generated solutions to produce a large and diverse trajectory dataset for policy training.</p>
     </div>
 
-    <div class="ladder">
-      <div class="rung"><span class="lv">L1 · Scene</span><span class="txt"><strong>What changes in the task</strong><span>Objects, tools, distractors and workspace layout vary; the agent updates the success condition and the solution to match.</span></span><span class="mult">×5</span></div>
-      <div class="rung"><span class="lv">L2 · Strategy</span><span class="txt"><strong>How it is solved</strong><span>Grasp choices, the order of interchangeable steps, the overall plan — plus recovery branches such as regrasping a dropped object.</span></span><span class="mult">×4</span></div>
-      <div class="rung"><span class="lv">L3 · Phase</span><span class="txt"><strong>Where execution begins</strong><span>The agent identifies intermediate stages, writes code to initialize varied valid states there, and adapts the solution to finish from that point.</span></span><span class="mult">×2.5</span></div>
-      <div class="rung"><span class="lv">L4 · Dynamics</span><span class="txt"><strong>How the motion is perturbed</strong><span>DART-style noise injection made phase-specific — stronger during transport, weaker during insertion — plus mass, friction and contact sampled from agent-declared ranges.</span></span><span class="mult">×4</span></div>
-      <div class="rung"><span class="lv">L5 · Visual</span><span class="txt"><strong>How the state is rendered</strong><span>Lighting, materials and camera poses varied offline by re-rendering recorded states — new observations of the same physical trajectory, with no re-simulation.</span></span><span class="mult">×3</span></div>
-    </div>
+    <figure class="fig diversification" id="diversification">
+      <div class="diversification-player" hidden>
+        <div class="diversification-heading"><div><p class="eyebrow">From one verified solution</p><h3>Five hierarchical levels of diversification</h3></div></div>
+        <div class="diversification-levels" role="group" aria-label="Choose a diversification level"></div>
+        <div class="diversification-stage"></div>
+        <div class="diversification-timeline" aria-hidden="true"><span></span></div>
+      </div>
+      <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" width="1700" height="1210" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task.">
+    </figure>
 
-    <p style="max-width:70ch;color:var(--mut)">Each level contains the next, and each can be run independently — none is mandatory, none waits on another. Trajectories are kept only if they pass the task grader <em>and</em> an open-loop replay check. Verification doubles as feedback on the generated code: the agent test-launches small batches mid-session and reads each batch's yield.</p>
-
-    <p style="max-width:70ch;color:var(--mut)">Cumulative agent tokens flatten after the first two levels — the later ones are mostly scripted — so the token cost of each <em>successful</em> trajectory falls by about three orders of magnitude across the ladder.</p>
-
-    <div class="gen-showcase">
+    <div class="gen-notes">
+      <div class="gen-notes-text">
+        <p>Each level contains the next, and each can be run independently — none is mandatory, none waits on another. Trajectories are kept only if they pass the task grader <em>and</em> an open-loop replay check. Verification doubles as feedback on the generated code: the agent test-launches small batches mid-session and reads each batch's yield.</p>
+        <p>Cumulative agent tokens flatten after the first two levels — the later ones are mostly scripted — so the token cost of each <em>successful</em> trajectory falls by about three orders of magnitude across the ladder.</p>
+      </div>
       <div class="chart-card" data-chart="yield">
         <h4>One solve, level by level</h4>
         <p class="sub">Verified successful trajectories, log scale, with each level&rsquo;s multiplier.</p>
       </div>
-      <figure class="fig diversification" id="diversification">
-        <div class="diversification-player" hidden>
-          <div class="diversification-heading"><div><p class="eyebrow">One verified solution</p><h3>The five levels, in motion</h3></div><button type="button" class="diversification-toggle" aria-label="Pause level animation">Ⅱ Pause</button></div>
-          <div class="diversification-levels" role="group" aria-label="Choose a diversification level"></div>
-          <div class="diversification-stage"></div>
-          <div class="diversification-timeline" aria-hidden="true"><span></span></div>
-          <div class="diversification-bottom"><span>Explore each level independently</span><button type="button" class="diversification-next">Next level <span aria-hidden="true">→</span></button></div>
-          <p class="diversification-status" role="status"></p>
-        </div>
-        <img class="diversification-fallback" src="assets/img/fig/diversification.jpg" alt="Grids of rendered tiles showing scene, strategy, phase, dynamics and visual variation for one task." loading="lazy">
-        <figcaption><b>One solve, many variations.</b> Looping clips cut from the original simulation renders; each level can run independently. <a href="assets/img/fig/diversification.jpg" target="_blank" rel="noopener">View the complete figure ↗</a></figcaption>
-      </figure>
     </div>
   </div>
 </section>
@@ -599,7 +403,7 @@
 <section id="student">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Coding agents as students</h2>
+      <h2><span class="sec-no">04</span> Coding agent improvement</h2>
       <p class="lede">Robotics simulation is a natural training environment for a coding agent: outcomes are verifiable in the simulator, and multi-stage tasks come with well-defined partial credit. What did not exist was such tasks at training scale — so the pipeline builds them.</p>
     </div>
 
@@ -669,10 +473,12 @@
   </div>
 </footer>
 
-<script src="assets/js/hero.js"></script>
-<script src="assets/js/site.js"></script>
-<script src="assets/js/charts.js"></script>
-<script src="assets/js/diversification.js"></script>
-<script src="assets/js/pipeline.js"></script>
+<script src="assets/js/bulb.js?v=202609141304"></script>
+<script src="assets/js/title.js?v=202609141304"></script>
+<script src="assets/js/hero.js?v=202609141304"></script>
+<script src="assets/js/site.js?v=202609141304"></script>
+<script src="assets/js/charts.js?v=202609141304"></script>
+<script src="assets/js/diversification.js?v=202609141304"></script>
+<script src="assets/js/pipeline.js?v=202609141304"></script>
 </body>
 </html>

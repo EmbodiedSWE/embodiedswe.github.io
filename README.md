@@ -11,7 +11,7 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-Open it through a server rather than `file://` — the task videos and the
+Open it through a server rather than `file://` — the gallery videos and the
 scroll-spy nav both need real HTTP.
 
 ## Layout
@@ -19,34 +19,33 @@ scroll-spy nav both need real HTTP.
 ```
 index.html              the whole page
 assets/css/site.css     palette + layout (one stylesheet)
-assets/js/site.js       video task explorer, catalog table, filters, nav, theme
-assets/js/hero.js       full-screen particle animation and pause control
-assets/js/diversification.js  five-level walkthrough: looping clips (or stills) from the original renders
-assets/js/task-timeline.js  archived still-frame viewer; no longer loaded by the page
+assets/js/site.js       task gallery, catalog table, filters, nav, theme
+assets/js/bulb.js       scroll-scrubbed bulb intro (frame sequence on a canvas)
+assets/js/title.js      title stage: paper title, authors and organizations pop in on scroll
+assets/js/hero.js       moving star field behind the title stage, and its pause control
+assets/js/diversification.js  five-level animated walkthrough of the original renders
+assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
 assets/js/charts.js     the three animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
-                        long-horizon filmstrips, diversification, 4 failure modes)
-assets/img/poster/      one poster frame per task clip
-assets/video/           26 task rollouts, 1280px, silent, looping
-assets/video/diversification/  12 tile clips for the diversification player, 720 × 480, silent,
-                        looping, + first-frame WebP posters (sources: assets/img/diversification/SOURCES.md)
+                        long-horizon filmstrips, diversification)
+assets/img/poster/      one poster frame per gallery clip
+assets/video/           15 task rollouts, 1280px, silent, looping
 ```
 
 ## The animated charts
 
-Nine charts are inline SVG built in `assets/js/charts.js` — no chart library.
+Eight charts are inline SVG built in `assets/js/charts.js` — no chart library.
 They replaced every plot that used to ship as a JPEG, so `assets/img/fig/` now
 holds only the three photographic figures.
 
 | host | shows |
 |---|---|
-| `[data-chart="line"]`          | best-so-far score vs. wall-clock, five models |
+| `[data-chart="line"]`          | best-so-far score vs. wall-clock, six models |
 | `[data-chart="bars"]`          | share of the benchmark solved |
 | `[data-chart="spend"]`         | score vs. spend per task, log axis |
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
-| `[data-chart="tools"]`         | with and without the harness tools, both models |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
@@ -87,27 +86,39 @@ published value to ~0.001.
 | series | extracted | published | source |
 |---|---|---|---|
 | Fable 5.1 / Opus 5 / Opus 4.8 / Sol / Terra | 0.749 / 0.661 / 0.521 / 0.440 / 0.260 | 0.75 / 0.66 / 0.52 / 0.44 / 0.26 | `T2_per_model.tex` |
+| GPT-6 Astra (rebuilt from raw grades, see below) | 0.941 | 0.94 | `T2_per_model.tex` |
 | similar / dissimilar / no hint | 0.599 / 0.514 / 0.520 | 0.60 / 0.51 / 0.52 | `G1_settings.tex` |
 | Gen3 / xArm7 | 0.740 / 0.660 | 0.74 / 0.66 | `G1_settings.tex` |
-| Opus 5, Sol (tool experiment, base) | 0.661 / 0.440 | 0.66 / 0.44 | `T8_tools_per_task.tex` |
 | RL task-reward trend slope | +0.049 / 100 steps | +0.049 / 100 steps | figure annotation |
 
 Bar and yield values are the published numbers verbatim.
+
+The GPT-6 Astra series (`DATA.base.astra`, `DATA.spend.astra`, plus its
+`MODELS` entry) is not a PDF extraction: it was added to the paper after the
+five-model figures were drawn, so it is rebuilt from the raw replay grades and
+token logs in `reference/cosigen_plotting.zip` (`data/astra/`,
+`data/scores_astra_*.json`) with the same procedure as the paper's
+`plot_base_main6.py` / `overlay_base_cost.py`: per run, best score so far on a
+481-point wall-clock grid (or a 400-point log-spend grid at Astra list prices,
+$10 / $1 / $50 per M uncached / cached / output tokens), averaged over the 28
+tasks, then compressed to its change points. Rebuilding reproduces T2 exactly
+(0.94 ± 0.03, 82 % solved, 154 min, median 39 min to solve).
 
 ### Source drift to watch (checked against the 2026-09-09 23:13 draft)
 
 The draft is mid-update, and the site currently mirrors its **prose**. Three
 things to know before editing copy:
 
-1. **A sixth model, `Astra` (Codex), is in the tables and figures but not the
-   prose.** `T2_per_model.tex` gives it mean 0.94 ± 0.03, success **82%**, hack
-   rate **0%**; `base_main.pdf` and `base_cost.pdf` were redrawn with six
-   series. But `code_as_solver.tex` still says "We evaluate five frontier
-   models" and "none approaches saturation", and the abstract still says the
-   benchmark "remains far from saturated". **The site shows the five-model
-   story.** Adding Astra means re-extracting `base_main`/`base_cost` and
-   rewriting the "Frontier agents remain unsaturated" section — a narrative
-   call, not a mechanical one.
+1. **A sixth model, `GPT-6 Astra` (Codex), is now on the site** (2026-09-14):
+   table row, wall-clock and spend series, and the solved-share bar, from
+   `T2_per_model.tex` (0.94 ± 0.03, **82%** solved, hack rate **0%**) and the
+   raw grades in `reference/cosigen_plotting.zip`. Prose drift remains in the
+   paper: `code_as_solver.tex` lists six models but still says "We evaluate
+   five frontier models" and "none approaches saturation", and the abstract
+   still says the benchmark "remains far from saturated". The section-02 copy
+   keeps the "gap is discovery" framing and adds one sentence on Astra. Note
+   also that `make_tables_astra.py`'s docstring says the Astra runs were *not*
+   hack-audited even though the tables print 0%.
 2. **Model names shortened.** The tables now say `Sol`, `Terra`, `Astra`; the
    site still says "GPT-5.6 Sol" / "GPT-5.6 Terra", matching the prose.
 3. **Tool runs: figure and table still disagree.** `tools_main.pdf` ends at
@@ -134,7 +145,7 @@ animations:
   via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
-  `.stats`, `.ladder` and `.fm-row` — 70 ms apart;
+  `.stats`, `.gen-notes`, and `.gallery` — 70 ms apart;
 - the **project introduction** reveals on scroll below the full-screen opening,
   with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;
@@ -146,7 +157,7 @@ Two implementation notes worth keeping:
 
 **The stagger schedules when `.rv-in` is added, not an inline
 `transition-delay`.** A lingering `transition-delay` applies to *every* later
-transition on that element, which would have delayed later hover interactions
+transition on that element, which would have delayed the gallery cards' hover
 by up to a second.
 
 **The hidden state is gated on `html.reveal`, which only JS adds** — and it is
@@ -159,32 +170,39 @@ no parallax, no stagger.
 
 ## Full-screen opening
 
-`assets/js/hero.js` draws a slowly moving particle loop behind a real HTML
-heading. Teal, sand, and blue streams echo the solver, teacher, and student
-loop. It uses Canvas 2D with no external dependencies: 6,200 particles on
-desktop, 2,600 on mobile, and a capped device-pixel ratio of 1.75.
+The page opens with the bulb intro (`assets/js/bulb.js`): a 400vh scroll track
+with a pinned canvas that scrubs through 261 pre-rendered frames of a gripper
+screwing in a light bulb. Over the last frames the lit bulb dissolves into the
+fixed star field.
 
-On arrival, a second particle layer gathers from the orbit into the actual
-title lettering, holds briefly, and cross-fades to the HTML heading over a
-4.3-second entrance. Sampling the heading's character positions preserves its
-responsive typography and mixed weights. The entrance shares the background's
-pause and visibility handling, resamples on resize, and runs once per page load.
-Reduced motion skips title assembly; unavailable Canvas text metrics or sampling
-failures leave the ordinary heading visible.
+The title stage (`header.hero`, `assets/js/title.js`) pins while the bulb is
+still dissolving (a 108vh overlap) and pins one page for a 175vh track (170vh on phones), so the whole reveal takes under one screen of scrolling. As
+the visitor scrolls, `title.js` writes `--t` (0..1) onto every `[data-pop]`
+element and CSS turns that into the pop: rise, un-blur, settle to full size.
+The reveal runs in quick beats: the wordmark blooms as the bulb's last wisps go
+(0–22% of the track) with the subtitle right behind it (8–30%); then the three
+author tiers pop in one after another: project leads (28–42%), contributors
+(38–56%), advisors (52–66%); then the institutions and the ordering note
+(62–76%) and the footer (72–80%). The page holds briefly (80–100%) and the
+research follows. A group may also carry an `out` window to dissolve again
+(`--x`, 0..1); nothing uses it at the moment. Items inside a group overlap so they read as one cascade. The
+shown progress eases toward the scroll position each frame, so a fast flick
+still lets every word land. `?title=0.6` freezes the stage at a progress for
+screenshots. Windows and easing are the knobs at the top of `title.js`.
 
-The opening fills the viewport (`100svh`, with a `100vh` fallback). The sticky
-navigation and original project details follow in normal document flow.
-Scrolling gently fades and shifts the title; both explore links go to
-`#project`. There is no scroll locking or delayed access to content.
+Without JavaScript nothing is hidden and the stage is an ordinary page; with
+`prefers-reduced-motion: reduce` the track collapses to one static page and
+everything is simply shown.
 
-The pause/play controls in the opening and sticky navigation stay synchronized.
-The star field is fixed behind the whole page, dims to 32% opacity below the
-opening, and keeps moving at roughly 30 fps while the hero is offscreen. Title
-assembly waits while offscreen. All rendering stops when the tab is hidden.
-Reduced-motion preferences start with a static
-particle frame and disable scroll parallax; visitors can explicitly play it.
-Without JavaScript or Canvas, the heading, atmospheric CSS background, and
-navigation remain available, and the unused pause control stays hidden.
+`assets/js/hero.js` draws the slowly moving star field behind it: a tilted
+torus of teal, sand, and blue particle streams that echo the solver, teacher,
+and student loop. Canvas 2D, no external dependencies: 6,200 particles on
+desktop, 2,600 on mobile, capped device-pixel ratio of 1.75. The field is fixed
+behind the whole page, dims to 32% opacity once the title stage has scrolled
+away, keeps moving at roughly 30 fps while offscreen, and stops when the tab is
+hidden. The pause/play controls in the opening and sticky navigation stay
+synchronized; reduced-motion preferences start with a static frame that
+visitors can explicitly play.
 
 ## Research-page styling
 
@@ -198,46 +216,42 @@ An optional light reading theme is available; an explicit saved choice is kept.
 
 ## Animated diversification figure
 
-The data-engine section replaces the static five-level montage with a viewer
-that cycles through Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds.
-Each level presents three original render crops, its multiplier, an explanation,
-and variation categories. Individual 1920 × 1080 WebP renders in
+The data-engine section leads with a full-width viewer ("Five hierarchical levels
+of diversification") that cycles through
+Scene, Strategy, Phase, Dynamics, and Visual every 6.5 seconds; it is the only
+description of the five levels (the earlier L1–L5 text ladder duplicated it and
+was removed). Each level leads with its name in the level colour and a short tagline,
+then the explanation, then three tiles. The Scene level's tiles are short
+looping muted clips from `assets/video/diversification/` (WebP posters beside
+them) under a single row caption instead of per-tile labels; the other levels
+show original render crops with per-tile labels; there is no multiplier readout or pause button. The two notes on verification
+and token cost sit below the viewer beside the yield chart (`.gen-notes`). Individual 1920 × 1080 WebP renders in
 `assets/img/diversification/` replace the tiny crops from the combined JPEG.
 SVG viewBoxes preserve the original figure's framing; dynamics noise bands and
-parameter ranges are SVG annotations. The complete source figure remains linked
-below the viewer and serves as the no-JavaScript fallback.
+parameter ranges are SVG annotations. The complete source figure is no longer
+linked or captioned; it serves only as the no-JavaScript fallback.
 
-Level buttons and Next pause automatic advancement for inspection. Play resumes;
-the timer suspends offscreen and in hidden tabs. Reduced motion starts paused and
+Level buttons pause automatic advancement for inspection (there is no Next
+button, footer row or live-region status line); the timer suspends offscreen
+and in hidden tabs. Reduced motion starts paused and
 removes frame transitions. Without JavaScript, the original montage stays visible.
 
-## Video task explorer
+## Long-horizon task timeline
 
-`#tasks` now uses one shared video player, with six featured tasks followed by a
-compact grid of the full benchmark. Table assembly is selected initially; the
-other featured clips show T-shirt folding, latte pouring, banana slicing,
-syringe dosing, and wheel carry. Suite filters count all 28 catalog scenes;
-26 have clips, while shoelace tying and dicing show “Video forthcoming.”
+`#task-timeline` replaces the dense twelve-task filmstrip with one large 1080p
+frame, a task sidebar (a select menu on mobile), and five clickable thumbnails.
+Play steps through the five recorded samples every 2.4 seconds; it is not
+real-time video. Task and frame selection pause playback for inspection.
+Playback pauses offscreen, while an image decodes, and when the tab is hidden.
+Reduced motion starts paused and disables frame fades. The original montage is
+linked below the viewer and remains visible when JavaScript is unavailable.
 
-Selecting a thumbnail loads and plays its clip with native seeking, fullscreen,
-and playback controls. The player presents the objective, robot shown,
-difficulty, interaction challenge, and encoded speedup where supplied by the
-existing clip metadata. Supported embodiments and the scene ID are expandable.
-The videos are edited excerpts, not claims of complete successful rollouts.
-No chapter timestamps are inferred from the older still-frame recordings.
-
-Only the selected video has a source; other tasks use lazy-loaded poster images.
-The initial clip starts paused with `preload="none"`. Playback pauses when the
-video leaves the viewport, the tab is hidden, or the suite filter changes.
-On phones (≤700 px), selecting a grid task moves the same player below that
-thumbnail row. Selecting a featured task or changing filters returns it to the
-top. Desktop selections bring the main player into view. Buttons are keyboard
-accessible, and task changes are announced to assistive technology.
-
-The expandable catalog includes direct video links. Without JavaScript, the
-initial native player and a list of all 26 clip links remain usable. The previous
-montage, original frames, and `task-timeline.js` remain in the repository as
-archived assets; the page no longer displays or loads that viewer.
+Assets in `assets/img/task-timeline/` include sixty original-resolution WebP
+frames and sixty 320 × 180 thumbnails. They load as needed for the selected task,
+with only the next full-size frame prefetched during playback. Source picks,
+stage descriptions, and recorded times follow the figure2 source notes; partial
+outcomes are labeled rather than represented as complete solves. See that asset
+folder's `SOURCES.md` for provenance and frame indices.
 
 ## Scene and research loop
 
@@ -249,7 +263,7 @@ The complete earlier `overview.jpg` is retained.
 
 `#pipeline` follows Figure 1 (page 2) of the September 11, 2026 draft at
 `experiments/snapshots/paper_draft/Coding_agent_for_robotics.pdf` in the parent
-CoSiGen workspace: Benchmark Tasks, Coding Agent Solves Tasks, Data Generation
+CoSiGen workspace: New Benchmark, Agent Evaluation, Data Generation
 + VLA, and Agent Improvement. The return connection goes from stage 04 back to
 the solver in stage 02, labeled “Improved agent becomes the solver.” The dashed
 route remains conceptual: Section 5.1 still says the full pipeline has not been
@@ -263,12 +277,12 @@ diversification dimensions, a large dataset, and VLA training; the student shows
 seed task → task generation → new tasks → verified outcomes → RL → coding agent.
 These are conceptual animations, not additional experimental results.
 
-Selecting a stage or Next shows its explanation and section link without
-interrupting the flow or automatically replacing the text while it is read.
-Narrow layouts stack cards and enlarge the SVGs on phones. Pause freezes both
-particles and CSS effects in place; offscreen/tab visibility and reduced-motion
-settings also control playback. The original solver/teacher/student details remain in an
-expandable block. Without JavaScript, all four cards and that text remain readable.
+Selecting a stage or Next (a pill in the loop heading) shows its explanation and
+section link without interrupting the flow or automatically replacing the text
+while it is read. Narrow layouts stack cards and enlarge the SVGs on phones.
+There is no pause button; offscreen/tab visibility and reduced-motion settings
+control playback. The loop has no footer row, caveat, or expandable
+solver/teacher/student block any more. Without JavaScript, all four cards remain readable.
 
 Loop icon sources: the two coding-agent nodes share an original inline SVG brain
 outline, tinted to their stage colors. The policy-training node uses the official
@@ -290,6 +304,6 @@ To allow indexing, delete `robots.txt` and that one meta tag, then push.
 
 ## Before going public
 
-- Author list is a placeholder (`Author list withheld — anonymous submission`).
+- Advisor names in the title stage still link to `#`; add their pages. Institutions: 1 ByteDance Seed, 2 Yale, 3 Princeton, 4 CMU, 5 Stanford, 6 UCLA.
 - Paper, arXiv, Blog and Code badges are inert placeholders; wire them up as each lands.
 - The BibTeX entry is a placeholder.
