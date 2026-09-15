@@ -589,7 +589,7 @@ svg.chart .value-label.animate{opacity:1;transform:translateY(0)}
 }
 
 /* yield chart (data engine) */
-svg.chart .vbar{fill:var(--teach);transform-box:fill-box;transform-origin:bottom center;
+svg.chart .vbar{fill:var(--m-astra);transform-box:fill-box;transform-origin:bottom center;
   transform:scaleY(0);transition:transform .8s cubic-bezier(.4,0,.2,1)}
 svg.chart .vbar.animate{transform:scaleY(1)}
 svg.chart .cat-label{fill:var(--mut);font-family:var(--sans);font-size:11.5px;font-weight:600}
@@ -617,7 +617,7 @@ svg.chart .t-cum{fill:var(--r-total)} svg.chart .t-per{fill:var(--r-task)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}
 .s-rl-success{--c:var(--r-success)}
-svg.chart .vla-b{fill:var(--teach)}
+svg.chart .vla-b{fill:var(--m-astra)}
 svg.chart .vla-b0{opacity:.22} svg.chart .vla-b1{opacity:.4} svg.chart .vla-b2{opacity:.58}
 svg.chart .vla-b3{opacity:.78} svg.chart .vla-b4{opacity:1}
 svg.chart .zero{stroke:var(--mut);stroke-width:1;opacity:.55}
