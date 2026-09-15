@@ -456,10 +456,9 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
 /* Five-level walkthrough: real render crops, animated within the page. */
 .diversification{--level-color:var(--solve);padding:24px;min-width:0;margin-top:26px}
 /* below the player: the two notes on the left, the yield chart on the right */
-.gen-notes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;
-  margin-top:24px;align-items:start}
-.gen-notes-text{max-width:60ch;color:var(--mut);padding-top:6px}
+.gen-notes-text{max-width:70ch;color:var(--mut);margin-top:26px}
 .gen-notes-text p+p{margin-top:14px}
+.gen-charts{margin-top:22px}
 .diversification [hidden]{display:none}
 .diversification-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .diversification-heading .eyebrow{font-size:9px;margin-bottom:8px;color:var(--faint)}
@@ -498,7 +497,7 @@ details.catalog .tbl-scroll{border:0;border-top:1px solid var(--line);border-rad
   transform:scaleX(0);transform-origin:left}
 .diversification-paused .diversification-frame{animation:none}
 @keyframes diversification-enter{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
-@media (max-width:1000px){.gen-notes{grid-template-columns:1fr}.diversification-stage{min-height:0}}
+@media (max-width:1000px){.diversification-stage{min-height:0}}
 @media (max-width:520px){
   .diversification{padding:18px 14px}.diversification-heading h3{font-size:20px}
   .diversification-levels{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.diversification-levels button{flex-direction:column;gap:5px;padding:8px 2px;font-size:10.5px}.diversification-levels button span{width:20px;height:20px;font-size:9px}
@@ -614,6 +613,9 @@ svg.chart .mult-label.animate{opacity:.85}
   --r-nonzero:#A9671B; --r-partial:#7A791D; --r-success:#35783D;
 }
 .s-nohint{--c:var(--m-nohint)}
+/* Fig. 8 token lines: warm for the cumulative spend, cool for the per-trajectory cost,
+   both distinct from the tan level bars beside them */
+.s-tok-cum{--c:var(--r-total)}     .s-tok-per{--c:var(--r-task)}
 .s-rl-task{--c:var(--r-task)}       .s-rl-total{--c:var(--r-total)}
 .s-rl-pen{--c:var(--r-pen)}         .s-rl-trend{--c:var(--r-task)}
 .s-rl-nonzero{--c:var(--r-nonzero)} .s-rl-partial{--c:var(--r-partial)}

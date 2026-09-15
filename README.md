@@ -35,7 +35,7 @@ assets/video/           15 task rollouts, 1280px, silent, looping
 
 ## The animated charts
 
-Ten charts are inline SVG built in `assets/js/charts.js` — no chart library.
+Nine charts are inline SVG built in `assets/js/charts.js` — no chart library.
 They replaced every plot that used to ship as a JPEG, so `assets/img/fig/` now
 holds only the three photographic figures.
 
@@ -47,8 +47,7 @@ holds only the three photographic figures.
 | `[data-chart="transfer-task"]` | cross-task transfer: similar / dissimilar / no hint |
 | `[data-chart="transfer-emb"]`  | cross-embodiment transfer: Gen3 / xArm7 / no hint |
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
-| `[data-chart="tokens-cum"]`    | cumulative agent tokens per level (M) |
-| `[data-chart="tokens-per"]`    | agent tokens per successful trajectory, log axis |
+| `[data-chart="tokens"]`        | cumulative tokens and tokens per trajectory, one log axis |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
 
@@ -93,12 +92,14 @@ published value to ~0.001.
 | Gen3 / xArm7 | 0.740 / 0.660 | 0.74 / 0.66 | `G1_settings.tex` |
 | RL task-reward trend slope | +0.049 / 100 steps | +0.049 / 100 steps | figure annotation |
 
-Bar and yield values are the published numbers verbatim. The two token panels
-are the paper's data-scaling figure (Fig. 8) split into single-axis charts: the
-cumulative and per-trajectory token values are read from the vector geometry of
+Bar and yield values are the published numbers verbatim. The yield bars and
+the two-line token chart are the paper's data-scaling figure (Fig. 8), left and
+right as in the paper. The token values are read from the vector geometry of
 `data_scaling.pdf` via `plot_data_scaling_row.py` in `reference/cosigen_plotting`
-(24.7 / 50.4 / 57.2 / 63.9 / 70.8 / 70.8 M cumulative; 24.7M / 9.85M / 2.83M /
-1.27M / 344k / 118k per trajectory) and shown rounded to two significant figures.
+(cumulative 24.7 / 50.4 / 57.2 / 63.9 / 70.8 / 70.8 M; per trajectory 24.7M /
+9.85M / 2.83M / 1.27M / 344k / 118k). The paper draws them on two y-axes; the
+page puts both on one log token axis, so the lines share a start point and no
+value is read against the wrong scale.
 
 The GPT-6 Astra series (`DATA.base.astra`, `DATA.spend.astra`, plus its
 `MODELS` entry) is not a PDF extraction: it was added to the paper after the
@@ -152,7 +153,7 @@ animations:
   via `IntersectionObserver` at `threshold: 0.12` with an `-8%` bottom margin,
   so it triggers just before an element is fully in frame;
 - a **staggered** entrance for siblings inside `.lanes`, `.grid2`, `.grid3`,
-  `.stats`, `.gen-notes`, and `.gallery` — 70 ms apart;
+  `.stats`, and `.gallery` — 70 ms apart;
 - the **project introduction** reveals on scroll below the full-screen opening,
   with the opening figure settling in from 30 px and 0.985 scale;
 - `hr.rule` section dividers that **draw out from the left**;
@@ -232,7 +233,8 @@ then the explanation, then two or three tiles under a single row caption.
 Scene, Strategy and Visual tiles are short looping muted clips from
 `assets/video/diversification/` (WebP posters beside them); Phase shows
 egg-carton renders and Dynamics the annotated stills and parameter schematic; there is no multiplier readout or pause button. The two notes on verification
-and token cost sit below the viewer beside the yield chart (`.gen-notes`). Individual 1920 × 1080 WebP renders in
+and token cost sit below the viewer (`.gen-notes-text`), above the Fig. 8 chart
+pair (`.gen-charts`). Individual 1920 × 1080 WebP renders in
 `assets/img/diversification/` replace the tiny crops from the combined JPEG.
 SVG viewBoxes preserve the original figure's framing; dynamics noise bands and
 parameter ranges are SVG annotations. The complete source figure is no longer
