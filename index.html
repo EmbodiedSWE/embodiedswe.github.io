@@ -165,7 +165,7 @@
                 <text class="pipeline-svg-label" x="120" y="159" text-anchor="middle">Feedback</text>
               </svg>
             </span>
-            <span class="pipeline-card-copy">A rigorous evaluation protocol.<br>Agent capability measured along several dimensions.</span>
+            <span class="pipeline-card-copy">Evaluate task performance, completion time, and inference cost.</span>
             <span class="pipeline-card-foot">Large-scale eval of frontier agents <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="2" disabled>
@@ -195,7 +195,7 @@
                 </g><text class="pipeline-svg-label" x="5" y="121">Training</text>
               </svg>
             </span>
-            <span class="pipeline-card-copy">Systematically turn one solution into a large trajectory dataset for a downstream generalist policy.</span>
+            <span class="pipeline-card-copy">Systematically turn one solution into a large trajectory dataset for a robot policy.</span>
             <span class="pipeline-card-foot">One solve → large dataset <span aria-hidden="true">↗</span></span>
           </button>
           <button class="pipeline-card" type="button" aria-pressed="false" data-stage="3" disabled>
@@ -239,7 +239,7 @@
       <div class="stat"><div class="n">6</div><div class="l">task suites</div></div>
       <div class="stat"><div class="n">28</div><div class="l">new scenes</div></div>
       <div class="stat"><div class="n">17</div><div class="l">robot embodiments</div></div>
-      <div class="stat"><div class="n">5</div><div class="l">high-quality controllers</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">controllers</div></div>
       <div class="stat"><div class="n">~30<span style="font-size:.6em"> min</span></div><div class="l">task horizon</div></div>
     </div>
 
@@ -259,7 +259,7 @@
       </div>
       <div class="box">
         <h4><span class="idx">03</span> Agent-native</h4>
-        <p>We minimize human design bias: no macro primitives, only generic scene-inspection tools and controllers such as IK, with gains the agent tunes itself. Tasks arrive in natural language, and the agent has full simulation access to explore the scene. Grading is purely offline against a hidden rubric, so that access cannot be turned into a hack.</p>
+        <p>We provide no task-specific macro primitives, only generic scene-inspection tools and controllers such as IK, with gains the agent tunes itself. Tasks arrive in natural language, and the agent has full simulation access to explore the scene. Grading is purely offline against a hidden rubric.</p>
       </div>
     </div>
 
@@ -362,7 +362,7 @@
     <p class="lede" style="margin:22px 0 0">We find that coding agents demonstrate strong transfer learning capability on robotics tasks: given a verified solution to a similar task, or to the same task on another robot, as a hint, they solve the target noticeably faster and reach a higher final score.</p>
 
     <div class="note" style="margin-top:26px">
-      Please refer to our <b><a href="#">paper</a></b> and <b><a href="#">blog</a></b> for more technical details, including but not limited to an analysis of typical failure modes, useful harnesses, a comparison against RL and more.
+      Please refer to our <b><a href="#">paper</a></b> and <b><a href="#">blog</a></b> for more technical details, including failure analysis, harness comparisons, and comparisons with RL.
     </div>
   </div>
 </section>
@@ -374,7 +374,7 @@
   <div class="wrap">
     <div class="sec-head">
       <h2><span class="sec-no">03</span> EmbodiedSWE-Gen</h2>
-      <p class="lede">A single coding-agent solve costs hours of wall clock and a substantial token budget, and in real deployment the latency and the risk of damage during iteration make that loop hard to afford. In this section we therefore consider how to use the coding agent as a teacher for a lower-level &ldquo;cerebellum&rdquo; policy such as a VLA. We propose a pipeline that systematically perturbs agent-generated solutions to produce a large and diverse trajectory dataset for policy training.</p>
+      <p class="lede">A single coding-agent solve costs hours of wall clock and a substantial token budget, and in real deployment the latency and the risk of damage during iteration make that loop hard to afford. In this section we therefore consider how to use the coding agent as a teacher to scalably generate demonstrations for training a VLA. We propose a pipeline that systematically perturbs agent-generated solutions to produce a large and diverse trajectory dataset for policy training.</p>
     </div>
 
     <figure class="fig diversification" id="diversification">
@@ -388,7 +388,7 @@
     </figure>
 
     <div class="gen-notes-text">
-      <p>The diversification levels compose multiplicatively, rapidly expanding both the number and diversity of trajectories from a single solved task. As more trajectories are generated, the agent cost is increasingly amortized, causing the token cost per trajectory to drop sharply.</p>
+      <p>The diversification levels compose multiplicatively, expanding both the number and diversity of trajectories from a single solved task. As more trajectories are generated, the agent cost is increasingly amortized, causing the token cost per trajectory to drop sharply.</p>
     </div>
 
     <div class="grid2 chart-pair gen-charts">
@@ -398,7 +398,7 @@
       </div>
       <div class="chart-card" data-chart="tokens">
         <h3>Agent token cost</h3>
-        <p class="sub">Token cost per trajectory drops sharply as diversification scales, while cumulative agent cost grows slowly.</p>
+        <p class="sub">Token cost per trajectory drops significantly as diversification scales, while cumulative agent cost grows slowly.</p>
       </div>
     </div>
 
@@ -428,10 +428,10 @@
     <div class="grid3">
       <div class="box">
         <h3><span class="idx">01</span> Seed and mutate</h3>
-        <p>A seed task is sampled from a deduplicated pool of <b>194</b> manipulation tasks in RoboVerse. An agent mutates it and constructs a new task from scratch in the benchmark's format — the seed defines semantics to move away from, not code to inherit.</p>
+        <p>A seed task is sampled from a deduplicated pool of <b>194</b> manipulation tasks in RoboVerse. An agent uses the seed as a reference to construct a new task from scratch in the benchmark’s format.</p>
       </div>
       <div class="box">
-        <h3><span class="idx">02</span> Prove it, then score it</h3>
+        <h3><span class="idx">02</span> Check task mechanics</h3>
         <p>To establish physical feasibility the agent first writes a simplified "teleport" solution that validates contact dynamics without the real robot. Only then does it build the scoring rubric, write tests that confirm the rubric penalizes incorrect states, and draft the task description.</p>
       </div>
       <div class="box">
