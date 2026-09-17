@@ -61,21 +61,26 @@
   }
   function load(i) {
     var im = new Image();
-    im.onload = function () { ready++; if (i === shown) draw(); progressed(); };
+    im.onload = function () { ready++; if (Math.abs(i - Math.round(current)) <= AHEAD) warm(i); progressed(); };
     im.onerror = function () { failed++; progressed(); };
     im.src = src(i); frames[i] = im;
   }
   for (var i = 1; i <= N; i++) load(i);                   // ~6.6 MB total; first frames arrive first
 
   /* Decode the frames just ahead of the shown one, in the direction of travel, so the scrub never draws a frame
-     that still has to be decoded. The browser is free to drop these bitmaps again under memory pressure. */
-  var decoded = {};
+     that still has to be decoded. Only frames whose decode() has resolved are drawn: Safari can silently draw
+     nothing when drawImage is handed a loaded-but-undecoded image, which left the stage blank until the first
+     scroll. The browser is free to drop these bitmaps again under memory pressure; drawImage then re-decodes. */
+  var state = {};                                           // frame -> 1 decoding, 2 decoded (drawable)
   function loaded(im) { return im && im.complete && im.naturalWidth; }
+  function drawable(i) { return state[i] === 2; }
   function warm(i) {
     var im = frames[i];
-    if (decoded[i] || !loaded(im) || !im.decode) return;
-    decoded[i] = true;
-    im.decode().catch(function () { decoded[i] = false; });
+    if (state[i] || !loaded(im)) return;
+    if (!im.decode) { state[i] = 2; return; }
+    state[i] = 1;
+    function settle() { state[i] = 2; if (i === Math.round(current) || shown === -1) { shown = -1; draw(); } }
+    im.decode().then(settle, settle);                       // a rejected decode still draws: drawImage decodes in place
   }
   function warmAhead() {
     var from = Math.round(current), to = Math.round(target), step = to >= from ? 1 : -1;
@@ -90,9 +95,11 @@
   }
   var target = 1, current = 1, shown = -1;
   function draw() {
-    var i = Math.round(current), im = frames[i];
-    while (i > 1 && !loaded(im)) im = frames[--i];                                 // nearest loaded frame
-    if (!loaded(im) || i === shown) return;
+    var i = Math.round(current);
+    warm(i);
+    while (i > 1 && !drawable(i)) i--;                                             // nearest decoded frame
+    if (!drawable(i) || i === shown) return;
+    var im = frames[i];
     shown = i;
     var cw = canvas.width, ch = canvas.height, s = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
     var w = im.naturalWidth * s, h = im.naturalHeight * s;
