@@ -378,6 +378,53 @@
     return svg;
   }
 
+  /* Generalization (paper Table "Generalization to held-out variations"): mean rubric
+   * score on the held-out test set, script-only vs agent-aided data, 1000
+   * demonstrations each, 256 out-of-distribution settings per task. */
+  var GEN_TASKS = ['Pens', 'Packing', 'Slice', 'Bulb', 'Nut', 'Organic', 'Overall'];
+  var GEN_SERIES = [
+    { label: 'Script-only', cls: 'gen-a',
+      mean: [0.083, 0.262, 0.000, 0.026, 0.025, 0.002, 0.066] },
+    { label: 'Agent-aided (ours)', cls: 'gen-b',
+      mean: [0.183, 0.331, 0.220, 0.236, 0.300, 0.129, 0.233] }
+  ];
+  function mkGenBars() {
+    var W = 600, H = 320, L = 50, R = 586, T = 40, B = 270, ymax = 0.5;
+    var sy = function (v) { return B - Math.max(v, 0) / ymax * (B - T); };
+    var fmt = function (v) { return v.toFixed(2); };
+    var n = GEN_TASKS.length, slot = (R - L) / n, bw = 22, gap = 5;
+    var gw = GEN_SERIES.length * bw + (GEN_SERIES.length - 1) * gap;
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart', role: 'img',
+      'aria-label': 'Mean rubric score on held-out variations. ' + GEN_SERIES.map(function (s) {
+        return s.label + ': ' + GEN_TASKS.map(function (t, i) { return t + ' ' + fmt(s.mean[i]); }).join(', ');
+      }).join('. ') + '.' });
+    [0, 0.1, 0.2, 0.3, 0.4, 0.5].forEach(function (v) {
+      svg.appendChild(el('line', { x1: L, y1: sy(v), x2: R, y2: sy(v), class: 'grid' }));
+      svg.appendChild(el('text', { x: L - 9, y: sy(v) + 4, class: 'tick', 'text-anchor': 'end' }, v.toFixed(1)));
+    });
+    svg.appendChild(el('text', { x: 13, y: (T + B) / 2, class: 'axis-title', 'text-anchor': 'middle',
+      transform: 'rotate(-90 13 ' + ((T + B) / 2) + ')' }, 'mean score, held-out'));
+    var lx = L, ly = 14;
+    GEN_SERIES.forEach(function (s) {
+      svg.appendChild(el('rect', { x: lx, y: ly - 5, width: 10, height: 10, rx: 2, class: s.cls }));
+      svg.appendChild(el('text', { x: lx + 15, y: ly + 4, class: 'legend-t' }, s.label));
+      lx += 15 + s.label.length * 6.4 + 14;
+    });
+    GEN_TASKS.forEach(function (t, i) {
+      var cx = L + slot * (i + 0.5), x0 = cx - gw / 2;
+      GEN_SERIES.forEach(function (s, j) {
+        var v = s.mean[i], y = sy(v), x = x0 + j * (bw + gap), xm = x + bw / 2;
+        svg.appendChild(el('rect', { x: x, y: y, width: bw, height: Math.max(B - y, 0.5),
+          rx: 2, class: 'vbar ' + s.cls }));
+        svg.appendChild(el('text', { x: xm, y: y - 6, class: 'value-label', 'text-anchor': 'middle',
+          'data-to': v, 'data-suffix': '', 'data-decimals': 2 }, fmt(v)));
+      });
+      svg.appendChild(el('text', { x: cx, y: B + 17, class: 'cat-label', 'text-anchor': 'middle' }, t));
+    });
+    svg.appendChild(el('line', { x1: L, y1: B, x2: R, y2: B, class: 'axis' }));
+    return svg;
+  }
+
   var CHARTS = {
     line: function () {
       return mkLine(hours({ group: 'base', h: 336,
@@ -428,6 +475,7 @@
     'vla-score': function () {
       return mkVLABars('vla_score', 'mean score', function (v) { return v.toFixed(2); });
     },
+    'gen-score': mkGenBars,
     'rl-reward': function () {
       return mkLine({ group: 'rl_reward', h: 300, L: 46,
         aria: 'Reward components over 180 PPO steps.',

@@ -26,7 +26,7 @@ assets/js/hero.js       moving star field behind the title stage, and its pause 
 assets/js/diversification.js  five-level animated walkthrough of the original renders
 assets/js/task-timeline.js  twelve-task viewer with five recorded frames per task
 assets/js/pipeline.js   four-contribution loop, connectors, and stage explanations
-assets/js/charts.js     the three animated SVG charts
+assets/js/charts.js     the animated SVG charts
 assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification)
 assets/img/poster/      one poster frame per gallery clip
@@ -35,7 +35,7 @@ assets/video/           15 task rollouts, 1280px, silent, looping
 
 ## The animated charts
 
-Nine charts are inline SVG built in `assets/js/charts.js` — no chart library.
+Ten charts are inline SVG built in `assets/js/charts.js` — no chart library.
 They replaced every plot that used to ship as a JPEG, so `assets/img/fig/` now
 holds only the three photographic figures.
 
@@ -49,6 +49,7 @@ holds only the three photographic figures.
 | `[data-chart="yield"]`         | data-engine trajectories per level, log axis |
 | `[data-chart="tokens"]`        | cumulative tokens (left, M) and tokens per trajectory (right, log) |
 | `[data-chart="vla-rate"]`, `"vla-score"` | SmolVLA success rate / score per task, grouped bars shaded by dataset size (10–400 demos), from `reference/Experiment List - Sheet1.csv` |
+| `[data-chart="gen-score"]`     | generalization to held-out variations: script-only vs agent-aided mean rubric score per task, from the paper's generalization table |
 | `[data-chart="rl-reward"]`     | PPO reward components + fitted trend |
 | `[data-chart="rl-rate"]`       | PPO success / non-zero / partial rates |
 

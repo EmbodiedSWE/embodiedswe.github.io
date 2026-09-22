@@ -620,6 +620,10 @@ svg.chart .t-cum{fill:var(--r-total)} svg.chart .t-per{fill:var(--r-task)}
 svg.chart .vla-b{fill:var(--m-fable51)}
 svg.chart .vla-b0{opacity:.22} svg.chart .vla-b1{opacity:.4} svg.chart .vla-b2{opacity:.58}
 svg.chart .vla-b3{opacity:.78} svg.chart .vla-b4{opacity:1}
+/* generalization bars: grey for the script-only baseline (the "no hint" grey of the
+   transfer charts), tan for agent-aided data */
+svg.chart .gen-a{fill:var(--m-nohint)} svg.chart .gen-b{fill:var(--m-fable51)}
+.gen-split{margin-top:0}
 svg.chart .zero{stroke:var(--mut);stroke-width:1;opacity:.55}
 svg.chart .series.s-rl-trend .series-line{stroke-width:1.4}
 svg.chart .series.s-rl-pen .series-line,

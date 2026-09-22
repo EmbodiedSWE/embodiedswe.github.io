@@ -416,6 +416,18 @@
       </div>
     </div>
     <p class="cap" style="margin-top:12px">SmolVLA trained for 100k steps at each dataset size, three runs per setting, each evaluated over 32 trials per task.</p>
+
+    <h3 class="sub" id="generalization">Generalization</h3>
+    <div class="grid2 gen-split" style="align-items:center">
+      <div>
+        <p class="lede" style="margin:0">Does agent-aided diversification help policies generalize? We train SmolVLA on 1,000 demonstrations from our pipeline and on 1,000 from a script-only baseline with standard domain randomization. Script-only data stays close to the original task; ours varies scenes, strategies and initial states. Both policies are evaluated on held-out variations unseen during training, such as new object categories and placements.</p>
+        <p class="lede" style="margin:18px 0 0">Agent-aided data improves the held-out score on every task, from 0.07 to 0.23 on average.</p>
+      </div>
+      <div class="chart-card" data-chart="gen-score">
+        <h3>Generalization to held-out variations</h3>
+        <p class="sub">Mean rubric score on held-out variations, equal training data for both.</p>
+      </div>
+    </div>
   </div>
 </section>
 
