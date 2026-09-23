@@ -726,6 +726,7 @@ header.hero h1 .w{display:inline-block;white-space:nowrap}
 .title-orgs img[alt="Princeton"]{height:clamp(20px,1.9vw,27px)}
 .title-orgs img[alt="Yale"]{height:clamp(19px,1.8vw,26px)}
 .title-orgs img[alt="UCLA"]{height:clamp(15px,1.4vw,20px)}
+.title-orgs img[alt="University of Washington"]{height:clamp(22px,2.1vw,30px)}
 .title-orgs i{width:1px;height:18px;background:#76979666}
 .title-notes{margin:clamp(10px,1.6vh,16px) auto 0;max-width:62ch;font:12.5px var(--mono);letter-spacing:.04em;color:#8ea6a8;text-wrap:balance}
 @media (min-width:1080px){.title-notes{max-width:none;white-space:nowrap}}   /* one line where it fits; wraps below */
