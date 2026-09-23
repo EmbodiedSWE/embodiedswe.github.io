@@ -31,6 +31,7 @@ assets/img/fig/         paper figures, re-rendered for web (overview,
                         long-horizon filmstrips, diversification)
 assets/img/poster/      one poster frame per gallery clip
 assets/video/           15 task rollouts, 1280px, silent, looping
+assets/paper/           the preprint PDF that the Paper links open
 ```
 
 ## The animated charts
@@ -315,5 +316,5 @@ robots meta tag to `noindex, nofollow` and make `robots.txt` `Disallow: /`.
 ## Before going public
 
 - Advisor names in the title stage still link to `#`; add their pages. Institutions: 1 ByteDance Seed, 2 Yale, 3 Princeton, 4 CMU, 5 Stanford, 6 UCLA.
-- Paper, arXiv, Blog and Code badges are inert placeholders; wire them up as each lands.
-- The BibTeX entry is a placeholder.
+- Paper and Code links are live (the Paper link opens `assets/paper/embodiedswe.pdf`); arXiv and Blog are still inert placeholders.
+- The BibTeX entry cites the preprint by project URL; swap in the arXiv entry when it exists.
