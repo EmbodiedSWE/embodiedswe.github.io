@@ -316,5 +316,4 @@ robots meta tag to `noindex, nofollow` and make `robots.txt` `Disallow: /`.
 ## Before going public
 
 - Advisor names in the title stage still link to `#`; add their pages. Institutions: 1 ByteDance Seed, 2 Yale, 3 Princeton, 4 CMU, 5 Stanford, 6 UCLA.
-- Paper and Code links are live (the Paper link opens `assets/paper/embodiedswe.pdf`); arXiv and Blog are still inert placeholders.
-- The BibTeX entry cites the preprint by project URL; swap in the arXiv entry when it exists.
+- Paper, arXiv (2609.27308) and Code links are live (the Paper link opens `assets/paper/embodiedswe.pdf`); Blog is still an inert placeholder.
